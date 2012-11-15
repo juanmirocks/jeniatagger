@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -26,12 +27,24 @@ import com.jmcejuela.bio.jenia.maxent.ME_Sample;
  * From namedentity.cpp
  */
 public class NamedEntity {
+  private static ME_Model ne_model;
   static Map<String, WordInfo> word_info;
-  static Map<String, WordInfo> pos_info;
+  private static Map<String, WordInfo> pos_info;
 
   static final double BIAS_FOR_RECALL = 0.6;
 
-  int max_term_length = 0; // TODO never used
+  private final int max_term_length = 0;
+
+  static void load_ne_models() {
+    String model_file = "./models_named_entity/model001";
+    String wordinfo_file = "./models_named_entity/word_info";
+
+    // cerr << "loading named_entity_models.";
+    ne_model.load_from_file(model_file);
+    // cerr << ".";
+    word_info = load_word_info(wordinfo_file);
+    // cerr << "done." << endl;
+  }
 
   static class WordInfo {
     String str;
@@ -284,21 +297,23 @@ public class NamedEntity {
     return true;
   }
 
-  static void load_word_info(final String filename) {
+  private static Map<String, WordInfo> load_word_info(final String filename) {
     try {
+      Map<String, WordInfo> ret = new HashMap<String, NamedEntity.WordInfo>();
+
       File ifile = new File(filename);
       Scanner sc = new Scanner(ifile);
-
-      word_info.clear();
 
       while (sc.hasNextLine()) {
         String s = sc.next();
         int i = sc.nextInt(), e = sc.nextInt(), t = sc.nextInt();
 
-        word_info.put(s, new WordInfo(s, i, e, t));
+        ret.put(s, new WordInfo(s, i, e, t));
 
         sc.nextLine();
       }
+
+      return ret;
     } catch (IOException e) {
       throw new IOError(e);
     }
@@ -407,19 +422,6 @@ public class NamedEntity {
           s.get(l).ne = "I-" + me.get_class_label(j.label);
       }
     }
-  }
-
-  static ME_Model ne_model;
-
-  static void load_ne_models() {
-    String model_file = "./models_named_entity/model001";
-    String wordinfo_file = "./models_named_entity/word_info";
-
-    // cerr << "loading named_entity_models.";
-    ne_model.load_from_file(model_file);
-    // cerr << ".";
-    load_word_info(wordinfo_file);
-    // cerr << "done." << endl;
   }
 
   static int netagging(Sentence vt) {

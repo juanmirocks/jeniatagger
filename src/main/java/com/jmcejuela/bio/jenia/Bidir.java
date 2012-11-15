@@ -23,6 +23,9 @@ import com.jmcejuela.bio.jenia.maxent.ME_Sample;
 import com.jmcejuela.bio.jenia.util.Tuple2;
 import com.jmcejuela.bio.jenia.util.Util;
 
+/**
+ * From bidir.cpp
+ */
 public class Bidir {
 
   static final int UPDATE_WINDOW_SIZE = 2;

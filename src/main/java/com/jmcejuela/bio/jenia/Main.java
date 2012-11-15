@@ -74,7 +74,7 @@ public class Main {
     ArrayList<ME_Model> vme = Util.newArrayList(16, ME_Model.CONSTRUCTOR);
     // cerr << "loading pos_models";
     for (int i = 0; i < 16; i++) {
-      vme.get(i).load_from_file(String.format("/models_medline/model.bidir.%d", i));
+      vme.get(i).load_from_file("/models_medline/model.bidir." + i);
       // cerr << ".";
     }
     // cerr << "done." << endl;
@@ -82,7 +82,7 @@ public class Main {
     // cerr << "loading chunk_models";
     ArrayList<ME_Model> vme_chunking = Util.newArrayList(16, ME_Model.CONSTRUCTOR);
     for (int i = 0; i < 8; i += 2) {
-      vme_chunking.get(i).load_from_file(String.format("/models_chunking/model.bidir.%d", i));
+      vme_chunking.get(i).load_from_file("/models_chunking/model.bidir." + i);
       // cerr << ".";
     }
     // cerr << "done." << endl;

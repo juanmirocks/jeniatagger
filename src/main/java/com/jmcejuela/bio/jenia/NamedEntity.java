@@ -11,7 +11,6 @@ import static java.lang.Character.toLowerCase;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -20,6 +19,8 @@ import com.jmcejuela.bio.jenia.common.Sentence;
 import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
+import com.jmcejuela.bio.jenia.util.CppMap;
+import com.jmcejuela.bio.jenia.util.Creator;
 
 /**
  * From namedentity.cpp
@@ -81,6 +82,13 @@ public class NamedEntity {
       // return this.out_prob() > x.out_prob();
       return this.edge_prob() > x.edge_prob();
     }
+
+    static Creator<WordInfo> CREATOR = new Creator<WordInfo>() {
+      @Override
+      public WordInfo neu() {
+        return new WordInfo();
+      }
+    };
   }
 
   static String normalize(final String s) {
@@ -297,7 +305,7 @@ public class NamedEntity {
   }
 
   static Map<String, WordInfo> load_word_info(final String filename) {
-    Map<String, WordInfo> ret = new HashMap<String, NamedEntity.WordInfo>();
+    Map<String, WordInfo> ret = new CppMap<String, WordInfo>(WordInfo.CREATOR);
     Scanner sc = new Scanner(resourceStream(filename));
     while (sc.hasNextLine()) {
       String s = sc.next();

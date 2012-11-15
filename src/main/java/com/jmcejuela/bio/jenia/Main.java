@@ -74,7 +74,7 @@ public class Main {
 
     // cerr << "loading pos_models";
     for (int i = 0; i < 16; i++) {
-      vme.get(i).load_from_file(String.format("./models_medline/model.bidir.%d", i));
+      vme.get(i).load_from_file(String.format("/models_medline/model.bidir.%d", i));
       // cerr << ".";
     }
     // cerr << "done." << endl;
@@ -82,7 +82,7 @@ public class Main {
     // cerr << "loading chunk_models";
     ArrayList<ME_Model> vme_chunking = Util.newArrayList(16, new ME_Model()); // TODO check init value
     for (int i = 0; i < 8; i += 2) {
-      vme_chunking.get(i).load_from_file(String.format("./models_chunking/model.bidir.%d", i));
+      vme_chunking.get(i).load_from_file(String.format("/models_chunking/model.bidir.%d", i));
       // cerr << ".";
     }
     // cerr << "done." << endl;

@@ -231,10 +231,11 @@ public class ME_Model {
 
   private static class MiniStringBag implements Iterable<Entry<String, Integer>> {
     int _size;
-    Map<String, Integer> str2id; // TODO not init
+    Map<String, Integer> str2id;
 
     MiniStringBag() {
       _size = 0;
+      str2id = new HashMap<String, Integer>();
     }
 
     int Put(final String i) {

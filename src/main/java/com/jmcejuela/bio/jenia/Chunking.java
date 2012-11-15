@@ -96,25 +96,25 @@ public class Chunking {
     // first-order
     for (int i = 0; i < 5; i++) {
       // for (int i = 1; i < 4; i++) {
-      if (t[i] == "") continue;
+      if (t[i].isEmpty()) continue;
       sample.features.add(String.format("T%d_%s", i - 2, t[i]));
     }
 
     // second-order
     for (int i = 0; i < 4; i++) {
       int j = i + 1;
-      if (t[i] == "") continue;
-      if (t[j] == "") continue;
+      if (t[i].isEmpty()) continue;
+      if (t[j].isEmpty()) continue;
       sample.features.add(String.format("T%dT%d_%s_%s", i - 2, j - 2, t[i], t[j]));
     }
 
-    if (t[1] != "" && t[3] != "") {
+    if (!t[1].isEmpty() && !t[3].isEmpty()) {
       sample.features.add(String.format("T%dT%d_%s_%s", 1 - 2, 3 - 2, t[1], t[3]));
     }
-    if (t[0] != "" && t[1] != "" && t[3] != "") {
+    if (!t[0].isEmpty() && !t[1].isEmpty() && !t[3].isEmpty()) {
       sample.features.add(String.format("T%dT%dT%d_%s_%s_%s", 0 - 2, 1 - 2, 3 - 2, t[0], t[1], t[3]));
     }
-    if (t[1] != "" && t[3] != "" && t[4] != "") {
+    if (!t[1].isEmpty() && !t[3].isEmpty() && !t[4].isEmpty()) {
       sample.features.add(String.format("T%dT%dT%d_%s_%s_%s", 1 - 2, 3 - 2, 4 - 2, t[1], t[3], t[4]));
     }
 
@@ -185,7 +185,7 @@ public class Chunking {
     void Print() {
       for (int k = 0; k < vt.size(); k++) {
         // cout << vt.get(k).str << "/";
-        // if (vt.get(k).cprd == "") cout << "?";
+        // if (vt.get(k).cprd.equals("")) cout << "?";
         // cout << vt.get(k).cprd;
         // cout << " ";
       }
@@ -195,7 +195,7 @@ public class Chunking {
     void Update(final int j, final ArrayList<ME_Model> vme) {
       String tag_left1 = "BOS", tag_left2 = "BOS2";
       if (j >= 1) tag_left1 = vt.get(j - 1).cprd; // maybe bug??
-      // if (j >= 1 && vt.get(j-1] != "") pos_left1 = vt[j-1).cprd; // this should be correct
+      // if (j >= 1 && !vt.get(j-1].isEmpty()) pos_left1 = vt[j-1).cprd; // this should be correct
       if (j >= 2) tag_left2 = vt.get(j - 2).cprd;
       String tag_right1 = "EOS", tag_right2 = "EOS2";
       if (j <= vt.size() - 2) tag_right1 = vt.get(j + 1).cprd;
@@ -205,14 +205,14 @@ public class Chunking {
       ArrayList<Double> membp;
       ME_Model mep = null;
       int bits = 0;
-      if (TAG_WINDOW_SIZE >= 2 && tag_left2 != "") bits += 8;
-      if (tag_left1 != "") bits += 4;
-      if (tag_right1 != "") bits += 2;
-      if (TAG_WINDOW_SIZE >= 2 && tag_right2 != "") bits += 1;
+      if (TAG_WINDOW_SIZE >= 2 && !tag_left2.equals("")) bits += 8;
+      if (!tag_left1.isEmpty()) bits += 4;
+      if (!tag_right1.isEmpty()) bits += 2;
+      if (TAG_WINDOW_SIZE >= 2 && !tag_right2.equals("")) bits += 1;
       assert (bits >= 0 && bits < 16);
       mep = vme.get(bits);
       membp = mep.classify(mes);
-      assert (mes.label != "");
+      assert (!mes.label.equals(""));
       // cout << "(" << j << ", " << bits << ") ";
 
       double maxp = membp.get(mep.get_class_id(mes.label));
@@ -248,13 +248,13 @@ public class Chunking {
       for (int i = 0; i < vt.size() - 1; i++) {
         final String a = vt.get(i).cprd;
         final String b = vt.get(i + 1).cprd;
-        if (a == "" || b == "") continue;
+        if (a.equals("") || b.equals("")) continue;
         // if (a[0] == 'B' && b[0] == 'B') {
         // if (a.substring(2) == b.substring(2)) return true;
         // }
         if (b.charAt(0) == 'I') {
           if (a.charAt(0) == 'O') return true;
-          if (a.substring(2) != b.substring(2)) return true;
+          if (!a.substring(2).equals(b.substring(2))) return true;
         }
       }
       return false;
@@ -271,7 +271,7 @@ public class Chunking {
     String pred = "";
     double pred_prob = 0;
     for (int j = 0; j < n; j++) {
-      if (h.vt.get(j).cprd != "") continue;
+      if (!h.vt.get(j).cprd.equals("")) continue;
       double ent = h.vent.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
@@ -298,7 +298,7 @@ public class Chunking {
       // update the neighboring predictions
       for (int j = pred_position - TAG_WINDOW_SIZE; j <= pred_position + TAG_WINDOW_SIZE; j++) {
         if (j < 0 || j > n - 1) continue;
-        if (newh.vt.get(j).cprd == "") newh.Update(j, vme);
+        if (newh.vt.get(j).cprd.equals("")) newh.Update(j, vme);
       }
       vh.add(newh);
     }

@@ -100,8 +100,8 @@ public class NamedEntity {
       tmp += c;
     }
     /*
-     * if (tmp == "is") tmp = "be"; if (tmp == "was") tmp = "be"; if (tmp == "are") tmp = "be"; if (tmp == "were") tmp =
-     * "be"; if (tmp == "an") tmp = "a"; if (tmp == "the") tmp = "a";
+     * if (tmp.equals("is")) tmp = "be"; if (tmp.equals("was")) tmp = "be"; if (tmp.equals("are")) tmp = "be"; if
+     * (tmp.equals("were")) tmp = "be"; if (tmp.equals("an")) tmp = "a"; if (tmp.equals("the")) tmp = "a";
      */
     if (tmp.charAt(tmp.length() - 1) == 's') return tmp.substring(0, tmp.length() - 1);
     return tmp;
@@ -267,8 +267,8 @@ public class NamedEntity {
     int penalty = 0;
     int kakko = 0;
     for (int x = begin; x < end; x++) {
-      if (s.get(x).str == "(") kakko++;
-      if (s.get(x).str == ")") {
+      if (s.get(x).str.equals("(")) kakko++;
+      if (s.get(x).str.equals(")")) {
         if (kakko % 2 == 0) return false;
         kakko--;
       }
@@ -280,17 +280,17 @@ public class NamedEntity {
       if (out_prob >= 0.99) penalty++;
       if (out_prob >= 0.98) penalty++;
       if (out_prob >= 0.97) penalty++;
-      if (s.get(x).pos == "VBZ") return false;
-      if (s.get(x).pos == "VB") return false;
-      if (s.get(x).pos == "VBP") return false;
-      if (s.get(x).pos == "MD") return false;
-      if (s.get(x).pos == "RB") penalty += 1;
+      if (s.get(x).pos.equals("VBZ")) return false;
+      if (s.get(x).pos.equals("VB")) return false;
+      if (s.get(x).pos.equals("VBP")) return false;
+      if (s.get(x).pos.equals("MD")) return false;
+      if (s.get(x).pos.equals("RB")) penalty += 1;
 
       if (penalty >= 5) return false;
     }
 
-    if (s.get(end - 1).pos == "JJ") penalty += 2;
-    if (s.get(end - 1).pos == "IN") penalty += 3;
+    if (s.get(end - 1).pos.equals("JJ")) penalty += 2;
+    if (s.get(end - 1).pos.equals("IN")) penalty += 3;
 
     if (penalty >= 5) return false;
 
@@ -399,7 +399,7 @@ public class NamedEntity {
           override = false;
           break;
         }
-        if (s.get(l).ne != "O") {
+        if (!s.get(l).ne.equals("O")) {
           // erase the old label
           int lbegin = l;
           while (s.get(lbegin).ne.charAt(0) != 'B')

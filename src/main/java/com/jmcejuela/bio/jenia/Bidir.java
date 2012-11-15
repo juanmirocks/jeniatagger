@@ -78,50 +78,50 @@ public class Bidir {
       }
     }
     // L
-    if (pos_left1 != "") {
+    if (!pos_left1.isEmpty()) {
       sample.features.add("P-1_" + pos_left1);
       sample.features.add("P-1W0_" + pos_left1 + "_" + str);
     }
     // L2
-    if (pos_left2 != "") {
+    if (!pos_left2.isEmpty()) {
       sample.features.add("P-2_" + pos_left2);
     }
     // R
-    if (pos_right1 != "") {
+    if (!pos_right1.isEmpty()) {
       sample.features.add("P+1_" + pos_right1);
       sample.features.add("P+1W0_" + pos_right1 + "_" + str);
     }
     // R2
-    if (pos_right2 != "") {
+    if (!pos_right2.isEmpty()) {
       sample.features.add("P+2_" + pos_right2);
     }
     // LR
-    if (pos_left1 != "" && pos_right1 != "") {
+    if (!pos_left1.isEmpty() && !pos_right1.isEmpty()) {
       sample.features.add("P-1+1_" + pos_left1 + "_" + pos_right1);
       sample.features.add("P-1W0P+1_" + pos_left1 + "_" + str + "_" + pos_right1);
     }
     // LL
-    if (pos_left1 != "" && pos_left2 != "") {
+    if (!pos_left1.isEmpty() && !pos_left2.isEmpty()) {
       sample.features.add("P-2-1_" + pos_left2 + "_" + pos_left1);
       // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // RR
-    if (pos_right1 != "" && pos_right2 != "") {
+    if (!pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P+1+2_" + pos_right1 + "_" + pos_right2);
       // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LLR
-    if (pos_left1 != "" && pos_left2 != "" && pos_right1 != "") {
+    if (!pos_left1.isEmpty() && !pos_left2.isEmpty() && !pos_right1.isEmpty()) {
       sample.features.add("P-2-1+1_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1);
       // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LRR
-    if (pos_left1 != "" && pos_right1 != "" && pos_right2 != "") {
+    if (!pos_left1.isEmpty() && !pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P-1+1+2_" + pos_left1 + "_" + pos_right1 + "_" + pos_right2);
       // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LLRR
-    if (pos_left2 != "" && pos_left1 != "" && pos_right1 != "" && pos_right2 != "") {
+    if (!pos_left2.isEmpty() && !pos_left1.isEmpty() && !pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P-2-1+1+2_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1 + "_" + pos_right2);
       // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
@@ -172,62 +172,64 @@ public class Bidir {
    * //////////////////////////////////////////////////////////////////// static ME_Sample mesample(final
    * ArrayList<Token> &vt, int i, final String & pos_left2, final String & pos_left1, final String & pos_right1, final
    * String & pos_right2) { ME_Sample sample = new ME_Sample();
-   *
+   * 
    * String str = vt.get(i).str;
-   *
+   * 
    * sample.label = vt.get(i).pos;
-   *
+   * 
    * sample.features.add("W0_" + str); String prestr = "BOS"; if (i > 0) prestr = vt[i-1].str; // String prestr2 =
    * "BOS2"; // if (i > 1) prestr2 = normalize(vt[i-2].str); String poststr = "EOS"; if (i < (int)vt.size()-1) poststr =
    * vt[i+1].str; // String poststr2 = "EOS2"; // if (i < (int)vt.size()-2) poststr2 = normalize(vt[i+2].str);
-   *
+   * 
    * if (!ONLY_VERTICAL_FEATURES) { sample.features.add("W-1_" + prestr); sample.features.add("W+1_" + poststr);
-   *
+   * 
    * sample.features.add("W-10_" + prestr + "_" + str); sample.features.add("W0+1_" + str + "_" + poststr); }
-   *
+   * 
    * for (int j = 1; j <= 10; j++) { char buf[1000]; if (str.length() >= j) { sprintf(buf, "suf%d_%s", j,
    * str.substring(str.length() - j)); sample.features.add(buf); } if (str.length() >= j) { sprintf(buf, "pre%d_%s", j,
-   * str.substring(0, j)); sample.features.add(buf); } } // L if (pos_left1 != "") { sample.features.add("P-1_" +
+   * str.substring(0, j)); sample.features.add(buf); } } // L if (!pos_left1.isEmpty()) { sample.features.add("P-1_" +
    * pos_left1); sample.features.add("P-1W0_" + pos_left1 + "_" + str); }
-   *
-   * // L2 // if (pos_left2 != "") { // sample.features.add("P-2_" + pos_left2); // }
-   *
-   * // R if (pos_right1 != "") { sample.features.add("P+1_" + pos_right1); sample.features.add("P+1W0_" + pos_right1 +
-   * "_" + str); }
-   *
-   * // R2 // if (pos_right2 != "") { // sample.features.add("P+2_" + pos_right2); // }
-   *
-   * // LR if (pos_left1 != "" && pos_right1 != "") { sample.features.add("P-1+1_" + pos_left1 + "_" + pos_right1); //
-   * sample.features.add("P-1W0P+1_" + pos_left1 + "_" + str + "_" + pos_right1); } // LL if (pos_left1 != "" &&
-   * pos_left2 != "") { sample.features.add("P-2-1_" + pos_left2 + "_" + pos_left1); // sample.features.add("P-1W0_" +
-   * pos_left + "_" + str); } // RR if (pos_right1 != "" && pos_right2 != "") { sample.features.add("P+1+2_" +
-   * pos_right1 + "_" + pos_right2); // sample.features.add("P-1W0_" + pos_left + "_" + str); }
-   *
-   * // LLR // if (pos_left1 != "" && pos_left2 != "" && pos_right1 != "") { // sample.features.add("P-2-1+1_" +
-   * pos_left2 + "_" + pos_left1 + "_" + pos_right1); // // sample.features.add("P-1W0_" + pos_left + "_" + str); // }
-   * // LRR // if (pos_left1 != "" && pos_right1 != "" && pos_right2 != "") { // sample.features.add("P-1+1+2_" +
-   * pos_left1 + "_" + pos_right1 + "_" + pos_right2); // // sample.features.add("P-1W0_" + pos_left + "_" + str); // }
-   * // LLRR // if (pos_left2 != "" && pos_left1 != "" && pos_right1 != "" && pos_right2 != "") { //
+   * 
+   * // L2 // if (!pos_left2.isEmpty()) { // sample.features.add("P-2_" + pos_left2); // }
+   * 
+   * // R if (!pos_right1.isEmpty()) { sample.features.add("P+1_" + pos_right1); sample.features.add("P+1W0_" +
+   * pos_right1 + "_" + str); }
+   * 
+   * // R2 // if (!pos_right2.isEmpty()) { // sample.features.add("P+2_" + pos_right2); // }
+   * 
+   * // LR if (!pos_left1.isEmpty() && !pos_right1.isEmpty()) { sample.features.add("P-1+1_" + pos_left1 + "_" +
+   * pos_right1); // sample.features.add("P-1W0P+1_" + pos_left1 + "_" + str + "_" + pos_right1); } // LL if
+   * (!pos_left1.isEmpty() && !pos_left2.isEmpty()) { sample.features.add("P-2-1_" + pos_left2 + "_" + pos_left1); //
+   * sample.features.add("P-1W0_" + pos_left + "_" + str); } // RR if (!pos_right1.isEmpty() && !pos_right2.isEmpty()) {
+   * sample.features.add("P+1+2_" + pos_right1 + "_" + pos_right2); // sample.features.add("P-1W0_" + pos_left + "_" +
+   * str); }
+   * 
+   * // LLR // if (!pos_left1.isEmpty() && !pos_left2.isEmpty() && !pos_right1.isEmpty()) { //
+   * sample.features.add("P-2-1+1_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1); // //
+   * sample.features.add("P-1W0_" + pos_left + "_" + str); // } // LRR // if (!pos_left1.isEmpty() &&
+   * !pos_right1.isEmpty() && !pos_right2.isEmpty()) { // sample.features.add("P-1+1+2_" + pos_left1 + "_" + pos_right1
+   * + "_" + pos_right2); // // sample.features.add("P-1W0_" + pos_left + "_" + str); // } // LLRR // if
+   * (!pos_left2.isEmpty() && !pos_left1.isEmpty() && !pos_right1.isEmpty() && !pos_right2.isEmpty()) { //
    * sample.features.add("P-2-1+1+2_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1 + "_" + pos_right2); // //
    * sample.features.add("P-1W0_" + pos_left + "_" + str); // }
-   *
+   * 
    * boolean contain_number = false; for (int j = 0; j < str.length(); j++) { if (isdigit(str[j])) {
    * sample.features.add("CONTAIN_NUMBER"); contain_number = true; break; } } boolean contain_upper = false; for (int j
    * = 0; j < str.length(); j++) { if (isupper(str[j])) { sample.features.add("CONTAIN_UPPER"); contain_upper = true;
    * break; } } boolean contain_hyphen = false; for (int j = 0; j < str.length(); j++) { if (str[j] == '-') {
    * sample.features.add("CONTAIN_HYPHEN"); contain_hyphen = true; break; } } if (contain_number && contain_upper &&
    * contain_hyphen) { sample.features.add("CONTAIN_NUMBER_UPPER_HYPHEN"); } if (contain_upper) { boolean company =
-   * false; for (int j = i + 1; j <= i + 3; j++) { if (j >= vt.size()) continue; if (vt[j].str == "Co.") company = true;
-   * if (vt[j].str == "Inc.") company = true; if (vt[j].str == "Corp.") company = true; } if (company)
+   * false; for (int j = i + 1; j <= i + 3; j++) { if (j >= vt.size()) continue; if (vt[j].str.equals("Co.")) company =
+   * true; if (vt[j].str.equals("Inc.")) company = true; if (vt[j].str.equals("Corp.")) company = true; } if (company)
    * sample.features.add("CRUDE_COMPANY_NAME"); }
-   *
+   * 
    * boolean allupper = true; for (int j = 0; j < str.length(); j++) { if (!isupper(str[j])) { allupper = false; break;
    * } } if (allupper) sample.features.add("ALL_UPPER");
-   *
+   * 
    * // for (int j = 0; j < vt.size(); j++) // cout << vt[j].str << " "; // cout << endl; // cout << i << endl; // for
    * (List<String>::final_iterator j = sample.features.begin(); j != sample.features.end(); j++) { // cout << *j << " ";
    * // } // cout << endl << endl;
-   *
+   * 
    * return sample; }
    *****************************/
 
@@ -336,7 +338,7 @@ public class Bidir {
       for (int k = 0; k < vt.size(); k++) {
         // TODO
         // cout << vt[k].str << "/";
-        // if (vt[k].prd == "") cout << "?";
+        // if (vt[k].prd.equals("")) cout << "?";
         // else cout << vt[k].prd;
         // cout << " ";
       }
@@ -349,7 +351,7 @@ public class Bidir {
     {
       String pos_left1 = "BOS", pos_left2 = "BOS2";
       if (j >= 1) pos_left1 = vt.get(j - 1).prd; // maybe bug??
-      // if (j >= 1 && vt[j-1] != "") pos_left1 = vt[j-1].prd; // this should be correct
+      // if (j >= 1 && !vt[j-1].isEmpty()) pos_left1 = vt[j-1].prd; // this should be correct
       if (j >= 2) pos_left2 = vt.get(j - 2).prd;
       String pos_right1 = "EOS", pos_right2 = "EOS2";
       if (j <= vt.size() - 2) pos_right1 = vt.get(j + 1).prd;
@@ -359,14 +361,14 @@ public class Bidir {
       ArrayList<Double> membp;
       ME_Model mep = null;
       int bits = 0;
-      if (pos_left2 != "") bits += 8;
-      if (pos_left1 != "") bits += 4;
-      if (pos_right1 != "") bits += 2;
-      if (pos_right2 != "") bits += 1;
+      if (!pos_left2.isEmpty()) bits += 8;
+      if (!pos_left1.isEmpty()) bits += 4;
+      if (!pos_right1.isEmpty()) bits += 2;
+      if (!pos_right2.isEmpty()) bits += 1;
       assert (bits >= 0 && bits < 16);
       mep = vme.get(bits);
       membp = mep.classify(mes);
-      assert (mes.label != "");
+      assert (!mes.label.isEmpty());
       vent.set(j, entropy(membp));
       // vent[j] = -j;
 
@@ -406,7 +408,7 @@ public class Bidir {
     String pred = "";
     double pred_prob = 0;
     for (int j = 0; j < n; j++) {
-      if (h.vt.get(j).prd != "") continue;
+      if (!h.vt.get(j).prd.isEmpty()) continue;
       double ent = h.vent.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
@@ -427,7 +429,7 @@ public class Bidir {
       // update the neighboring predictions
       for (int j = pred_position - UPDATE_WINDOW_SIZE; j <= pred_position + UPDATE_WINDOW_SIZE; j++) {
         if (j < 0 || j > n - 1) continue;
-        if (newh.vt.get(j).prd == "") newh.Update(j, vme);
+        if (newh.vt.get(j).prd.equals("")) newh.Update(j, vme);
       }
       vh.add(newh);
     }

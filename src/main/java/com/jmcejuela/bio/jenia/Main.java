@@ -64,7 +64,7 @@ public class Main {
     }
 
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in)); // default standard input
-    if (ifilename != null && ifilename != "" && ifilename != "-") {
+    if (ifilename != null && !ifilename.isEmpty() && !ifilename.equals("-")) {
       in = new BufferedReader(new FileReader(new File(ifilename)));
     }
 

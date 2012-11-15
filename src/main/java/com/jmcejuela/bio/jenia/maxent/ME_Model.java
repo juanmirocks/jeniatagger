@@ -818,7 +818,7 @@ public class ME_Model {
   boolean load_from_array(final ME_Model_Data[] data) {
     _vl.clear();
     for (int i = 0;; i++) {
-      if (data[i].label == "///") break;
+      if (data[i].label.equals("///")) break;
       int label = _label_bag.Put(data[i].label);
       int feature = _featurename_bag.Put(data[i].feature);
       _fb.Put(new ME_Feature(label, feature));

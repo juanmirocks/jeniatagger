@@ -130,46 +130,46 @@ public class MorphDic {
   static String base_form_noun(final String s)
   {
     String ex = MorphDic.BaseFormNoun(s);
-    if (ex != "") return ex;
+    if (!ex.equals("")) return ex;
 
     int len = s.length();
     if (len > 1) {
       String suf1 = s.substring(len - 1);
-      if (suf1 == "s") {
+      if (suf1.equals("s")) {
         if (MorphDic.LookUpDicNoun(s.substring(0, len - 1))) return s.substring(0, len - 1);
         // if (MorphDic.LookUpDicVerb(s.substring(0, len - 1))) return s.substring(0, len - 1);
       }
     }
     if (len > 4) {
       String suf4 = s.substring(len - 4);
-      if (suf4 == "ches") return s.substring(0, len - 4) + "ch";
-      if (suf4 == "shes") return s.substring(0, len - 4) + "sh";
+      if (suf4.equals("ches")) return s.substring(0, len - 4) + "ch";
+      if (suf4.equals("shes")) return s.substring(0, len - 4) + "sh";
     }
     if (len > 3) {
       String suf3 = s.substring(len - 3);
-      if (suf3 == "ses") return s.substring(0, len - 3) + "s";
-      if (suf3 == "xes") return s.substring(0, len - 3) + "x";
-      if (suf3 == "zes") return s.substring(0, len - 3) + "z";
-      if (suf3 == "men") return s.substring(0, len - 3) + "man";
-      if (suf3 == "ies") return s.substring(0, len - 3) + "y";
+      if (suf3.equals("ses")) return s.substring(0, len - 3) + "s";
+      if (suf3.equals("xes")) return s.substring(0, len - 3) + "x";
+      if (suf3.equals("zes")) return s.substring(0, len - 3) + "z";
+      if (suf3.equals("men")) return s.substring(0, len - 3) + "man";
+      if (suf3.equals("ies")) return s.substring(0, len - 3) + "y";
     }
     if (len > 1) {
       String suf1 = s.substring(len - 1);
-      if (suf1 == "s") return s.substring(0, len - 1);
+      if (suf1.equals("s")) return s.substring(0, len - 1);
     }
     return s;
   }
 
   static String base_form_verb(final String s) {
     String ex = MorphDic.BaseFormVerb(s);
-    if (ex != "") return ex;
+    if (!ex.equals("")) return ex;
     if (MorphDic.LookUpDicVerb(s)) return s;
 
     int len = s.length();
     if (len > 3) {
       String suf3 = s.substring(len - 3);
-      if (suf3 == "ies") return s.substring(0, len - 3) + "y";
-      if (suf3 == "ing") {
+      if (suf3.equals("ies")) return s.substring(0, len - 3) + "y";
+      if (suf3.equals("ing")) {
         if (MorphDic.LookUpDicVerb(s.substring(0, len - 3)))
           return s.substring(0, len - 3);
         else
@@ -178,7 +178,7 @@ public class MorphDic {
     }
     if (len > 2) {
       String suf2 = s.substring(len - 2);
-      if (suf2 == "es" || suf2 == "ed") {
+      if (suf2.equals("es") || suf2.equals("ed")) {
         if (MorphDic.LookUpDicVerb(s.substring(0, len - 2)))
           return s.substring(0, len - 2);
         else
@@ -187,19 +187,19 @@ public class MorphDic {
     }
     if (len > 1) {
       String suf1 = s.substring(len - 1);
-      if (suf1 == "s") return s.substring(0, len - 1);
+      if (suf1.equals("s")) return s.substring(0, len - 1);
     }
     return s;
   }
 
   static String base_form_adjective(final String s) {
     String ex = MorphDic.BaseFormAdj(s);
-    if (ex != "") return ex;
+    if (!ex.equals("")) return ex;
 
     int len = s.length();
     if (len > 3) {
       String suf3 = s.substring(len - 3);
-      if (suf3 == "est") {
+      if (suf3.equals("est")) {
         if (MorphDic.LookUpDicAdj(s.substring(0, len - 3) + "e"))
           return s.substring(0, len - 3) + "e";
         else
@@ -208,7 +208,7 @@ public class MorphDic {
     }
     if (len > 2) {
       String suf2 = s.substring(len - 2);
-      if (suf2 == "er") {
+      if (suf2.equals("er")) {
         if (MorphDic.LookUpDicAdj(s.substring(0, len - 2) + "e"))
           return s.substring(0, len - 2) + "e";
         else
@@ -220,7 +220,7 @@ public class MorphDic {
 
   static String base_form_adverb(final String s) {
     String ex = MorphDic.BaseFormAdv(s);
-    if (ex != "") return ex;
+    if (!ex.equals("")) return ex;
 
     return s;
   }
@@ -230,20 +230,20 @@ public class MorphDic {
   }
 
   static String base_form(final String s, final String pos) {
-    if (pos == "NNS") return base_form_noun(s);
-    if (pos == "NNPS") return base_form_noun(s);
+    if (pos.equals("NNS")) return base_form_noun(s);
+    if (pos.equals("NNPS")) return base_form_noun(s);
 
-    if (pos == "JJR") return base_form_adjective(s);
-    if (pos == "JJS") return base_form_adjective(s);
+    if (pos.equals("JJR")) return base_form_adjective(s);
+    if (pos.equals("JJS")) return base_form_adjective(s);
 
-    if (pos == "RBR") return base_form_adverb(s);
-    if (pos == "RBS") return base_form_adverb(s);
+    if (pos.equals("RBR")) return base_form_adverb(s);
+    if (pos.equals("RBS")) return base_form_adverb(s);
 
-    if (pos == "VBD") return base_form_verb(s);
-    if (pos == "VBG") return base_form_verb(s);
-    if (pos == "VBN") return base_form_verb(s);
-    if (pos == "VBP") return base_form_verb(s);
-    if (pos == "VBZ") return base_form_verb(s);
+    if (pos.equals("VBD")) return base_form_verb(s);
+    if (pos.equals("VBG")) return base_form_verb(s);
+    if (pos.equals("VBN")) return base_form_verb(s);
+    if (pos.equals("VBP")) return base_form_verb(s);
+    if (pos.equals("VBZ")) return base_form_verb(s);
 
     return s;
   }

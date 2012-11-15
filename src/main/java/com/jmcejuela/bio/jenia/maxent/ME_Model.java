@@ -746,7 +746,7 @@ public class ME_Model {
     }
   }
 
-  boolean load_from_file(final String filename) {
+  public boolean load_from_file(final String filename) {
     try {
       File fp = new File(filename);
       if (!fp.canRead()) {

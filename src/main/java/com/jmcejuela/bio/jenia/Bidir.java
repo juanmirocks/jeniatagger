@@ -527,7 +527,7 @@ public class Bidir {
         :
         tokenize(line);
 
-    ArrayList<Token> vt;
+    Sentence vt = new Sentence(); // TODO check size
     for (String slt : lt) {
       // s = ParenConverter.Ptb2Pos(s);
       vt.add(new Token(slt, "?"));
@@ -542,9 +542,9 @@ public class Bidir {
 
     Chunking.bidir_chuning_decode_beam(vt, chunking_vme);
 
-    netagging(vt);
+    NamedEntity.netagging(vt);
 
-    String tmp;
+    String tmp = "";
     for (int i = 0; i < vt.size(); i++) {
       String s = vt.get(i).str;
       String p = vt.get(i).prd;

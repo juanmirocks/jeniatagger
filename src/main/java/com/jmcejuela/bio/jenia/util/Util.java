@@ -59,6 +59,14 @@ public class Util {
     vector.set(index, vector.get(index) + plus);
   }
 
+  public static void minusEq(ArrayList<Double> vector, int index, double minus) {
+    vector.set(index, vector.get(index) - minus);
+  }
+
+  public static void timesEq(ArrayList<Double> vector, int index, double times) {
+    vector.set(index, vector.get(index) * times);
+  }
+
   public static void divEq(ArrayList<Double> vector, int index, double div) {
     vector.set(index, vector.get(index) / div);
   }

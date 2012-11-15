@@ -37,7 +37,6 @@ public class MorphDic {
   static void LoadEx(final String filename, Map<String, String> exmap) {
     try {
       File ifile = new File(filename);
-
       Scanner sc = new Scanner(ifile);
       while (sc.hasNextLine()) {
         String org = sc.next();

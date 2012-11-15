@@ -28,7 +28,7 @@ public class ME_Sample {
   // void set_label(const std::string & l) { label = l; }
 
   // to add a binary feature
-  void add_feature(String f) {
+  public void add_feature(String f) {
     features.add(f);
   }
 

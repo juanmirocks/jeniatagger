@@ -218,11 +218,11 @@ public class MorphDic {
     return s;
   }
 
-  void init_morphdic() {
+  static void init_morphdic() {
     MorphDic.Init();
   }
 
-  String base_form(final String s, final String pos) {
+  static String base_form(final String s, final String pos) {
     if (pos == "NNS") return base_form_noun(s);
     if (pos == "NNPS") return base_form_noun(s);
 

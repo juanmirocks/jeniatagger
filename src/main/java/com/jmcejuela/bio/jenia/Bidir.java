@@ -554,7 +554,7 @@ public class Bidir {
        * if (i == 0) tmp += s + "/" + p; else tmp += " " + s + "/" + p;
        */
       tmp += s + "\t";
-      tmp += base_form(s, p) + "\t";
+      tmp += MorphDic.base_form(s, p) + "\t";
       tmp += p + "\t";
       tmp += vt.get(i).cprd + "\t";
       tmp += vt.get(i).ne + "\n";

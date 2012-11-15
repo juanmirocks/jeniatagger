@@ -38,10 +38,9 @@ public class Chunking {
   // final DecodingStrategy decoding_strategy = LEFT_TO_RIGHT;
   // final DecodingStrategy decoding_strategy = RIGHT_TO_LEFT;
 
-  static ME_Sample
-      mesample(final ArrayList<Token> vt, int pos,
-          final String tag_left2, final String tag_left1,
-          final String tag_right1, final String tag_right2)
+  static ME_Sample mesample(final ArrayList<Token> vt, int pos,
+      final String tag_left2, final String tag_left1,
+      final String tag_right1, final String tag_right2)
   {
     ME_Sample sample = new ME_Sample();
 

@@ -1,11 +1,17 @@
 package com.jmcejuela.bio.jenia.util;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class Util {
+
+  public static InputStream resourceStream(String resource) {
+    return Util.class.getResourceAsStream(
+        (resource.startsWith("/") ? resource : "/" + resource));
+  }
 
   public static <T> ArrayList<T> newArrayList(int size) {
     return new ArrayList<T>(size);

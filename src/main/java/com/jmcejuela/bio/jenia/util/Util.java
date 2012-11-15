@@ -13,6 +13,35 @@ public class Util {
         (resource.startsWith("/") ? resource : "/" + resource));
   }
 
+  /**
+   * c++ std::string::substr equivalent.
+   *
+   * Unlike java, n doesn't mark the end index, but the length of the string to return, starting from pos.
+   *
+   * @param s
+   * @param pos
+   * @param n
+   * @return
+   */
+  public static String substr(String s, int pos, int n) {
+    return s.substring(pos, pos + n);
+  }
+
+  /**
+   * c++ std::string::substr equivalent.
+   *
+   * This is the very same as java's {@link String#substring(int)}.
+   *
+   * It is give for completeness with {@link #substr(String, int, int)}
+   *
+   * @param s
+   * @param pos
+   * @return
+   */
+  public static String substr(String s, int pos) {
+    return s.substring(pos);
+  }
+
   public static <T> ArrayList<T> newArrayList(int size) {
     return new ArrayList<T>(size);
   }
@@ -56,6 +85,7 @@ public class Util {
     return ret;
   }
 
+  // TODO may put it in CppMap
   public static <T> void increase(Map<T, Integer> map, T key) {
     Integer val;
     if ((val = map.get(key)) == null) {

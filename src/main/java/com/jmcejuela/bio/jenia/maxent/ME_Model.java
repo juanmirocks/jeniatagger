@@ -4,6 +4,7 @@ import static com.jmcejuela.bio.jenia.util.Util.divEq;
 import static com.jmcejuela.bio.jenia.util.Util.increase;
 import static com.jmcejuela.bio.jenia.util.Util.max;
 import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
+import static com.jmcejuela.bio.jenia.util.Util.resourceStream;
 import static com.jmcejuela.bio.jenia.util.Util.plusEq;
 import static com.jmcejuela.bio.jenia.util.Util.pop;
 import static java.lang.Math.exp;
@@ -12,9 +13,9 @@ import static java.lang.Math.max;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOError;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +27,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jmcejuela.bio.jenia.util.Tuple2;
-import com.jmcejuela.bio.jenia.util.Util;
 
 /**
  * From maxent.h

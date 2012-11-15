@@ -33,18 +33,18 @@ import com.jmcejuela.bio.jenia.util.Tuple2;
  */
 public class ME_Model {
   ArrayList<Sample> _vs; // vector of training_samples
-  StringBag _label_bag;
-  MiniStringBag _featurename_bag;
+  StringBag _label_bag = new StringBag();
+  MiniStringBag _featurename_bag = new MiniStringBag();
   double _sigma; // Gaussian prior
   double _inequality_width;
-  ArrayList<Double> _vl; // vector of lambda
+  ArrayList<Double> _vl = newArrayList(); // vector of lambda
   ArrayList<Double> _va; // vector of alpha (for inequality ME)
   ArrayList<Double> _vb; // vector of beta (for inequality ME)
-  ME_FeatureBag _fb;
+  ME_FeatureBag _fb = new ME_FeatureBag();
   int _num_classes;
   ArrayList<Double> _vee; // empirical expectation
   ArrayList<Double> _vme; // empirical expectation
-  ArrayList<ArrayList<Integer>> _feature2mef;
+  ArrayList<ArrayList<Integer>> _feature2mef = newArrayList();
   ArrayList<Sample> _heldout;
   double _train_error; // current error rate on the training data
   double _heldout_error; // current error rate on the heldout data
@@ -171,10 +171,15 @@ public class ME_Model {
     }
   }
 
-  private class ME_FeatureBag {
+  class ME_FeatureBag {
     // unsigned int, int
-    Map<Integer, Integer> mef2id; // TODO not init
-    ArrayList<ME_Feature> id2mef; // TODO not init
+    final Map<Integer, Integer> mef2id;
+    final ArrayList<ME_Feature> id2mef;
+
+    ME_FeatureBag() {
+      mef2id = new HashMap<Integer, Integer>();
+      id2mef = newArrayList();
+    }
 
     int Put(final ME_Feature i) {
       Integer j = mef2id.get(i.body());
@@ -229,7 +234,7 @@ public class ME_Model {
   // }
   // };
 
-  private static class MiniStringBag implements Iterable<Entry<String, Integer>> {
+  static class MiniStringBag implements Iterable<Entry<String, Integer>> {
     int _size;
     Map<String, Integer> str2id;
 
@@ -278,10 +283,10 @@ public class ME_Model {
     }
   }
 
-  private static class StringBag extends MiniStringBag {
+  static class StringBag extends MiniStringBag {
     ArrayList<String> id2str;
 
-    StringBag() { // TODO never used
+    StringBag() {
       id2str = newArrayList();
     }
 

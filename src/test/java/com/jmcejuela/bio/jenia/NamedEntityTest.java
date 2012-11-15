@@ -10,10 +10,10 @@ import org.junit.Test;
 
 public class NamedEntityTest {
 
-  // @BeforeClass
-  // public void setUpClass() {
-  // NamedEntity.load_ne_models();
-  // }
+  @Test
+  public void testLoadNeModelsNothingCrashes() {
+    NamedEntity.load_ne_models();
+  }
 
   @Test
   public void testLoadWordInfo() {

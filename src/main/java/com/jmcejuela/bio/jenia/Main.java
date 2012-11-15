@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
-import com.jmcejuela.bio.jenia.util.Constructor;
 import com.jmcejuela.bio.jenia.util.Util;
 
 /**
@@ -73,7 +72,6 @@ public class Main {
     MorphDic.init_morphdic();
 
     ArrayList<ME_Model> vme = Util.newArrayList(16, ME_Model.CONSTRUCTOR);
-
     // cerr << "loading pos_models";
     for (int i = 0; i < 16; i++) {
       vme.get(i).load_from_file(String.format("/models_medline/model.bidir.%d", i));

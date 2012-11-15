@@ -295,7 +295,7 @@ public class NamedEntity {
     return true;
   }
 
-  private static Map<String, WordInfo> load_word_info(final String filename) {
+  static Map<String, WordInfo> load_word_info(final String filename) {
     Map<String, WordInfo> ret = new HashMap<String, NamedEntity.WordInfo>();
     Scanner sc = new Scanner(resourceStream(filename));
     while (sc.hasNextLine()) {

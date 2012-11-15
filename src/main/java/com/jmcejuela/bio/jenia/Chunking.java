@@ -166,9 +166,9 @@ public class Chunking {
       vt = vt_;
       int n = vt.size();
 
-      Util.resize(vent, n);
-      Util.resize(vvp, n, new ArrayList<Tuple2<String, Double>>()); // TODO is this correct?
-      Util.resize(order, n, 0); // TODO
+      vent = newArrayList(n, 0.0);
+      vvp = newArrayList(n, new ArrayList<Tuple2<String, Double>>()); // TODO is this correct?
+      order = newArrayList(n, 0); // TODO
       // model.resize(n);
 
       for (int i = 0; i < n; i++) {

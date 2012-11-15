@@ -34,8 +34,8 @@ public class NamedEntity {
   private final int max_term_length = 0;
 
   static void load_ne_models() {
-    String model_file = "./models_named_entity/model001";
-    String wordinfo_file = "./models_named_entity/word_info";
+    String model_file = "/models_named_entity/model001";
+    String wordinfo_file = "/models_named_entity/word_info";
 
     // cerr << "loading named_entity_models.";
     ne_model.load_from_file(model_file);

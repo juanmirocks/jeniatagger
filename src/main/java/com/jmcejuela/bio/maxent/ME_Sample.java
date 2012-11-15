@@ -8,7 +8,7 @@ import com.jmcejuela.util.Tuple2;
  * From maxent.h
  */
 public class ME_Sample {
-  public final String label;
+  public String label;
   public final ArrayList<String> features;
   public final ArrayList<Tuple2<String, Double>> rvfeatures; // jenia: real value features
 
@@ -24,7 +24,7 @@ public class ME_Sample {
     rvfeatures = new ArrayList<Tuple2<String, Double>>();
   }
 
-  // jenia: not deprecated by genia but never used and this makes the structure mutable
+  // jenia: not deprecated by genia but never used it
   // void set_label(const std::string & l) { label = l; }
 
   // to add a binary feature

@@ -390,7 +390,7 @@ public class Bidir {
    * @param vme
    * @param vh
    */
-  void generate_hypotheses(final int order, final Hypothesis h,
+  static void generate_hypotheses(final int order, final Hypothesis h,
       // final multimap<String, String> tag_dictionary,
       final ArrayList<ME_Model> vme,
       List<Hypothesis> vh)
@@ -434,7 +434,7 @@ public class Bidir {
    * @param vt
    * @param vme
    */
-  void bidir_decode_beam(ArrayList<Token> vt,
+  static void bidir_decode_beam(ArrayList<Token> vt,
       // final multimap<String, String> tag_dictionary,
       final ArrayList<ME_Model> vme)
   {
@@ -521,7 +521,7 @@ public class Bidir {
     }
   }
 
-  String bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
+  static String bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
     final List<String> lt = (dont_tokenize) ?
         Arrays.asList(line.split(" ")) // jenia: see genia's README
         :

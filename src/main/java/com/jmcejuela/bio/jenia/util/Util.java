@@ -77,10 +77,6 @@ public class Util {
     vector.set(index, vector.get(index) / div);
   }
 
-  public static void resize(ArrayList<Double> vector, int size) {
-    resize(vector, size, 0.0);
-  }
-
   public static <T> void resize(ArrayList<T> vector, int size, T val) {
     int diffsize = vector.size() - size;
 

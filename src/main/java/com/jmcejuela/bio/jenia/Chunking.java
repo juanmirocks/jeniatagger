@@ -15,7 +15,6 @@ import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
 import com.jmcejuela.bio.jenia.util.Constructor;
 import com.jmcejuela.bio.jenia.util.Tuple2;
-import com.jmcejuela.bio.jenia.util.Util;
 
 /**
  * From chunking.cpp

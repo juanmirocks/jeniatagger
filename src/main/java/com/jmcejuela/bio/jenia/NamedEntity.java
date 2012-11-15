@@ -38,6 +38,7 @@ public class NamedEntity {
     String wordinfo_file = "/models_named_entity/word_info";
 
     // cerr << "loading named_entity_models.";
+    ne_model = new ME_Model();
     ne_model.load_from_file(model_file);
     // cerr << ".";
     word_info = load_word_info(wordinfo_file);

@@ -52,9 +52,9 @@ public class Main {
     for (String arg : args) {
       if (arg == "-nt") {
         dont_tokenize = true;
+        System.out.println(help());
       }
       if (arg == "--help") {
-        help();
         System.exit(0);
       }
       else

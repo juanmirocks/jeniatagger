@@ -13,6 +13,7 @@ import java.util.List;
 import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
+import com.jmcejuela.bio.jenia.util.Creator;
 import com.jmcejuela.bio.jenia.util.Tuple2;
 import com.jmcejuela.bio.jenia.util.Util;
 
@@ -167,8 +168,13 @@ public class Chunking {
       int n = vt.size();
 
       vent = newArrayList(n, 0.0);
-      vvp = newArrayList(n, new ArrayList<Tuple2<String, Double>>()); // TODO is this correct?
-      order = newArrayList(n, 0); // TODO
+      vvp = newArrayList(n, new Creator<ArrayList<Tuple2<String, Double>>>() { // TODO check size
+            @Override
+            public ArrayList<Tuple2<String, Double>> neu() {
+              return new ArrayList<Tuple2<String, Double>>();
+            }
+          });
+      order = newArrayList(n, 0); // TODO check size
       // model.resize(n);
 
       for (int i = 0; i < n; i++) {

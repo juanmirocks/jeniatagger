@@ -753,11 +753,24 @@ public class ME_Model {
       BufferedReader br = new BufferedReader(new InputStreamReader(resourceStream(filename)));
       String line;
       while ((line = br.readLine()) != null) {
-        int t1 = line.indexOf('\t');
-        int t2 = line.lastIndexOf('\t');
-        String classname = line.substring(0, t1);
-        String featurename = line.substring(t1 + 1, t2 - (t1 + 1));
-        String w = line.substring(t2 + 1);
+        String[] tokens = line.trim().split("\t");
+        if (tokens.length < 3) {
+          /*
+           * TODO
+           *
+           * All lines should contain exactly 3 tokens but this one is a bug:
+           *
+           * "CONTAIN_UPPER 0.606178" (model.bidir.0)
+           *
+           * The original doesn't treat this explicitly but when this happens classname is set to the empty String
+           * featurename to first token (typically second) and w to the second token (typically third)
+           */
+          tokens = new String[] { "", tokens[0], tokens[1] };
+        }
+        String classname = tokens[0];
+        String featurename = tokens[1];
+        String w = tokens[2];
+
         // jenia: lambda was float originally, but _vl, where it was pushed-back to, was vector<double>
         double lambda = Double.parseDouble(w);
 

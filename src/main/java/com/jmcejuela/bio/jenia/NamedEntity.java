@@ -2,14 +2,12 @@ package com.jmcejuela.bio.jenia;
 
 import static com.jmcejuela.bio.jenia.util.Util.minusEq;
 import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
+import static com.jmcejuela.bio.jenia.util.Util.resourceStream;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Character.toLowerCase;
-import static com.jmcejuela.bio.jenia.util.Util.resourceStream;
 
-import java.io.IOError;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

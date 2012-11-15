@@ -83,16 +83,9 @@ public class ME_Model {
     set_heldout(h, 0);
   }
 
-  // public boolean load_from_array(final ME_Model_Data data[]);
-
   public void set_reference_model(final ME_Model ref_model) {
     _ref_modelp = ref_model;
   };
-
-  // public:
-  // // obsolete. just for downward compatibility
-  // int train(final ArrayList<ME_Sample> & train,
-  // final int cutoff = 0, final double sigma = 0, final double widthfactor = 0);
 
   private static class Sample {
     int label;
@@ -564,7 +557,7 @@ public class ME_Model {
     return logl;
   }
 
-  // TODO not public in original because, it was in same namespace?
+  // obsolete. just for downward compatibility
   public int train(final ArrayList<ME_Sample> vms, final int cutoff, final double sigma, final double widthfactor) {
     // convert ME_Sample to Sample
     // ArrayList<Sample> vs;

@@ -103,7 +103,7 @@ public class Util {
     return vector.remove(vector.size() - 1);
   }
 
-  public static <T> T last(List<T> vector) {
+  public static <T> T last(ArrayList<T> vector) {
     return vector.get(vector.size() - 1);
   }
 

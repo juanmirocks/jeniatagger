@@ -257,7 +257,7 @@ public class Chunking {
     }
   };
 
-  void generate_hypotheses(final int order, final Hypothesis h,
+  static void generate_hypotheses(final int order, final Hypothesis h,
       final ArrayList<ME_Model> vme,
       List<Hypothesis> vh)
   {
@@ -315,7 +315,7 @@ public class Chunking {
     }
   }
 
-  void bidir_chuning_decode_beam(ArrayList<Token> vt, final ArrayList<ME_Model> vme) {
+  static void bidir_chuning_decode_beam(ArrayList<Token> vt, final ArrayList<ME_Model> vme) {
     int n = vt.size();
     if (n == 0) return;
 

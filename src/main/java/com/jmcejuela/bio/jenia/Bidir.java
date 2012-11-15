@@ -540,7 +540,7 @@ public class Bidir {
       vt.get(i).pos = vt.get(i).prd;
     }
 
-    bidir_chuning_decode_beam(vt, chunking_vme);
+    Chunking.bidir_chuning_decode_beam(vt, chunking_vme);
 
     netagging(vt);
 

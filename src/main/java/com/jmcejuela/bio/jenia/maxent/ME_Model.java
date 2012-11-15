@@ -71,8 +71,6 @@ public class ME_Model {
     return _label_bag.Id(s);
   }
 
-  // public void get_features(list< Tuple2< Tuple2<String, String>, Double> > & fl);
-
   public void set_heldout(final int h, final int n) {
     _nheldout = h;
     _early_stopping_n = n;

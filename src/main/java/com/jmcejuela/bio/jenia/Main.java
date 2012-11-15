@@ -50,15 +50,15 @@ public class Main {
     boolean dont_tokenize = false;
     String ifilename = null, ofilename;
     for (String arg : args) {
-      if (arg == "-nt") {
+      if (arg.equals("-nt")) {
         dont_tokenize = true;
+      } else if (arg.equals("--help")) {
         System.out.println(help());
+        return;
       }
-      if (arg == "--help") {
-        System.exit(0);
-      }
-      else
+      else {
         ifilename = arg;
+      }
     }
 
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in)); // default standard input

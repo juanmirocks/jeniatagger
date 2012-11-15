@@ -53,7 +53,7 @@ public class ME_Model {
   ArrayList<Double> _vhlogl;
   ME_Model _ref_modelp; // jenia: was a pointer
 
-  private ME_Model() {
+  public ME_Model() {
     _nheldout = 0;
     _early_stopping_n = 0;
     _ref_modelp = null;
@@ -571,7 +571,8 @@ public class ME_Model {
     return logl;
   }
 
-  int train(final ArrayList<ME_Sample> vms, final int cutoff, final double sigma, final double widthfactor) {
+  // TODO not public in original because, it was in same namespace?
+  public int train(final ArrayList<ME_Sample> vms, final int cutoff, final double sigma, final double widthfactor) {
     // convert ME_Sample to Sample
     // ArrayList<Sample> vs;
     _vs.clear();
@@ -821,7 +822,7 @@ public class ME_Model {
     return true;
   }
 
-  final boolean save_to_file(final String filename) {
+  public final boolean save_to_file(final String filename) {
     try {
       File fp = new File(filename);
       if (!fp.canWrite()) {
@@ -888,7 +889,7 @@ public class ME_Model {
     return max_label;
   }
 
-  final ArrayList<Double> classify(ME_Sample mes) {
+  public final ArrayList<Double> classify(ME_Sample mes) {
     Sample s = new Sample();
     for (String j : mes.features) {
       int id = _featurename_bag.Id(j);

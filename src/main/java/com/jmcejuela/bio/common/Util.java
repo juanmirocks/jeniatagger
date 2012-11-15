@@ -43,11 +43,15 @@ public class Util {
     }
   }
 
+  public static <T> T removeFirst(ArrayList<T> vector) {
+    return vector.remove(0);
+  }
+
   public static <T> T pop(ArrayList<T> vector) {
     return vector.remove(vector.size() - 1);
   }
 
-  public static <T> T last(ArrayList<T> vector) {
+  public static <T> T last(List<T> vector) {
     return vector.get(vector.size() - 1);
   }
 

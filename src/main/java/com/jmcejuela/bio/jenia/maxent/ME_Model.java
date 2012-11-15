@@ -59,13 +59,6 @@ public class ME_Model {
     _ref_modelp = null;
   }
 
-  // public:
-  // public void add_training_sample(final ME_Sample & s);
-  // public int train(final int cutoff = 0, final double sigma = 0, final double widthfactor = 0);
-  // public ArrayList<Double> classify(ME_Sample & s) final;
-  // public boolean load_from_file(final String & filename);
-  // public boolean save_to_file(final String & filename) final;
-
   public final int num_classes() {
     return _num_classes;
   }

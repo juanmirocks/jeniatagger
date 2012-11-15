@@ -168,13 +168,13 @@ public class Chunking {
       int n = vt.size();
 
       vent = newArrayList(n, 0.0);
-      vvp = newArrayList(n, new Creator<ArrayList<Tuple2<String, Double>>>() { // TODO check size
+      vvp = newArrayList(n, new Creator<ArrayList<Tuple2<String, Double>>>() {
             @Override
             public ArrayList<Tuple2<String, Double>> neu() {
               return new ArrayList<Tuple2<String, Double>>();
             }
           });
-      order = newArrayList(n, 0); // TODO check size
+      order = newArrayList(n, 0);
       // model.resize(n);
 
       for (int i = 0; i < n; i++) {

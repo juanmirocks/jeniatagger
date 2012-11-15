@@ -534,37 +534,37 @@ public class Bidir {
         :
         tokenize(line);
 
-    Sentence vt = new Sentence(); // TODO check size
+    Sentence sentence = new Sentence(); // TODO check size
     for (String slt : lt) {
       // s = ParenConverter.Ptb2Pos(s);
-      vt.add(new Token(slt, "?"));
+      sentence.add(new Token(slt, "?"));
     }
 
     // jenia: final multimap<String, String> dummy;
     // bidir_decode_search(vt, dummy, vme);
-    bidir_decode_beam(vt, vme);
-    for (int i = 0; i < vt.size(); i++) {
-      vt.get(i).pos = vt.get(i).prd;
+    bidir_decode_beam(sentence, vme);
+    for (int i = 0; i < sentence.size(); i++) {
+      sentence.get(i).pos = sentence.get(i).prd;
     }
 
-    Chunking.bidir_chuning_decode_beam(vt, chunking_vme);
+    Chunking.bidir_chuning_decode_beam(sentence, chunking_vme);
 
-    NamedEntity.netagging(vt);
+    NamedEntity.netagging(sentence);
 
     String tmp = "";
-    for (int i = 0; i < vt.size(); i++) {
-      String s = vt.get(i).str;
-      String p = vt.get(i).prd;
+    for (int i = 0; i < sentence.size(); i++) {
+      String token = sentence.get(i).str;
+      String postag = sentence.get(i).prd;
       // s = ParenConverter.Pos2Ptb(s);
       // p = ParenConverter.Pos2Ptb(p);
       /*
        * if (i == 0) tmp += s + "/" + p; else tmp += " " + s + "/" + p;
        */
-      tmp += s + "\t";
-      tmp += MorphDic.base_form(s, p) + "\t";
-      tmp += p + "\t";
-      tmp += vt.get(i).cprd + "\t";
-      tmp += vt.get(i).ne + "\n";
+      tmp += token + "\t";
+      tmp += MorphDic.base_form(token, postag) + "\t";
+      tmp += postag + "\t";
+      tmp += sentence.get(i).cprd + "\t";
+      tmp += sentence.get(i).ne + "\n";
     }
     return tmp;
   }

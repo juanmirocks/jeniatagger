@@ -1,4 +1,4 @@
-package com.jmcejuela.bio.common;
+package com.jmcejuela.bio.jenia.common;
 
 /**
  * From common.h

@@ -1,11 +1,11 @@
-package com.jmcejuela.bio.maxent;
+package com.jmcejuela.bio.jenia.maxent;
 
-import static com.jmcejuela.bio.common.Util.divEq;
-import static com.jmcejuela.bio.common.Util.max;
-import static com.jmcejuela.bio.common.Util.newArrayList;
-import static com.jmcejuela.bio.common.Util.plusEq;
-import static com.jmcejuela.bio.common.Util.pop;
-import static com.jmcejuela.bio.common.Util.increase;
+import static com.jmcejuela.bio.jenia.util.Util.divEq;
+import static com.jmcejuela.bio.jenia.util.Util.increase;
+import static com.jmcejuela.bio.jenia.util.Util.max;
+import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
+import static com.jmcejuela.bio.jenia.util.Util.plusEq;
+import static com.jmcejuela.bio.jenia.util.Util.pop;
 import static java.lang.Math.exp;
 import static java.lang.Math.log;
 import static java.lang.Math.max;
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.jmcejuela.bio.common.Util;
-import com.jmcejuela.util.Tuple2;
+import com.jmcejuela.bio.jenia.util.Tuple2;
+import com.jmcejuela.bio.jenia.util.Util;
 
 /**
  * From maxent.h

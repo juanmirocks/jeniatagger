@@ -1,4 +1,4 @@
-package com.jmcejuela.bio.maxent;
+package com.jmcejuela.bio.jenia.maxent;
 
 //
 //for those who want to use load_from_array()

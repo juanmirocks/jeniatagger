@@ -1,4 +1,4 @@
-package com.jmcejuela.bio.common;
+package com.jmcejuela.bio.jenia.util;
 
 import java.util.ArrayList;
 import java.util.List;

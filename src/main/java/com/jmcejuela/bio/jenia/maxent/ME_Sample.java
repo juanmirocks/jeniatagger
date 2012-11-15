@@ -1,8 +1,8 @@
-package com.jmcejuela.bio.maxent;
+package com.jmcejuela.bio.jenia.maxent;
 
 import java.util.ArrayList;
 
-import com.jmcejuela.util.Tuple2;
+import com.jmcejuela.bio.jenia.util.Tuple2;
 
 /**
  * From maxent.h

@@ -1,8 +1,8 @@
-package com.jmcejuela.bio.bidir;
+package com.jmcejuela.bio.jenia;
 
-import static com.jmcejuela.bio.common.Util.last;
-import static com.jmcejuela.bio.common.Util.newArrayList;
-import static com.jmcejuela.bio.common.Util.tokenize;
+import static com.jmcejuela.bio.jenia.util.Util.last;
+import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
+import static com.jmcejuela.bio.jenia.util.Util.tokenize;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Math.log;
@@ -16,12 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.jmcejuela.bio.common.Sentence;
-import com.jmcejuela.bio.common.Token;
-import com.jmcejuela.bio.common.Util;
-import com.jmcejuela.bio.maxent.ME_Model;
-import com.jmcejuela.bio.maxent.ME_Sample;
-import com.jmcejuela.util.Tuple2;
+import com.jmcejuela.bio.jenia.common.Sentence;
+import com.jmcejuela.bio.jenia.common.Token;
+import com.jmcejuela.bio.jenia.maxent.ME_Model;
+import com.jmcejuela.bio.jenia.maxent.ME_Sample;
+import com.jmcejuela.bio.jenia.util.Tuple2;
+import com.jmcejuela.bio.jenia.util.Util;
 
 public class Bidir {
 

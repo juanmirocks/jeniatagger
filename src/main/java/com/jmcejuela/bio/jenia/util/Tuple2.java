@@ -1,4 +1,4 @@
-package com.jmcejuela.util;
+package com.jmcejuela.bio.jenia.util;
 
 /**
  * C++ std::pair equivalent as a Scala-like tuple.

@@ -6,8 +6,8 @@ import static java.lang.Character.isDigit;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Character.toLowerCase;
+import static com.jmcejuela.bio.jenia.util.Util.resourceStream;
 
-import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -298,25 +298,18 @@ public class NamedEntity {
   }
 
   private static Map<String, WordInfo> load_word_info(final String filename) {
-    try {
-      Map<String, WordInfo> ret = new HashMap<String, NamedEntity.WordInfo>();
+    Map<String, WordInfo> ret = new HashMap<String, NamedEntity.WordInfo>();
+    Scanner sc = new Scanner(resourceStream(filename));
+    while (sc.hasNextLine()) {
+      String s = sc.next();
+      int i = sc.nextInt(), e = sc.nextInt(), t = sc.nextInt();
 
-      File ifile = new File(filename);
-      Scanner sc = new Scanner(ifile);
+      ret.put(s, new WordInfo(s, i, e, t));
 
-      while (sc.hasNextLine()) {
-        String s = sc.next();
-        int i = sc.nextInt(), e = sc.nextInt(), t = sc.nextInt();
-
-        ret.put(s, new WordInfo(s, i, e, t));
-
-        sc.nextLine();
-      }
-
-      return ret;
-    } catch (IOException e) {
-      throw new IOError(e);
+      sc.nextLine();
     }
+
+    return ret;
   }
 
   static class Annotation {

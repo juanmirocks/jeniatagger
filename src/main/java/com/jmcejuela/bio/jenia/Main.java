@@ -48,7 +48,8 @@ public class Main {
    */
   public static void main(String[] args) throws IOException {
     boolean dont_tokenize = false;
-    String ifilename = null, ofilename;
+    String ifilename = null;
+    String ofilename;
     for (String arg : args) {
       if (arg.equals("-nt")) {
         dont_tokenize = true;

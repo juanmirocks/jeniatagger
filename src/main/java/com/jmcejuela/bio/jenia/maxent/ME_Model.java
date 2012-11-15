@@ -741,12 +741,6 @@ public class ME_Model {
 
   public boolean load_from_file(final String filename) {
     try {
-      File fp = new File(filename);
-      if (!fp.canRead()) {
-        // cerr << "error: cannot open " << filename << "!" << endl;
-        return false;
-      }
-
       _vl.clear();
       _label_bag.Clear();
       _featurename_bag.Clear();
@@ -758,7 +752,7 @@ public class ME_Model {
        * maximum line size. Therefore the original algorithm was equivalent to read the file line by line.
        */
 
-      BufferedReader br = new BufferedReader(new FileReader(fp));
+      BufferedReader br = new BufferedReader(new InputStreamReader(resourceStream(filename)));
       String line;
       while ((line = br.readLine()) != null) {
         int t1 = line.indexOf('\t');

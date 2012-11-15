@@ -281,6 +281,10 @@ public class ME_Model {
   private static class StringBag extends MiniStringBag {
     ArrayList<String> id2str;
 
+    StringBag() { // TODO never used
+      id2str = newArrayList();
+    }
+
     @Override
     int Put(final String i) {
       Integer j = str2id.get(i);

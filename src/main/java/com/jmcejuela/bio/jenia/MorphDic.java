@@ -1,9 +1,13 @@
 package com.jmcejuela.bio.jenia;
 
+import static com.jmcejuela.bio.jenia.util.Util.resourceStream;
+import static java.lang.Character.toUpperCase;
+
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOError;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -16,6 +20,7 @@ public class MorphDic {
   static Map<String, String> nounex;
   static Map<String, String> advex;
   static Map<String, String> adjex;
+
   static Set<String> noundic;
   static Set<String> verbdic;
   static Set<String> adjdic;
@@ -24,52 +29,55 @@ public class MorphDic {
 
   static void Init() {
     // cerr << "loading MorphDic...";
-    LoadEx("./morphdic/noun.exc", nounex);
-    LoadEx("./morphdic/verb.exc", verbex);
-    LoadEx("./morphdic/adj.exc", adjex);
-    LoadEx("./morphdic/adv.exc", advex);
-    LoadIdx("./morphdic/noun.dic", noundic);
-    LoadIdx("./morphdic/verb.dic", verbdic);
-    LoadIdx("./morphdic/adj.dic", adjdic);
+    nounex = LoadEx("/morphdic/noun.exc");
+    verbex = LoadEx("/morphdic/verb.exc");
+    adjex = LoadEx("/morphdic/adj.exc");
+    advex = LoadEx("/morphdic/adv.exc");
+    noundic = LoadIdx("/morphdic/noun.dic");
+    verbdic = LoadIdx("/morphdic/verb.dic");
+    adjdic = LoadIdx("/morphdic/adj.dic");
     // cerr << "done." << endl;
   }
 
-  static void LoadEx(final String filename, Map<String, String> exmap) {
+  static Map<String, String> LoadEx(final String filename) {
     try {
-      File ifile = new File(filename);
-      Scanner sc = new Scanner(ifile);
+      Map<String, String> ret = new HashMap<String, String>();
+      Scanner sc = new Scanner(resourceStream(filename));
       while (sc.hasNextLine()) {
         String org = sc.next();
         String base = sc.next();
-        exmap.put(org, base);
+        ret.put(org, base);
 
-        exmap.put(
-            Character.toUpperCase(org.charAt(0)) + org.substring(1),
-            Character.toUpperCase(base.charAt(0)) + base.substring(1));
+        ret.put(
+            toUpperCase(org.charAt(0)) + org.substring(1),
+            toUpperCase(base.charAt(0)) + base.substring(1));
 
         sc.nextLine();
       }
       sc.close();
+      return ret;
     } catch (Exception e) {
       throw new IOError(e);
     }
   }
 
-  static void LoadIdx(final String filename, Set<String> dic) {
+  static Set<String> LoadIdx(final String filename) {
     try {
-      File ifile = new File(filename);
-
-      BufferedReader br = new BufferedReader(new FileReader(ifile));
+      Set<String> ret = new HashSet<String>();
+      BufferedReader br = new BufferedReader(new InputStreamReader(resourceStream(filename)));
       String line;
       while ((line = br.readLine()) != null) {
-        if (line.charAt(0) == ' ') continue;
+        if (line.charAt(0) == ' ')
+          continue;
 
         String base = line.split(" ")[0];
-        dic.add(base);
+        ret.add(base);
 
-        dic.add(Character.toUpperCase(base.charAt(0)) + base.substring(1));
+        String baseCapitalized = toUpperCase(base.charAt(0)) + base.substring(1);
+        ret.add(baseCapitalized);
       }
       br.close();
+      return ret;
     } catch (Exception e) {
       throw new IOError(e);
     }

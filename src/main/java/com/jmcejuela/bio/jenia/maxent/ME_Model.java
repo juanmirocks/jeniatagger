@@ -51,7 +51,7 @@ public class ME_Model {
   int _nheldout;
   int _early_stopping_n;
   ArrayList<Double> _vhlogl;
-  ME_Model _ref_modelp; // jenia: was a pointer
+  ME_Model _ref_modelp; // TODO jenia: was a pointer
 
   public ME_Model() {
     _nheldout = 0;

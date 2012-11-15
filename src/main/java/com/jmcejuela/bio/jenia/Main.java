@@ -90,6 +90,9 @@ public class Main {
 
     NamedEntity.load_ne_models();
 
+    // TODO must delete, as the output is buffer for results
+    System.out.println("All models loaded");
+
     String line;
     int n = 1;
     while ((line = in.readLine()) != null) {
@@ -98,6 +101,7 @@ public class Main {
             " (please note that the input should be one-sentence-per-line).");
       }
       String postagged = Bidir.bidir_postag(line, vme, vme_chunking, dont_tokenize);
+      System.out.println(postagged);
       // cout << postagged << endl; //TODO
       n++;
     }

@@ -20,7 +20,7 @@ import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
 import com.jmcejuela.bio.jenia.util.CppMap;
-import com.jmcejuela.bio.jenia.util.Creator;
+import com.jmcejuela.bio.jenia.util.Constructor;
 
 /**
  * From namedentity.cpp
@@ -66,6 +66,13 @@ public class NamedEntity {
       edge_ne = e; // TODO this is the order written in the original
     }
 
+    static Constructor<WordInfo> CONSTRUCTOR = new Constructor<WordInfo>() {
+      @Override
+      public WordInfo neu() {
+        return new WordInfo();
+      }
+    };
+
     final double out_prob() {
       return ((total - inside_ne) + 1.0) / (total + 2.0);
     }
@@ -82,13 +89,6 @@ public class NamedEntity {
       // return this.out_prob() > x.out_prob();
       return this.edge_prob() > x.edge_prob();
     }
-
-    static Creator<WordInfo> CREATOR = new Creator<WordInfo>() {
-      @Override
-      public WordInfo neu() {
-        return new WordInfo();
-      }
-    };
   }
 
   static String normalize(final String s) {
@@ -305,7 +305,7 @@ public class NamedEntity {
   }
 
   static Map<String, WordInfo> load_word_info(final String filename) {
-    Map<String, WordInfo> ret = new CppMap<String, WordInfo>(WordInfo.CREATOR);
+    Map<String, WordInfo> ret = new CppMap<String, WordInfo>(WordInfo.CONSTRUCTOR);
     Scanner sc = new Scanner(resourceStream(filename));
     while (sc.hasNextLine()) {
       String s = sc.next();

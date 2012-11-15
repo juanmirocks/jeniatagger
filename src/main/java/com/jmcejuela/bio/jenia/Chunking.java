@@ -13,7 +13,7 @@ import java.util.List;
 import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
-import com.jmcejuela.bio.jenia.util.Creator;
+import com.jmcejuela.bio.jenia.util.Constructor;
 import com.jmcejuela.bio.jenia.util.Tuple2;
 import com.jmcejuela.bio.jenia.util.Util;
 
@@ -168,7 +168,7 @@ public class Chunking {
       int n = vt.size();
 
       vent = newArrayList(n, 0.0);
-      vvp = newArrayList(n, new Creator<ArrayList<Tuple2<String, Double>>>() {
+      vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
             @Override
             public ArrayList<Tuple2<String, Double>> neu() {
               return new ArrayList<Tuple2<String, Double>>();

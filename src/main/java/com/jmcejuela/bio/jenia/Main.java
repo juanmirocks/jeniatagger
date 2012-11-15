@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
-import com.jmcejuela.bio.jenia.util.Creator;
+import com.jmcejuela.bio.jenia.util.Constructor;
 import com.jmcejuela.bio.jenia.util.Util;
 
 /**
@@ -72,7 +72,7 @@ public class Main {
 
     MorphDic.init_morphdic();
 
-    ArrayList<ME_Model> vme = Util.newArrayList(16, new Creator<ME_Model>() {
+    ArrayList<ME_Model> vme = Util.newArrayList(16, new Constructor<ME_Model>() {
       @Override
       public ME_Model neu() {
         return new ME_Model();
@@ -87,7 +87,7 @@ public class Main {
     // cerr << "done." << endl;
 
     // cerr << "loading chunk_models";
-    ArrayList<ME_Model> vme_chunking = Util.newArrayList(16, new Creator<ME_Model>() {
+    ArrayList<ME_Model> vme_chunking = Util.newArrayList(16, new Constructor<ME_Model>() {
       @Override
       public ME_Model neu() {
         return new ME_Model();

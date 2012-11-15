@@ -10,11 +10,11 @@ import java.util.HashMap;
  * Due to type-erasure in Java a object generator must be given explicitly to simulate the same behavior.
  */
 public class CppMap<K, V> extends HashMap<K, V> {
-  Creator<V> c;
+  Constructor<V> c;
 
   private static final long serialVersionUID = -197420711650949268L;
 
-  public CppMap(Creator<V> c) {
+  public CppMap(Constructor<V> c) {
     this.c = c;
   }
 

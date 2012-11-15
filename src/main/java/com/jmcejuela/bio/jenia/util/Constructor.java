@@ -2,11 +2,11 @@ package com.jmcejuela.bio.jenia.util;
 
 
 /**
- * Object T-type creator.
- *
+ * Object T-type constructor.
+ * 
  * Simulate c++ classes' implicit default constructor initialization for example in vectors or maps.
  */
-public interface Creator<T> {
+public interface Constructor<T> {
 
   public T neu();
 

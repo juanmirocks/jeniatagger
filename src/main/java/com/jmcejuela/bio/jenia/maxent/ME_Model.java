@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.jmcejuela.bio.jenia.util.Constructor;
 import com.jmcejuela.bio.jenia.util.Tuple2;
 
 /**
@@ -58,6 +59,13 @@ public class ME_Model {
     _early_stopping_n = 0;
     _ref_modelp = null;
   }
+
+  public static Constructor<ME_Model> CONSTRUCTOR = new Constructor<ME_Model>() {
+    @Override
+    public ME_Model neu() {
+      return new ME_Model();
+    }
+  };
 
   public final int num_classes() {
     return _num_classes;

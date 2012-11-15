@@ -21,8 +21,24 @@ public class Util {
     return new ArrayList<T>();
   }
 
-  public static <T> ArrayList<T> newArrayList(int size, T initValue) {
+  public static <T> ArrayList<T> newArrayList(int size, Creator<T> initValueCreator) {
     ArrayList<T> ret = new ArrayList<T>(size);
+    for (int i = 0; i < size; i++) {
+      ret.add(initValueCreator.neu());
+    }
+    return ret;
+  }
+
+  public static ArrayList<Double> newArrayList(int size, double initValue) {
+    ArrayList<Double> ret = new ArrayList<Double>(size);
+    for (int i = 0; i < size; i++) {
+      ret.add(initValue);
+    }
+    return ret;
+  }
+
+  public static ArrayList<Integer> newArrayList(int size, int initValue) {
+    ArrayList<Integer> ret = new ArrayList<Integer>(size);
     for (int i = 0; i < size; i++) {
       ret.add(initValue);
     }

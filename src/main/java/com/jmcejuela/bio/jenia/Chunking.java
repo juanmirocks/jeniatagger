@@ -323,12 +323,12 @@ public class Chunking {
     int n = vt.size();
     if (n == 0) return;
 
-    List<Hypothesis> vh = newArrayList(); // TODO check size
+    ArrayList<Hypothesis> vh = newArrayList(); // TODO check size
     Hypothesis h = new Hypothesis(vt, vme);
     vh.add(h);
 
     for (int i = 0; i < n; i++) {
-      List<Hypothesis> newvh = newArrayList(); // TODO check size
+      ArrayList<Hypothesis> newvh = newArrayList(); // TODO check size
       for (Hypothesis j : vh) {
         generate_hypotheses(i, j, vme, newvh);
       }

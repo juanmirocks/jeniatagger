@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.jmcejuela.bio.jenia.common.Sentence;
 import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
@@ -319,12 +320,12 @@ public class Chunking {
     }
   }
 
-  static void bidir_chuning_decode_beam(ArrayList<Token> vt, final ArrayList<ME_Model> vme) {
-    int n = vt.size();
+  static void bidir_chuning_decode_beam(Sentence sentence, final ArrayList<ME_Model> vme) {
+    int n = sentence.size();
     if (n == 0) return;
 
     ArrayList<Hypothesis> vh = newArrayList(); // TODO check size
-    Hypothesis h = new Hypothesis(vt, vme);
+    Hypothesis h = new Hypothesis(sentence, vme);
     vh.add(h);
 
     for (int i = 0; i < n; i++) {
@@ -343,7 +344,7 @@ public class Chunking {
       h = last(vh);
     } else {
       // cerr << "warning: no hypothesis found" << endl;
-      h = new Hypothesis(vt, vme);
+      h = new Hypothesis(sentence, vme);
     }
 
     ArrayList<String> tags = newArrayList(); // TODO check size
@@ -354,7 +355,7 @@ public class Chunking {
 
     convert_startend_to_iob2_sub(tags);
     for (int k = 0; k < n; k++) {
-      vt.get(k).cprd = tags.get(k);
+      sentence.get(k).cprd = tags.get(k);
     }
 
     // cout << endl;

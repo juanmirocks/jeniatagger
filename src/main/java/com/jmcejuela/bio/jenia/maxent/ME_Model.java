@@ -263,7 +263,8 @@ public class ME_Model {
     final int Id(final String i) {
       Integer j = str2id.get(i);
       if (j == null) return -1;
-      return j;
+      else
+        return j;
     }
 
     // final

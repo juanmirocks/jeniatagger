@@ -32,6 +32,7 @@ public class ME_ModelTest {
   }
 
   public static <T> void testModel(String meResource, int numLinesFile) {
+    System.out.println(meResource);
     ME_Model me = new ME_Model();
     me.load_from_file(meResource);
     testModel(me, numLinesFile);
@@ -40,6 +41,9 @@ public class ME_ModelTest {
   public static <T> void testModel(ME_Model me, int numLinesFile) {
     assertEquals(numLinesFile, me._fb.Size());
     assertEquals(numLinesFile, me._vl.size());
+
+    System.out.println("  # classes: " + me.num_classes());
+    System.out.println("    classes: " + me._label_bag.id2str);
   }
 
 }

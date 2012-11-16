@@ -229,7 +229,7 @@ public class MorphDic {
     MorphDic.Init();
   }
 
-  static String base_form(final String s, final String pos) {
+  public static String base_form(final String s, final String pos) {
     if (pos.equals("NNS")) return base_form_noun(s);
     if (pos.equals("NNPS")) return base_form_noun(s);
 

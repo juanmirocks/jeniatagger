@@ -1,5 +1,7 @@
 package com.jmcejuela.bio.jenia.common;
 
+import com.jmcejuela.bio.jenia.MorphDic;
+
 /**
  * From common.h
  */
@@ -19,5 +21,29 @@ public class Token {
     cprd = "";
     tag = "";
     ne = "";
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder s = new StringBuilder();
+
+    String token = str;
+    String postag = prd;
+
+    s.append(token);
+    s.append("\t");
+
+    s.append(MorphDic.base_form(token, postag));
+    s.append("\t");
+
+    s.append(postag);
+    s.append("\t");
+
+    s.append(cprd);
+    s.append("\t");
+
+    s.append(ne);
+
+    return s.toString();
   }
 }

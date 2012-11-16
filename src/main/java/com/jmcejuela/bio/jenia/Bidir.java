@@ -356,6 +356,7 @@ public class Bidir {
       String pos_right1 = "EOS", pos_right2 = "EOS2";
       if (j <= vt.size() - 2) pos_right1 = vt.get(j + 1).prd;
       if (j <= vt.size() - 3) pos_right2 = vt.get(j + 2).prd;
+
       ME_Sample mes = mesample(vt, j, pos_left2, pos_left1, pos_right1, pos_right2);
 
       ArrayList<Double> membp;

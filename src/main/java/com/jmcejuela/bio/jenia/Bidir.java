@@ -535,7 +535,7 @@ public class Bidir {
         :
         tokenize(line);
 
-    Sentence sentence = new Sentence(); // TODO check size
+    Sentence sentence = new Sentence();
     for (String slt : lt) {
       // s = ParenConverter.Ptb2Pos(s);
       sentence.add(new Token(slt, "?"));

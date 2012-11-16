@@ -74,7 +74,7 @@ public class Bidir {
       }
       if (str.length() >= j) {
         sample.features.add(
-            String.format("pre%d_%s", j, str.substring(str.length() - j)));
+            String.format("pre%d_%s", j, str.substring(0, j)));
       }
     }
     // L

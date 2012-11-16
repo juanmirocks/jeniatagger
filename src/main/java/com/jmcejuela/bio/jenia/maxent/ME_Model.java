@@ -781,9 +781,7 @@ public class ME_Model {
         String classname = tokens[0];
         String featurename = tokens[1];
         String w = tokens[2];
-
-        // jenia: lambda was float originally, but _vl, where it was pushed-back to, was vector<double>
-        double lambda = Double.parseDouble(w);
+        double lambda = Double.parseDouble(w);// jenia: was float originally, but _vl is vector of doubles
 
         int label = _label_bag.Put(classname);
         int feature = _featurename_bag.Put(featurename);

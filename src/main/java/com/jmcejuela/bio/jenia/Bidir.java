@@ -289,7 +289,7 @@ public class Bidir {
   }
 
   static class Hypothesis {
-    ArrayList<Token> vt;
+    Sentence sentence;
     ArrayList<Double> vent;
     ArrayList<Integer> order;
     ArrayList<ArrayList<Tuple2<String, Double>>> vvp;
@@ -312,12 +312,12 @@ public class Bidir {
     };
 
     // jenia: standard java hasn't multimaps and the argument tagdic is actually never used so it's discarded
-    Hypothesis(final ArrayList<Token> vt_,
+    Hypothesis(final Sentence sentence,
         // final multimap<String, String> tagdic,
         final ArrayList<ME_Model> vme) {
       prob = 1.0;
-      vt = vt_;
-      int n = vt.size();
+      this.sentence = sentence;
+      int n = sentence.size();
 
       vent = newArrayList(n, 0.0);
       vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
@@ -329,13 +329,13 @@ public class Bidir {
       order = newArrayList(n, 0);
 
       for (int i = 0; i < n; i++) {
-        vt.get(i).prd = "";
+        sentence.get(i).prd = "";
         Update(i, vme);
       }
     }
 
     void Print() {
-      for (int k = 0; k < vt.size(); k++) {
+      for (int k = 0; k < sentence.size(); k++) {
         // TODO
         // cout << vt[k].str << "/";
         // if (vt[k].prd.equals("")) cout << "?";
@@ -350,14 +350,14 @@ public class Bidir {
         final ArrayList<ME_Model> vme)
     {
       String pos_left1 = "BOS", pos_left2 = "BOS2";
-      if (j >= 1) pos_left1 = vt.get(j - 1).prd; // maybe bug??
+      if (j >= 1) pos_left1 = sentence.get(j - 1).prd; // maybe bug??
       // if (j >= 1 && !vt[j-1].isEmpty()) pos_left1 = vt[j-1].prd; // this should be correct
-      if (j >= 2) pos_left2 = vt.get(j - 2).prd;
+      if (j >= 2) pos_left2 = sentence.get(j - 2).prd;
       String pos_right1 = "EOS", pos_right2 = "EOS2";
-      if (j <= vt.size() - 2) pos_right1 = vt.get(j + 1).prd;
-      if (j <= vt.size() - 3) pos_right2 = vt.get(j + 2).prd;
+      if (j <= sentence.size() - 2) pos_right1 = sentence.get(j + 1).prd;
+      if (j <= sentence.size() - 3) pos_right2 = sentence.get(j + 2).prd;
 
-      ME_Sample mes = mesample(vt, j, pos_left2, pos_left1, pos_right1, pos_right2);
+      ME_Sample mes = mesample(sentence, j, pos_left2, pos_left1, pos_right1, pos_right2);
 
       ArrayList<Double> membp;
       ME_Model mep = null;
@@ -403,13 +403,13 @@ public class Bidir {
       final ArrayList<ME_Model> vme,
       List<Hypothesis> vh)
   {
-    int n = h.vt.size();
+    int n = h.sentence.size();
     int pred_position = -1;
     double min_ent = 999999;
     String pred = "";
     double pred_prob = 0;
     for (int j = 0; j < n; j++) {
-      if (!h.vt.get(j).prd.isEmpty()) continue;
+      if (!h.sentence.get(j).prd.isEmpty()) continue;
       double ent = h.vent.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
@@ -423,14 +423,14 @@ public class Bidir {
     for (Tuple2<String, Double> k : h.vvp.get(pred_position)) {
       Hypothesis newh = h;
 
-      newh.vt.get(pred_position).prd = k._1;
+      newh.sentence.get(pred_position).prd = k._1;
       newh.order.set(pred_position, order + 1);
       newh.prob = h.prob * k._2;
 
       // update the neighboring predictions
       for (int j = pred_position - UPDATE_WINDOW_SIZE; j <= pred_position + UPDATE_WINDOW_SIZE; j++) {
         if (j < 0 || j > n - 1) continue;
-        if (newh.vt.get(j).prd.isEmpty()) newh.Update(j, vme);
+        if (newh.sentence.get(j).prd.isEmpty()) newh.Update(j, vme);
       }
       vh.add(newh);
     }
@@ -468,7 +468,7 @@ public class Bidir {
     hyp = last(hypotheses);
     for (int k = 0; k < n; k++) {
       // cout << h.vt[k].str << "/" << h.vt[k].prd << "/" << h.order[k] << " ";
-      sentence.get(k).prd = hyp.vt.get(k).prd;
+      sentence.get(k).prd = hyp.sentence.get(k).prd;
     }
     // cout << endl;
   }

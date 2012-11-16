@@ -31,6 +31,7 @@
         <configuration>
           <!-- Tests must load big dictionaries -->
           <argLine>-Xms512m -Xmx3G</argLine>
+          <enableAssertions>true</enableAssertions>
           <testFailureIgnore>false</testFailureIgnore>
           <skip>false</skip>
         </configuration>

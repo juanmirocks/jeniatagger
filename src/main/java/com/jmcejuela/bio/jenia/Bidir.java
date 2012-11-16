@@ -290,7 +290,7 @@ public class Bidir {
 
   static class Hypothesis {
     Sentence sentence;
-    ArrayList<Double> vent;
+    ArrayList<Double> entropies;
     ArrayList<Integer> order;
     ArrayList<ArrayList<Tuple2<String, Double>>> vvp;
     double prob;
@@ -319,7 +319,7 @@ public class Bidir {
       this.sentence = sentence;
       int n = sentence.size();
 
-      vent = newArrayList(n, 0.0);
+      entropies = newArrayList(n, 0.0);
       vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
         @Override
         public ArrayList<Tuple2<String, Double>> neu() {
@@ -370,7 +370,7 @@ public class Bidir {
       mep = vme.get(bits);
       membp = mep.classify(mes);
       assert (!mes.label.isEmpty());
-      vent.set(j, entropy(membp));
+      entropies.set(j, entropy(membp));
       // vent[j] = -j;
 
       vvp.get(j).clear();
@@ -410,7 +410,7 @@ public class Bidir {
     double pred_prob = 0;
     for (int j = 0; j < n; j++) {
       if (!h.sentence.get(j).prd.isEmpty()) continue;
-      double ent = h.vent.get(j);
+      double ent = h.entropies.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
         // pred_prob = h.vvp[j].begin()->second;

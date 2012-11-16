@@ -299,6 +299,15 @@ public class Bidir {
       return prob < h.prob;
     }
 
+    @Override
+    public String toString() {
+      return "Hypothesis:" + sentence.toString() + "\n" +
+          "    " + entropies + "\n" +
+          "    " + order + "\n" +
+          "    " + vvp + "\n" +
+          "    " + prob + "\n";
+    }
+
     static final Comparator<Hypothesis> Order = new Comparator<Hypothesis>() {
       @Override
       public int compare(Hypothesis o1, Hypothesis o2) {

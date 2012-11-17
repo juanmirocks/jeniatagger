@@ -295,6 +295,29 @@ public class Bidir {
     ArrayList<ArrayList<Tuple2<String, Double>>> vvp;
     double prob;
 
+    // jenia: standard java hasn't multimaps and the argument tagdic is actually never used so it's discarded
+    Hypothesis(final Sentence sentence,
+        // final multimap<String, String> tagdic,
+        final ArrayList<ME_Model> vme) {
+      prob = 1.0;
+      this.sentence = sentence.copy();
+      int n = this.sentence.size();
+
+      entropies = newArrayList(n, 0.0);
+      vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
+        @Override
+        public ArrayList<Tuple2<String, Double>> neu() {
+          return new ArrayList<Tuple2<String, Double>>();
+        }
+      });
+      order = newArrayList(n, 0);
+
+      for (int i = 0; i < n; i++) {
+        this.sentence.get(i).prd = "";
+        Update(i, vme);
+      }
+    }
+
     final boolean operator_less(final Hypothesis h) {
       return prob < h.prob;
     }
@@ -319,29 +342,6 @@ public class Bidir {
           return 0;
       }
     };
-
-    // jenia: standard java hasn't multimaps and the argument tagdic is actually never used so it's discarded
-    Hypothesis(final Sentence sentence,
-        // final multimap<String, String> tagdic,
-        final ArrayList<ME_Model> vme) {
-      prob = 1.0;
-      this.sentence = sentence;
-      int n = sentence.size();
-
-      entropies = newArrayList(n, 0.0);
-      vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
-        @Override
-        public ArrayList<Tuple2<String, Double>> neu() {
-          return new ArrayList<Tuple2<String, Double>>();
-        }
-      });
-      order = newArrayList(n, 0);
-
-      for (int i = 0; i < n; i++) {
-        sentence.get(i).prd = "";
-        Update(i, vme);
-      }
-    }
 
     void Print() {
       for (int k = 0; k < sentence.size(); k++) {

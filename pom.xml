@@ -30,7 +30,7 @@
         <version>2.12.4</version>
         <configuration>
           <!-- Tests must load big dictionaries -->
-          <argLine>-Xms512m -Xmx1G</argLine>
+          <argLine>-Xms512m -Xmx1500M</argLine>
           <enableAssertions>true</enableAssertions>
           <testFailureIgnore>false</testFailureIgnore>
           <skip>false</skip>

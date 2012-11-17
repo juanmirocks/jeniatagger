@@ -559,7 +559,7 @@ public class Bidir {
 
   static String bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
     final List<String> lt = (dont_tokenize) ?
-        Arrays.asList(line.split(" ")) // jenia: see genia's README
+        Arrays.asList(line.trim().split(" ")) // jenia: see genia's README
         :
         tokenize(line);
 

@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.jmcejuela.bio.jenia.Bidir.Hypothesis;
 import com.jmcejuela.bio.jenia.common.Sentence;
 import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
@@ -19,6 +20,11 @@ import com.jmcejuela.bio.jenia.util.Tuple2;
 
 /**
  * From chunking.cpp
+ *
+ * TODO This is essentially all a copy of {@link Bidir} except for the implicitly declared chunking models used.
+ *
+ * Keep it DRY.
+ *
  */
 public class Chunking {
 
@@ -139,12 +145,48 @@ public class Chunking {
   }
 
   static class Hypothesis {
-    ArrayList<Token> vt;
-    ArrayList<Double> vent;
+    Sentence sentence;
+    ArrayList<Double> entropies;
     ArrayList<Integer> order;
     // ArrayList<Integer> model;
     ArrayList<ArrayList<Tuple2<String, Double>>> vvp;
     double prob;
+
+    Hypothesis(final Sentence sentence, final ArrayList<ME_Model> vme) {
+      prob = 1.0;
+      this.sentence = sentence.copy();
+      int n = this.sentence.size();
+      entropies = newArrayList(n, 0.0);
+      vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
+            @Override
+            public ArrayList<Tuple2<String, Double>> neu() {
+              return new ArrayList<Tuple2<String, Double>>();
+            }
+          });
+      order = newArrayList(n, 0);
+      // model.resize(n);
+      for (int i = 0; i < n; i++) {
+        this.sentence.get(i).cprd = "";
+        Update(i, vme);
+      }
+    }
+
+    private Hypothesis() {};
+
+    Hypothesis copy() {
+      Hypothesis ret = new Hypothesis();
+      ret.sentence = this.sentence.copy();
+      /* The following can be done because Double, Integer, and Tuple2<String, Double> are immutable objects */
+      ret.entropies = new ArrayList<Double>(this.entropies);
+      ret.order = new ArrayList<Integer>(this.order);
+      ret.vvp = newArrayList(this.vvp.size());
+      for (ArrayList<Tuple2<String, Double>> a : this.vvp) {
+        ArrayList<Tuple2<String, Double>> reta = new ArrayList<Tuple2<String, Double>>(a);
+        ret.vvp.add(reta);
+      }
+      ret.prob = this.prob;
+      return ret;
+    }
 
     final boolean operator_less(final Hypothesis h) {
       return prob < h.prob;
@@ -162,29 +204,8 @@ public class Chunking {
       }
     };
 
-    Hypothesis(final ArrayList<Token> vt_, final ArrayList<ME_Model> vme) {
-      prob = 1.0;
-      vt = vt_;
-      int n = vt.size();
-
-      vent = newArrayList(n, 0.0);
-      vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
-            @Override
-            public ArrayList<Tuple2<String, Double>> neu() {
-              return new ArrayList<Tuple2<String, Double>>();
-            }
-          });
-      order = newArrayList(n, 0);
-      // model.resize(n);
-
-      for (int i = 0; i < n; i++) {
-        vt.get(i).cprd = "";
-        Update(i, vme);
-      }
-    }
-
     void Print() {
-      for (int k = 0; k < vt.size(); k++) {
+      for (int k = 0; k < this.sentence.size(); k++) {
         // cout << vt.get(k).str << "/";
         // if (vt.get(k).cprd.equals("")) cout << "?";
         // cout << vt.get(k).cprd;
@@ -195,13 +216,13 @@ public class Chunking {
 
     void Update(final int j, final ArrayList<ME_Model> vme) {
       String tag_left1 = "BOS", tag_left2 = "BOS2";
-      if (j >= 1) tag_left1 = vt.get(j - 1).cprd; // maybe bug??
+      if (j >= 1) tag_left1 = sentence.get(j - 1).cprd; // maybe bug??
       // if (j >= 1 && !vt.get(j-1].isEmpty()) pos_left1 = vt[j-1).cprd; // this should be correct
-      if (j >= 2) tag_left2 = vt.get(j - 2).cprd;
+      if (j >= 2) tag_left2 = sentence.get(j - 2).cprd;
       String tag_right1 = "EOS", tag_right2 = "EOS2";
-      if (j <= vt.size() - 2) tag_right1 = vt.get(j + 1).cprd;
-      if (j <= vt.size() - 3) tag_right2 = vt.get(j + 2).cprd;
-      ME_Sample mes = mesample(vt, j, tag_left2, tag_left1, tag_right1, tag_right2);
+      if (j <= sentence.size() - 2) tag_right1 = sentence.get(j + 1).cprd;
+      if (j <= sentence.size() - 3) tag_right2 = sentence.get(j + 2).cprd;
+      ME_Sample mes = mesample(sentence, j, tag_left2, tag_left1, tag_right1, tag_right2);
 
       ArrayList<Double> membp;
       ME_Model mep = null;
@@ -223,16 +244,16 @@ public class Chunking {
 
       switch (decoding_strategy) {
       case EASIEST_FIRST:
-        vent.set(j, -maxp);
+        entropies.set(j, -maxp);
         // vent[j] = maxp; // easiest last
         // vent[j] = second / maxp;
         // vent[j] = entropy(membp);
         break;
       case LEFT_TO_RIGHT:
-        vent.set(j, (double) j);
+        entropies.set(j, (double) j);
         break;
       case RIGHT_TO_LEFT:
-        vent.set(j, (double) -j);
+        entropies.set(j, (double) -j);
         break;
       }
 
@@ -246,9 +267,9 @@ public class Chunking {
     }
 
     final boolean IsErroneous() {
-      for (int i = 0; i < vt.size() - 1; i++) {
-        final String a = vt.get(i).cprd;
-        final String b = vt.get(i + 1).cprd;
+      for (int i = 0; i < sentence.size() - 1; i++) {
+        final String a = sentence.get(i).cprd;
+        final String b = sentence.get(i + 1).cprd;
         if (a.equals("") || b.equals("")) continue;
         // if (a[0] == 'B' && b[0] == 'B') {
         // if (a.substring(2) == b.substring(2)) return true;
@@ -266,14 +287,14 @@ public class Chunking {
       final ArrayList<ME_Model> vme,
       List<Hypothesis> vh)
   {
-    int n = h.vt.size();
+    int n = h.sentence.size();
     int pred_position = -1;
     double min_ent = 999999;
     String pred = "";
     double pred_prob = 0;
     for (int j = 0; j < n; j++) {
-      if (!h.vt.get(j).cprd.equals("")) continue;
-      double ent = h.vent.get(j);
+      if (!h.sentence.get(j).cprd.equals("")) continue;
+      double ent = h.entropies.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
         // pred_prob = h.vvp[j].begin()->second;
@@ -284,9 +305,9 @@ public class Chunking {
     assert (pred_position >= 0 && pred_position < n);
 
     for (Tuple2<String, Double> k : h.vvp.get(pred_position)) {
-      Hypothesis newh = h;
+      Hypothesis newh = h.copy();
 
-      newh.vt.get(pred_position).cprd = k._1;
+      newh.sentence.get(pred_position).cprd = k._1;
       newh.order.set(pred_position, order + 1);
       newh.prob = h.prob * k._2;
 
@@ -299,7 +320,7 @@ public class Chunking {
       // update the neighboring predictions
       for (int j = pred_position - TAG_WINDOW_SIZE; j <= pred_position + TAG_WINDOW_SIZE; j++) {
         if (j < 0 || j > n - 1) continue;
-        if (newh.vt.get(j).cprd.equals("")) newh.Update(j, vme);
+        if (newh.sentence.get(j).cprd.equals("")) newh.Update(j, vme);
       }
       vh.add(newh);
     }
@@ -350,7 +371,7 @@ public class Chunking {
     ArrayList<String> tags = newArrayList(); // TODO check size
     for (int k = 0; k < n; k++) {
       // cout << h.vt.get(k].str << "/" << h.vt[k).cprd << "/" << h.order[k] << " ";
-      tags.add(h.vt.get(k).cprd);
+      tags.add(h.sentence.get(k).cprd);
     }
 
     convert_startend_to_iob2_sub(tags);
@@ -359,8 +380,8 @@ public class Chunking {
     }
 
     // cout << endl;
-
   }
+
   /*
    * void bidir_chunking(ArrayList<Sentence> vs, final ArrayList<ME_Model> vme) { cerr << "now tagging";
    *

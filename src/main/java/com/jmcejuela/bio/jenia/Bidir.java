@@ -288,6 +288,10 @@ public class Bidir {
     return 0; // jenia: original didn't return explicitly
   }
 
+  /*
+   * TODO jenia: A Hypothesis has more information than needed. In particular entropies refer to the maximum probability
+   * already and vvp contains in fact all the hypothesis
+   */
   static class Hypothesis {
     Sentence sentence;
     ArrayList<Double> entropies;
@@ -302,7 +306,6 @@ public class Bidir {
       prob = 1.0;
       this.sentence = sentence.copy();
       int n = this.sentence.size();
-
       entropies = newArrayList(n, 0.0);
       vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
         @Override
@@ -311,11 +314,27 @@ public class Bidir {
         }
       });
       order = newArrayList(n, 0);
-
       for (int i = 0; i < n; i++) {
         this.sentence.get(i).prd = "";
         Update(i, vme);
       }
+    }
+
+    private Hypothesis() {};
+
+    Hypothesis copy() {
+      Hypothesis ret = new Hypothesis();
+      ret.sentence = this.sentence.copy();
+      /* The following can be done because Double, Integer, and Tuple2<String, Double> are immutable objects */
+      ret.entropies = new ArrayList<Double>(this.entropies);
+      ret.order = new ArrayList<Integer>(this.order);
+      ret.vvp = newArrayList(this.vvp.size());
+      for (ArrayList<Tuple2<String, Double>> a : this.vvp) {
+        ArrayList<Tuple2<String, Double>> reta = new ArrayList<Tuple2<String, Double>>(a);
+        ret.vvp.add(reta);
+      }
+      ret.prob = this.prob;
+      return ret;
     }
 
     final boolean operator_less(final Hypothesis h) {
@@ -430,7 +449,7 @@ public class Bidir {
     assert (pred_position >= 0 && pred_position < n);
 
     for (Tuple2<String, Double> k : h.vvp.get(pred_position)) {
-      Hypothesis newh = h;
+      Hypothesis newh = h.copy();
 
       newh.sentence.get(pred_position).prd = k._1;
       newh.order.set(pred_position, order + 1);

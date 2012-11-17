@@ -10,7 +10,7 @@ public class Token {
   public String pos;
   public String prd;
   public String cprd; // for chunking
-  public final String tag; // for chunking
+  public String tag; // for chunking
   public String ne;
 
   public Token(String s, String p) {
@@ -21,6 +21,15 @@ public class Token {
     cprd = "";
     tag = "";
     ne = "";
+  }
+
+  public Token copy() {
+    Token ret = new Token(this.str, this.pos);
+    ret.prd = this.prd;
+    ret.cprd = this.cprd;
+    ret.tag = this.tag;
+    ret.ne = this.ne;
+    return ret;
   }
 
   @Override

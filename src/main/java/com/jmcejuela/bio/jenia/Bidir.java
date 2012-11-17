@@ -337,10 +337,6 @@ public class Bidir {
       return ret;
     }
 
-    final boolean operator_less(final Hypothesis h) {
-      return prob < h.prob;
-    }
-
     @Override
     public String toString() {
       return "Hypothesis:" + sentence.toString() + "\n" +
@@ -348,6 +344,10 @@ public class Bidir {
           "    " + order + "\n" +
           "    " + vvp + "\n" +
           "    " + prob + "\n";
+    }
+
+    final boolean operator_less(final Hypothesis h) {
+      return prob < h.prob;
     }
 
     static final Comparator<Hypothesis> Order = new Comparator<Hypothesis>() {

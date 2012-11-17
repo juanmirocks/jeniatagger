@@ -103,7 +103,8 @@ public class NamedEntity {
      * if (tmp.equals("is")) tmp = "be"; if (tmp.equals("was")) tmp = "be"; if (tmp.equals("are")) tmp = "be"; if
      * (tmp.equals("were")) tmp = "be"; if (tmp.equals("an")) tmp = "a"; if (tmp.equals("the")) tmp = "a";
      */
-    if (tmp.charAt(tmp.length() - 1) == 's') return tmp.substring(0, tmp.length() - 1);
+    // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't throw an exception
+    if (!tmp.isEmpty() && tmp.charAt(tmp.length() - 1) == 's') return tmp.substring(0, tmp.length() - 1);
     return tmp;
   }
 

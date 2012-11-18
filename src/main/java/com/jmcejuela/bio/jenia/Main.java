@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import com.jmcejuela.bio.jenia.common.Sentence;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.util.Util;
 
@@ -98,9 +99,8 @@ public class Main {
         System.err.println("warning: the sentence seems to be too long at line " + n +
             " (please note that the input should be one-sentence-per-line).");
       }
-      String postagged = Bidir.bidir_postag(line, vme, vme_chunking, dont_tokenize);
-      System.out.println(postagged);
-      // cout << postagged << endl; //TODO
+      Sentence analysis = Bidir.bidir_postag(line, vme, vme_chunking, dont_tokenize);
+      System.out.println(analysis);
       n++;
     }
 

@@ -39,6 +39,12 @@ public class Token {
     String token = str;
     String postag = prd;
 
+    // s = ParenConverter.Pos2Ptb(s);
+    // p = ParenConverter.Pos2Ptb(p);
+    /*
+     * if (i == 0) tmp += s + "/" + p; else tmp += " " + s + "/" + p;
+     */
+
     s.append(token);
     s.append("\t");
 

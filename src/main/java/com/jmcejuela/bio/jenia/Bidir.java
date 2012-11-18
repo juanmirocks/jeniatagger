@@ -557,7 +557,7 @@ public class Bidir {
     }
   }
 
-  static String bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
+  static Sentence bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
     final List<String> lt = (dont_tokenize) ?
         Arrays.asList(line.trim().split(" ")) // jenia: see genia's README
         :
@@ -580,22 +580,7 @@ public class Bidir {
 
     NamedEntity.netagging(sentence);
 
-    String tmp = "";
-    for (int i = 0; i < sentence.size(); i++) {
-      String token = sentence.get(i).str;
-      String postag = sentence.get(i).prd;
-      // s = ParenConverter.Pos2Ptb(s);
-      // p = ParenConverter.Pos2Ptb(p);
-      /*
-       * if (i == 0) tmp += s + "/" + p; else tmp += " " + s + "/" + p;
-       */
-      tmp += token + "\t";
-      tmp += MorphDic.base_form(token, postag) + "\t";
-      tmp += postag + "\t";
-      tmp += sentence.get(i).cprd + "\t";
-      tmp += sentence.get(i).ne + "\n";
-    }
-    return tmp;
+    return sentence;
   }
 
   // int push_stop_watch() {

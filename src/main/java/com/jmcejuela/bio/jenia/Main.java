@@ -95,7 +95,7 @@ public class Main {
     int n = 1;
     while ((line = in.readLine()) != null) {
       if (line.length() > 1024) {
-        throw new IllegalArgumentException("warning: the sentence seems to be too long at line " + n +
+        System.err.println("warning: the sentence seems to be too long at line " + n +
             " (please note that the input should be one-sentence-per-line).");
       }
       String postagged = Bidir.bidir_postag(line, vme, vme_chunking, dont_tokenize);

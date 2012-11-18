@@ -558,6 +558,9 @@ public class Bidir {
   }
 
   static Sentence bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
+    if (line.matches(".*[\n\r\u0085\u2028\u2029].*"))
+      throw new IllegalArgumentException("The input line cannot have any line terminator");
+
     String trimmedLine = line.trim();
     if (trimmedLine.isEmpty()) return new Sentence();
 

@@ -105,5 +105,6 @@ public class Main {
     }
 
     in.close();
+    System.out.flush();
   }
 }

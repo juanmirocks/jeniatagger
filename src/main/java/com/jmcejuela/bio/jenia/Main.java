@@ -89,6 +89,8 @@ public class Main {
 
     NamedEntity.load_ne_models();
 
+    System.err.println("All models loaded, ready to analyze your sentences");
+
     String line;
     int n = 1;
     while ((line = in.readLine()) != null) {

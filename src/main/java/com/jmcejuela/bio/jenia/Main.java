@@ -89,9 +89,6 @@ public class Main {
 
     NamedEntity.load_ne_models();
 
-    // TODO must delete, as the output is buffer for results
-    System.out.println("All models loaded");
-
     String line;
     int n = 1;
     while ((line = in.readLine()) != null) {

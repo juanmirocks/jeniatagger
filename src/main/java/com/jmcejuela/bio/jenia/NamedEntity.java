@@ -131,7 +131,7 @@ public class NamedEntity {
     return tmp;
   }
 
-  static ME_Sample mesample(final String label, final ArrayList<Token> vt, int begin, int end) {
+  static ME_Sample mesample(final String label, final Sentence sentence, int begin, int end) {
     ME_Sample mes = new ME_Sample();
 
     mes.label = label;
@@ -144,27 +144,27 @@ public class NamedEntity {
     String s_1, s_2, s1, s2;
     // if (begin >= 1) s_1 = vt.get(begin-1).str;
     if (begin >= 1)
-      s_1 = normalize(vt.get(begin - 1).str);
+      s_1 = normalize(sentence.get(begin - 1).str);
     else
       s_1 = "BOS";
     mes.features.add(String.format("C-1_%s", s_1));
 
     // if (end < vt.length()) s1 = vt.get(end).str;
-    if (end < vt.size())
-      s1 = normalize(vt.get(end).str);
+    if (end < sentence.size())
+      s1 = normalize(sentence.get(end).str);
     else
       s1 = "EOS";
     mes.features.add(String.format("C+1_%s", s1));
 
     // if (begin >= 2) s_2 = vt.get(begin-2).str;
     if (begin >= 2)
-      s_2 = normalize(vt.get(begin - 2).str);
+      s_2 = normalize(sentence.get(begin - 2).str);
     else
       s_2 = "BOS";
 
     // if (end < vt.length()-1) s2 = vt.get(end+1).str;
-    if (end < vt.size() - 1)
-      s2 = normalize(vt.get(end + 1).str);
+    if (end < sentence.size() - 1)
+      s2 = normalize(sentence.get(end + 1).str);
     else
       s2 = "EOS";
 
@@ -183,16 +183,16 @@ public class NamedEntity {
     // mes.features.add("EXACT_" + vt.get(begin).str);
     // }
 
-    String tb = normalize(vt.get(begin).str);
+    String tb = normalize(sentence.get(begin).str);
     mes.features.add(String.format("TB_%s", tb));
 
     for (int i = begin + 1; i < end - 1; i++) {
       // for (int i = begin; i < end; i++) {
-      s = normalize(vt.get(i).str);
+      s = normalize(sentence.get(i).str);
       mes.features.add(String.format("TM_%s", s));
     }
 
-    String te = normalize(vt.get(end - 1).str);
+    String te = normalize(sentence.get(end - 1).str);
     mes.features.add(String.format("TE_%s", te));
 
     // combination
@@ -209,9 +209,9 @@ public class NamedEntity {
     String whole = "";
     boolean contain_comma = false;
     for (int i = begin; i < end; i++) {
-      if (s.length() + vt.get(i).str.length() > BUFLEN - 100) break;
-      s += normalize(vt.get(i).str);
-      whole += vt.get(i).str;
+      if (s.length() + sentence.get(i).str.length() > BUFLEN - 100) break;
+      s += normalize(sentence.get(i).str);
+      whole += sentence.get(i).str;
     }
 
     // if (label > 0) mes.features.add(buf);
@@ -240,12 +240,12 @@ public class NamedEntity {
     String p_2 = "BOS", p_1 = "BOS";
     String pb, pe;
     String p1 = "EOS", p2 = "EOS";
-    if (begin >= 2) p_2 = vt.get(begin - 2).pos;
-    if (begin >= 1) p_1 = vt.get(begin - 1).pos;
-    pb = vt.get(begin).pos;
-    pe = vt.get(end - 1).pos;
-    if (end < vt.size()) p1 = vt.get(end).pos;
-    if (end < vt.size() - 1) p2 = vt.get(end + 1).pos;
+    if (begin >= 2) p_2 = sentence.get(begin - 2).pos;
+    if (begin >= 1) p_1 = sentence.get(begin - 1).pos;
+    pb = sentence.get(begin).pos;
+    pe = sentence.get(end - 1).pos;
+    if (end < sentence.size()) p1 = sentence.get(end).pos;
+    if (end < sentence.size() - 1) p2 = sentence.get(end + 1).pos;
 
     mes.features.add("PoS-1_" + p_1);
     mes.features.add("PoS-B_" + pb);

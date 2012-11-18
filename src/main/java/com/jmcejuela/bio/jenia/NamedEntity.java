@@ -357,7 +357,7 @@ public class NamedEntity {
     ArrayList<Double> label_p = newArrayList(s.size(), 0.0);
     for (int j = 0; j < s.size(); j++) {
       s.get(j).ne = "O";
-      // label_p.set(j, 0);
+      // jenia, done in init already; label_p.set(j, 0);
     }
 
     List<Annotation> la = newArrayList(); // TODO check size
@@ -369,10 +369,9 @@ public class NamedEntity {
           continue;
         }
         ME_Sample nbs = mesample("?", s, j, k);
-        ArrayList<Double> membp = newArrayList(me.num_classes());
         // int label = nb.classify(nbs, NULL, &membp);
         // me.classify(nbs, &membp);
-        membp = me.classify(nbs);
+        ArrayList<Double> membp = me.classify(nbs);
         int label = 0;
         minusEq(membp, other_class, BIAS_FOR_RECALL);
         for (int l = 0; l < me.num_classes(); l++) {

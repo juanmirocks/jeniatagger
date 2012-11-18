@@ -173,8 +173,9 @@ public class NamedEntity {
     mes.features.add("C+1+2_" + s1 + "_" + s2);
 
     // term feature
-    char firstletter = vt.get(begin).str.charAt(0);
-    char lastletter = vt.get(end - 1).str.charAt(vt.get(end - 1).str.length() - 1);
+    //char firstletter = sentence.get(begin).str.charAt(0); //jenia, was never used
+    //char lastletter = sentence.get(end - 1).str.charAt(sentence.get(end - 1).str.length() - 1); //jenia, was never used
+
     // if (begin != 0 && isupper(firstletter))
     // if (isupper(firstletter) && isupper(lastletter))
     // mes.features.add("IS_UPPER");

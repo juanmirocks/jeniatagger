@@ -138,7 +138,7 @@ public class NamedEntity {
 
     final int BUFLEN = 1000;
 
-    String s;
+    String s = "";
 
     // contextual feature
     String s_1, s_2, s1, s2;

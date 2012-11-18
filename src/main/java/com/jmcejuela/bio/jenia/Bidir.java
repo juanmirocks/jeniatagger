@@ -558,8 +558,11 @@ public class Bidir {
   }
 
   static Sentence bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
+    String trimmedLine = line.trim();
+    if (trimmedLine.isEmpty()) return new Sentence();
+
     final List<String> lt = (dont_tokenize) ?
-        Arrays.asList(line.trim().split(" ")) // jenia: see genia's README
+        Arrays.asList(trimmedLine.split(" ")) // jenia: see genia's README
         :
         tokenize(line);
 

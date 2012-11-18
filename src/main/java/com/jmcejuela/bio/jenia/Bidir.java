@@ -565,7 +565,7 @@ public class Bidir {
     if (trimmedLine.isEmpty()) return new Sentence();
 
     final List<String> lt = (dont_tokenize) ?
-        Arrays.asList(trimmedLine.split(" ")) // jenia: see genia's README
+        Arrays.asList(trimmedLine.split("\\s+")) // jenia: see genia's README
         :
         tokenize(line);
 

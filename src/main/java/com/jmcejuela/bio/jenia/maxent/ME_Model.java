@@ -52,7 +52,7 @@ public class ME_Model {
   int _nheldout;
   int _early_stopping_n;
   ArrayList<Double> _vhlogl;
-  private ME_Model _ref_modelp; // TODO jenia: was a pointer
+  private ME_Model _ref_modelp;
 
   public ME_Model() {
     _nheldout = 0;

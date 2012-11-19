@@ -51,8 +51,6 @@ public class Chunking {
   {
     ME_Sample sample = new ME_Sample();
 
-    sample.label = vt.get(pos).tag;
-
     String[] w = new String[5];
     String[] p = new String[5];
     String[] t = new String[5];

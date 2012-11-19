@@ -615,7 +615,7 @@ public class Bidir {
    * @param vs
    * @param vme
    */
-  void bidir_postagging(ArrayList<Sentence> vs,
+  private void bidir_postagging(ArrayList<Sentence> vs,
       // final multimap<String, String> tag_dictionary,
       final ArrayList<ME_Model> vme)
   {

@@ -1,6 +1,5 @@
 package com.jmcejuela.bio.jenia.common;
 
-import com.jmcejuela.bio.jenia.MorphDic;
 
 /**
  * From common.h

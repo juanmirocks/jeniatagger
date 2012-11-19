@@ -484,7 +484,7 @@ public class Bidir {
     hypotheses.add(hyp);
 
     for (int i = 0; i < n; i++) {
-      ArrayList<Hypothesis> newHypotheses = newArrayList(); // TODO check size
+      ArrayList<Hypothesis> newHypotheses = newArrayList();
       for (Hypothesis j : hypotheses) {
         generate_hypotheses(i, j, vme, newHypotheses);
       }

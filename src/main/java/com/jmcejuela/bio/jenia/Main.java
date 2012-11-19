@@ -72,7 +72,7 @@ public class Main {
 
     System.err.println("Loading dictionaries...");
 
-    MorphDic.init_morphdic();
+    MorphDic.init();
 
     ArrayList<ME_Model> vme = Util.newArrayList(16, ME_Model.CONSTRUCTOR);
     // cerr << "loading pos_models";

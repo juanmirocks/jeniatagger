@@ -27,7 +27,11 @@ public class MorphDic {
 
   private MorphDic() {}
 
-  static void Init() {
+  // static {
+  // init();
+  // }
+
+  static void init() {
     // cerr << "loading MorphDic...";
     nounex = LoadEx("/morphdic/noun.exc");
     verbex = LoadEx("/morphdic/verb.exc");
@@ -223,10 +227,6 @@ public class MorphDic {
     if (!ex.equals("")) return ex;
 
     return s;
-  }
-
-  static void init_morphdic() {
-    MorphDic.Init();
   }
 
   public static String base_form(final String s, final String pos) {

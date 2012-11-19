@@ -224,10 +224,10 @@ public class Chunking {
       ArrayList<Double> membp;
       ME_Model mep = null;
       int bits = 0;
-      if (TAG_WINDOW_SIZE >= 2 && !tag_left2.equals("")) bits += 8;
+      // if (TAG_WINDOW_SIZE >= 2 && !tag_left2.equals("")) bits += 8;, jenia TAG_WINDOW_SIZE is 1
       if (!tag_left1.isEmpty()) bits += 4;
       if (!tag_right1.isEmpty()) bits += 2;
-      if (TAG_WINDOW_SIZE >= 2 && !tag_right2.equals("")) bits += 1;
+      // if (TAG_WINDOW_SIZE >= 2 && !tag_right2.equals("")) bits += 1;, jenia TAG_WINDOW_SIZE is 1
       assert (bits >= 0 && bits < 16);
       mep = vme.get(bits);
       membp = mep.classify(mes);

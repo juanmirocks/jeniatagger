@@ -83,7 +83,7 @@ public class Main {
     // cerr << "done." << endl;
 
     // cerr << "loading chunk_models";
-    ArrayList<ME_Model> vme_chunking = Util.newArrayList(16, ME_Model.CONSTRUCTOR);
+    ArrayList<ME_Model> vme_chunking = Util.newArrayList(8, ME_Model.CONSTRUCTOR);
     for (int i = 0; i < 8; i += 2) {
       vme_chunking.get(i).load_from_file("/models_chunking/model.bidir." + i);
       // cerr << ".";

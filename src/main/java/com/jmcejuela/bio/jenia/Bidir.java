@@ -36,7 +36,7 @@ public class Bidir {
   static final boolean ONLY_VERTICAL_FEATURES = false;
 
   private static ME_Sample mesample(
-      final ArrayList<Token> vt,
+      final Sentence sentence,
       int i,
       final String pos_left2,
       final String pos_left1,
@@ -45,16 +45,15 @@ public class Bidir {
   {
     ME_Sample sample = new ME_Sample("?");
 
-    String str = vt.get(i).text;
+    String token = sentence.get(i).text;
 
-
-    sample.features.add("W0_" + str);
+    sample.features.add("W0_" + token);
     String prestr = "BOS";
-    if (i > 0) prestr = vt.get(i - 1).text;
+    if (i > 0) prestr = sentence.get(i - 1).text;
     // String prestr2 = "BOS2";
     // if (i > 1) prestr2 = normalize(vt[i-2].str);
     String poststr = "EOS";
-    if (i < vt.size() - 1) poststr = vt.get(i + 1).text;
+    if (i < sentence.size() - 1) poststr = sentence.get(i + 1).text;
     // String poststr2 = "EOS2";
     // if (i < (int)vt.size()-2) poststr2 = normalize(vt[i+2].str);
 
@@ -62,24 +61,24 @@ public class Bidir {
       sample.features.add("W-1_" + prestr);
       sample.features.add("W+1_" + poststr);
 
-      sample.features.add("W-10_" + prestr + "_" + str);
-      sample.features.add("W0+1_" + str + "_" + poststr);
+      sample.features.add("W-10_" + prestr + "_" + token);
+      sample.features.add("W0+1_" + token + "_" + poststr);
     }
 
     for (int j = 1; j <= 10; j++) {
-      if (str.length() >= j) {
+      if (token.length() >= j) {
         sample.features.add(
-            String.format("suf%d_%s", j, str.substring(str.length() - j)));
+            String.format("suf%d_%s", j, token.substring(token.length() - j)));
       }
-      if (str.length() >= j) {
+      if (token.length() >= j) {
         sample.features.add(
-            String.format("pre%d_%s", j, str.substring(0, j)));
+            String.format("pre%d_%s", j, token.substring(0, j)));
       }
     }
     // L
     if (!pos_left1.isEmpty()) {
       sample.features.add("P-1_" + pos_left1);
-      sample.features.add("P-1W0_" + pos_left1 + "_" + str);
+      sample.features.add("P-1W0_" + pos_left1 + "_" + token);
     }
     // L2
     if (!pos_left2.isEmpty()) {
@@ -88,7 +87,7 @@ public class Bidir {
     // R
     if (!pos_right1.isEmpty()) {
       sample.features.add("P+1_" + pos_right1);
-      sample.features.add("P+1W0_" + pos_right1 + "_" + str);
+      sample.features.add("P+1W0_" + pos_right1 + "_" + token);
     }
     // R2
     if (!pos_right2.isEmpty()) {
@@ -97,7 +96,7 @@ public class Bidir {
     // LR
     if (!pos_left1.isEmpty() && !pos_right1.isEmpty()) {
       sample.features.add("P-1+1_" + pos_left1 + "_" + pos_right1);
-      sample.features.add("P-1W0P+1_" + pos_left1 + "_" + str + "_" + pos_right1);
+      sample.features.add("P-1W0P+1_" + pos_left1 + "_" + token + "_" + pos_right1);
     }
     // LL
     if (!pos_left1.isEmpty() && !pos_left2.isEmpty()) {
@@ -125,28 +124,28 @@ public class Bidir {
       // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
 
-    for (int j = 0; j < str.length(); j++) {
-      if (isDigit(str.charAt(j))) {
+    for (int j = 0; j < token.length(); j++) {
+      if (isDigit(token.charAt(j))) {
         sample.features.add("CONTAIN_NUMBER");
         break;
       }
     }
-    for (int j = 0; j < str.length(); j++) {
-      if (isUpperCase(str.charAt(j))) {
+    for (int j = 0; j < token.length(); j++) {
+      if (isUpperCase(token.charAt(j))) {
         sample.features.add("CONTAIN_UPPER");
         break;
       }
     }
-    for (int j = 0; j < str.length(); j++) {
-      if (str.charAt(j) == '-') {
+    for (int j = 0; j < token.length(); j++) {
+      if (token.charAt(j) == '-') {
         sample.features.add("CONTAIN_HYPHEN");
         break;
       }
     }
 
     boolean allupper = true;
-    for (int j = 0; j < str.length(); j++) {
-      if (!isUpperCase(str.charAt(j))) {
+    for (int j = 0; j < token.length(); j++) {
+      if (!isUpperCase(token.charAt(j))) {
         allupper = false;
         break;
       }
@@ -243,7 +242,7 @@ public class Bidir {
     // return -sum;//TODO original had 2 return statements?
   }
 
-  int bidir_train(final ArrayList<Sentence> vs, int para) {
+  private int bidir_train(final ArrayList<Sentence> vs, int para) {
     // vme.clear();
     // vme.resize(16);
 
@@ -500,12 +499,12 @@ public class Bidir {
     // cout << endl;
   }
 
-  private static void decode_no_context(ArrayList<Token> vt, final ME_Model me_none) {
-    int n = vt.size();
+  private static void decode_no_context(Sentence sentence, final ME_Model me_none) {
+    int n = sentence.size();
     if (n == 0) return;
 
     for (int i = 0; i < n; i++) {
-      ME_Sample mes = mesample(vt, i, "", "", "", "");
+      ME_Sample mes = mesample(sentence, i, "", "", "", "");
       me_none.classify(mes);
       sentence.get(i).pos = mes.label;
     }

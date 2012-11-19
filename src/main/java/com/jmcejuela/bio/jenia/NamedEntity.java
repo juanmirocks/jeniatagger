@@ -99,10 +99,12 @@ public class NamedEntity {
       tmp += c;
     }
     /*
-     * if (tmp.equals("is")) tmp = "be"; if (tmp.equals("was")) tmp = "be"; if (tmp.equals("are")) tmp = "be"; if
-     * (tmp.equals("were")) tmp = "be"; if (tmp.equals("an")) tmp = "a"; if (tmp.equals("the")) tmp = "a";
+     * if (tmp.equals("is")) tmp = "be"; if (tmp.equals("was")) tmp = "be"; if (tmp.equals("are"))
+     * tmp = "be"; if (tmp.equals("were")) tmp = "be"; if (tmp.equals("an")) tmp = "a"; if
+     * (tmp.equals("the")) tmp = "a";
      */
-    // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't throw an exception
+    // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't
+    // throw an exception
     // TODO this also makes "s" the empty string. I guess this was not intended
     if (!tmp.isEmpty() && tmp.charAt(tmp.length() - 1) == 's') return tmp.substring(0, tmp.length() - 1);
     return tmp;
@@ -131,9 +133,7 @@ public class NamedEntity {
   }
 
   static ME_Sample mesample(final String label, final Sentence sentence, int begin, int end) {
-    ME_Sample mes = new ME_Sample();
-
-    mes.label = label;
+    ME_Sample mes = new ME_Sample(label);
 
     final int BUFLEN = 1000;
 
@@ -172,8 +172,9 @@ public class NamedEntity {
     mes.features.add("C+1+2_" + s1 + "_" + s2);
 
     // term feature
-    //char firstletter = sentence.get(begin).str.charAt(0); //jenia, was never used
-    //char lastletter = sentence.get(end - 1).str.charAt(sentence.get(end - 1).str.length() - 1); //jenia, was never used
+    // char firstletter = sentence.get(begin).str.charAt(0); //jenia, was never used
+    // char lastletter = sentence.get(end - 1).str.charAt(sentence.get(end - 1).str.length() - 1);
+    // //jenia, was never used
 
     // if (begin != 0 && isupper(firstletter))
     // if (isupper(firstletter) && isupper(lastletter))
@@ -393,7 +394,8 @@ public class NamedEntity {
     // for (int j = 0; j < s.length(); j++) cout << j << ":" << s.get(j).str << " ";
     // cout << endl;
     for (Annotation j : la) {
-      // cout << j.label << " begin = " << j.begin << " end = " << j.end << " prob = " << j.prob << endl;
+      // cout << j.label << " begin = " << j.begin << " end = " << j.end << " prob = " << j.prob <<
+      // endl;
       boolean override = true;
       for (int l = j.begin; l < j.end; l++) {
         if (label_p.get(l) >= j.prob) {

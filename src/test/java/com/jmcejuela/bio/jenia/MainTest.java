@@ -1,7 +1,6 @@
 package com.jmcejuela.bio.jenia;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -19,7 +18,7 @@ import com.jmcejuela.bio.jenia.util.Util;
 public class MainTest {
 
   @Test
-  public void testNothingCrashes() throws IOException, InterruptedException {
+  public void testSameAsOriginalOutput() throws IOException, InterruptedException {
     System.setIn(Util.resourceStream("/genia-nt.in"));
     File tmpOut = File.createTempFile("test-genia-nt", ".out");
     System.out.println("tmp out file: " + tmpOut.getAbsolutePath());
@@ -45,5 +44,11 @@ public class MainTest {
 
     expectOutput.close();
     actualOutput.close();
+  }
+
+  @Test
+  private void testUnicode() {
+    // TODO Known to have different output with unicode characters. The original geniatagger
+    // actually does not handle them well
   }
 }

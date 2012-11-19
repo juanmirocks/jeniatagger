@@ -338,18 +338,18 @@ public class Chunking {
     }
   }
 
-  static void bidir_chunking_decode_beam(Sentence sentence, final ArrayList<ME_Model> vme) {
+  static void bidir_chunking_decode_beam(Sentence sentence, final ArrayList<ME_Model> chunkingModels) {
     int n = sentence.size();
     if (n == 0) return;
 
     ArrayList<Hypothesis> hypotheses = newArrayList();
-    Hypothesis hyp = new Hypothesis(sentence, vme);
+    Hypothesis hyp = new Hypothesis(sentence, chunkingModels);
     hypotheses.add(hyp);
 
     for (int i = 0; i < n; i++) {
       ArrayList<Hypothesis> newHypotheses = newArrayList();
       for (Hypothesis j : hypotheses) {
-        generate_hypotheses(i, j, vme, newHypotheses);
+        generate_hypotheses(i, j, chunkingModels, newHypotheses);
       }
       Collections.sort(newHypotheses, Hypothesis.Order);
       while (newHypotheses.size() > BEAM_NUM) {
@@ -362,7 +362,7 @@ public class Chunking {
       hyp = last(hypotheses);
     } else {
       // cerr << "warning: no hypothesis found" << endl;
-      hyp = new Hypothesis(sentence, vme);
+      hyp = new Hypothesis(sentence, chunkingModels);
     }
 
     ArrayList<String> tags = newArrayList();

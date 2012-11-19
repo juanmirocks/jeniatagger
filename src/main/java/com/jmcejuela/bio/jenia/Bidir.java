@@ -470,23 +470,23 @@ public class Bidir {
    * tag_dictionary discarded
    *
    * @param sentence
-   * @param vme
+   * @param posModels
    */
   static void bidir_decode_beam(Sentence sentence,
       // final multimap<String, String> tag_dictionary,
-      final ArrayList<ME_Model> vme)
+      final ArrayList<ME_Model> posModels)
   {
     int n = sentence.size();
     if (n == 0) return;
 
     ArrayList<Hypothesis> hypotheses = newArrayList();
-    Hypothesis hyp = new Hypothesis(sentence, vme);
+    Hypothesis hyp = new Hypothesis(sentence, posModels);
     hypotheses.add(hyp);
 
     for (int i = 0; i < n; i++) {
       ArrayList<Hypothesis> newHypotheses = newArrayList();
       for (Hypothesis j : hypotheses) {
-        generate_hypotheses(i, j, vme, newHypotheses);
+        generate_hypotheses(i, j, posModels, newHypotheses);
       }
       Collections.sort(newHypotheses, Hypothesis.Order);
       while (newHypotheses.size() > BEAM_NUM) {

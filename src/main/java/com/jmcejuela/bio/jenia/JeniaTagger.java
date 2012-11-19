@@ -41,6 +41,7 @@ public class JeniaTagger {
 
     Bidir.bidir_decode_beam(sentence, posModels);
     Chunking.bidir_chunking_decode_beam(sentence, chunkingModels);
+    setBaseForm(sentence);
     NamedEntity.netagging(sentence);
 
     return sentence;
@@ -60,4 +61,9 @@ public class JeniaTagger {
     return sentence;
   }
 
+  private static void setBaseForm(Sentence sentence) {
+    for (Token t : sentence) {
+      t.baseForm = MorphDic.base_form(t.text, t.pos);
+    }
+  }
 }

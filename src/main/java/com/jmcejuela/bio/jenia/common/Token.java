@@ -7,20 +7,23 @@ import com.jmcejuela.bio.jenia.MorphDic;
  */
 public class Token {
   public final String text;
+  public String baseForm;
   public String pos;
   public String chunk;
   public String ne;
 
   public Token(String text) {
     this.text = text;
-    this.pos = "";
     // Must set to empty String to simulate c++ string default constructor behavior
+    this.baseForm = "";
+    this.pos = "";
     this.chunk = "";
     this.ne = "";
   }
 
   public Token copy() {
     Token ret = new Token(this.text);
+    ret.baseForm = this.baseForm;
     ret.pos = this.pos;
     ret.chunk = this.chunk;
     ret.ne = this.ne;
@@ -31,8 +34,6 @@ public class Token {
   public String toString() {
     StringBuilder s = new StringBuilder();
 
-    // String postag = prd;
-
     // s = ParenConverter.Pos2Ptb(s);
     // p = ParenConverter.Pos2Ptb(p);
     /*
@@ -42,7 +43,7 @@ public class Token {
     s.append(text);
     s.append("\t");
 
-    s.append(MorphDic.base_form(text, pos));
+    s.append(baseForm);
     s.append("\t");
 
     s.append(pos);

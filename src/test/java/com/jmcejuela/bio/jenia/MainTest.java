@@ -41,7 +41,7 @@ public class MainTest {
 
     // "Both file must have the exact number of lines",
     assertEquals(null, expectLine);
-    assertEquals(null, actualLine);
+    assertEquals(null, actualOutput.readLine()); // note, the last line of actual was not read yet
 
     expectOutput.close();
     actualOutput.close();

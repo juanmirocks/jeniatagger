@@ -253,7 +253,7 @@ public class Bidir {
     for (int t = 0; t < 16; t++) {
       if (t != 15 && t != 0) continue;
       // for (int t = 15; t >= 0; t--) {
-      ArrayList<ME_Sample> train = newArrayList(); // TODO check size
+      ArrayList<ME_Sample> train = newArrayList();
 
       if (para != -1 && t % 4 != para) continue;
       // if (t % 2 == 1) continue;

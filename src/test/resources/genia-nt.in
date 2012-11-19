@@ -77,12 +77,8 @@ _
 8
 ;
 `
-Unicode friends
-ñ
-ñ á Ó ö à ˆv <> ß ¿ ©¿•
-ñáÓöàˆv<>ß¿©¿•
 
-(btw) ( btw ) Blank lines are not parsed .
+(btw) ( btw ) Blank lines are not parsed and left as a blank line .
 
 
 

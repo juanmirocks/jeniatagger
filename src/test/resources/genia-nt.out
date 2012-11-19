@@ -206,24 +206,6 @@ _	_	LS	B-LST	O
 
 `	`	``	O	O
 
-Unicode	Unicode	NNP	B-NP	O
-friends	friend	VBZ	B-VP	O
-
-ñ	ñ	LS	B-LST	O
-
-ñ	ñ	LS	B-LST	O
-á	á	:	O	B-cell_type
-Ó	Ó	SYM	B-NP	I-cell_type
-ö	ö	NN	I-NP	I-cell_type
-à	à	SYM	B-NP	I-cell_type
-ˆv	ˆv	NN	I-NP	I-cell_type
-<>	<>	SYM	I-NP	I-cell_type
-ß	ß	NN	I-NP	I-cell_type
-¿	¿	NN	I-NP	I-cell_type
-©¿•	©¿•	.	O	I-cell_type
-
-ñáÓöàˆv<>ß¿©¿•	ñáÓöàˆv<>ß¿©¿•	LS	B-LST	O
-
 
 (btw)	(btw)	LS	B-LST	B-cell_line
 (	(	(	O	I-cell_line
@@ -234,6 +216,12 @@ lines	line	NNS	I-NP	I-cell_line
 are	be	VBP	B-VP	O
 not	not	RB	I-VP	O
 parsed	parse	VBN	I-VP	O
+and	and	CC	I-VP	O
+left	leave	VBN	I-VP	O
+as	as	IN	B-PP	O
+a	a	DT	B-NP	O
+blank	blank	JJ	I-NP	O
+line	line	NN	I-NP	O
 .	.	.	O	O
 
 

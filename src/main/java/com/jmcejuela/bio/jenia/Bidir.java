@@ -43,11 +43,10 @@ public class Bidir {
       final String pos_right1,
       final String pos_right2)
   {
-    ME_Sample sample = new ME_Sample();
+    ME_Sample sample = new ME_Sample("?");
 
     String str = vt.get(i).text;
 
-    sample.label = vt.get(i).pos;
 
     sample.features.add("W0_" + str);
     String prestr = "BOS";
@@ -315,7 +314,7 @@ public class Bidir {
       });
       order = newArrayList(n, 0);
       for (int i = 0; i < n; i++) {
-        this.sentence.get(i).prd = "";
+        this.sentence.get(i).pos = "";
         Update(i, vme);
       }
     }
@@ -378,12 +377,12 @@ public class Bidir {
         final ArrayList<ME_Model> vme)
     {
       String pos_left1 = "BOS", pos_left2 = "BOS2";
-      if (j >= 1) pos_left1 = sentence.get(j - 1).prd; // maybe bug??
+      if (j >= 1) pos_left1 = sentence.get(j - 1).pos; // maybe bug??
       // if (j >= 1 && !vt[j-1].isEmpty()) pos_left1 = vt[j-1].prd; // this should be correct
-      if (j >= 2) pos_left2 = sentence.get(j - 2).prd;
+      if (j >= 2) pos_left2 = sentence.get(j - 2).pos;
       String pos_right1 = "EOS", pos_right2 = "EOS2";
-      if (j <= sentence.size() - 2) pos_right1 = sentence.get(j + 1).prd;
-      if (j <= sentence.size() - 3) pos_right2 = sentence.get(j + 2).prd;
+      if (j <= sentence.size() - 2) pos_right1 = sentence.get(j + 1).pos;
+      if (j <= sentence.size() - 3) pos_right2 = sentence.get(j + 2).pos;
 
       ME_Sample mes = mesample(sentence, j, pos_left2, pos_left1, pos_right1, pos_right2);
 
@@ -437,7 +436,7 @@ public class Bidir {
     String pred = "";
     double pred_prob = 0;
     for (int j = 0; j < n; j++) {
-      if (!h.sentence.get(j).prd.isEmpty()) continue;
+      if (!h.sentence.get(j).pos.isEmpty()) continue;
       double ent = h.entropies.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
@@ -451,14 +450,14 @@ public class Bidir {
     for (Tuple2<String, Double> k : h.vvp.get(pred_position)) {
       Hypothesis newh = h.copy();
 
-      newh.sentence.get(pred_position).prd = k._1;
+      newh.sentence.get(pred_position).pos = k._1;
       newh.order.set(pred_position, order + 1);
       newh.prob = h.prob * k._2;
 
       // update the neighboring predictions
       for (int j = pred_position - UPDATE_WINDOW_SIZE; j <= pred_position + UPDATE_WINDOW_SIZE; j++) {
         if (j < 0 || j > n - 1) continue;
-        if (newh.sentence.get(j).prd.isEmpty()) newh.Update(j, vme);
+        if (newh.sentence.get(j).pos.isEmpty()) newh.Update(j, vme);
       }
       vh.add(newh);
     }
@@ -496,7 +495,7 @@ public class Bidir {
     hyp = last(hypotheses);
     for (int k = 0; k < n; k++) {
       // cout << h.vt[k].str << "/" << h.vt[k].prd << "/" << h.order[k] << " ";
-      sentence.get(k).prd = hyp.sentence.get(k).prd;
+      sentence.get(k).pos = hyp.sentence.get(k).pos;
     }
     // cout << endl;
   }
@@ -508,7 +507,7 @@ public class Bidir {
     for (int i = 0; i < n; i++) {
       ME_Sample mes = mesample(vt, i, "", "", "", "");
       me_none.classify(mes);
-      vt.get(i).prd = mes.label;
+      sentence.get(i).pos = mes.label;
     }
 
     for (int k = 0; k < n; k++) {
@@ -568,9 +567,6 @@ public class Bidir {
     // jenia: final multimap<String, String> dummy;
     // bidir_decode_search(vt, dummy, vme);
     bidir_decode_beam(sentence, vme);
-    for (int i = 0; i < sentence.size(); i++) {
-      sentence.get(i).pos = sentence.get(i).prd;
-    }
 
     Chunking.bidir_chunking_decode_beam(sentence, chunking_vme);
 
@@ -588,7 +584,7 @@ public class Bidir {
     Sentence sentence = new Sentence(lt.size());
     for (String slt : lt) {
       // s = ParenConverter.Ptb2Pos(s);
-      sentence.add(new Token(slt, "?"));
+      sentence.add(new Token(slt));
     }
     return sentence;
   }

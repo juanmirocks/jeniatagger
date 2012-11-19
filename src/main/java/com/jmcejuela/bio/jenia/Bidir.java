@@ -479,7 +479,7 @@ public class Bidir {
     int n = sentence.size();
     if (n == 0) return;
 
-    ArrayList<Hypothesis> hypotheses = newArrayList(); // TODO check size
+    ArrayList<Hypothesis> hypotheses = newArrayList();
     Hypothesis hyp = new Hypothesis(sentence, vme);
     hypotheses.add(hyp);
 

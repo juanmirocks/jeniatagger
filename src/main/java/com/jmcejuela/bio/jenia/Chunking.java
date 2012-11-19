@@ -342,33 +342,33 @@ public class Chunking {
     int n = sentence.size();
     if (n == 0) return;
 
-    ArrayList<Hypothesis> vh = newArrayList(); // TODO check size
-    Hypothesis h = new Hypothesis(sentence, vme);
-    vh.add(h);
+    ArrayList<Hypothesis> hypotheses = newArrayList();
+    Hypothesis hyp = new Hypothesis(sentence, vme);
+    hypotheses.add(hyp);
 
     for (int i = 0; i < n; i++) {
-      ArrayList<Hypothesis> newvh = newArrayList(); // TODO check size
-      for (Hypothesis j : vh) {
-        generate_hypotheses(i, j, vme, newvh);
+      ArrayList<Hypothesis> newHypotheses = newArrayList(); // TODO check size
+      for (Hypothesis j : hypotheses) {
+        generate_hypotheses(i, j, vme, newHypotheses);
       }
-      Collections.sort(newvh, Hypothesis.Order);
-      while (newvh.size() > BEAM_NUM) {
-        newvh.remove(0);
+      Collections.sort(newHypotheses, Hypothesis.Order);
+      while (newHypotheses.size() > BEAM_NUM) {
+        newHypotheses.remove(0);
       }
-      vh = newvh;
+      hypotheses = newHypotheses;
     }
 
-    if (!vh.isEmpty()) {
-      h = last(vh);
+    if (!hypotheses.isEmpty()) {
+      hyp = last(hypotheses);
     } else {
       // cerr << "warning: no hypothesis found" << endl;
-      h = new Hypothesis(sentence, vme);
+      hyp = new Hypothesis(sentence, vme);
     }
 
-    ArrayList<String> tags = newArrayList(); // TODO check size
+    ArrayList<String> tags = newArrayList();
     for (int k = 0; k < n; k++) {
       // cout << h.vt.get(k].str << "/" << h.vt[k).cprd << "/" << h.order[k] << " ";
-      tags.add(h.sentence.get(k).chunk);
+      tags.add(hyp.sentence.get(k).chunk);
     }
 
     convert_startend_to_iob2_sub(tags);

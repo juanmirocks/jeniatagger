@@ -16,11 +16,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.jmcejuela.bio.jenia.common.Sentence;
-import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
-import com.jmcejuela.bio.jenia.util.CppMap;
 import com.jmcejuela.bio.jenia.util.Constructor;
+import com.jmcejuela.bio.jenia.util.CppMap;
 
 /**
  * From namedentity.cpp
@@ -131,40 +130,40 @@ public class NamedEntity {
     return tmp;
   }
 
-  static ME_Sample mesample(final String label, final ArrayList<Token> vt, int begin, int end) {
+  static ME_Sample mesample(final String label, final Sentence sentence, int begin, int end) {
     ME_Sample mes = new ME_Sample();
 
     mes.label = label;
 
     final int BUFLEN = 1000;
 
-    String s;
+    String s = "";
 
     // contextual feature
     String s_1, s_2, s1, s2;
     // if (begin >= 1) s_1 = vt.get(begin-1).str;
     if (begin >= 1)
-      s_1 = normalize(vt.get(begin - 1).str);
+      s_1 = normalize(sentence.get(begin - 1).str);
     else
       s_1 = "BOS";
     mes.features.add(String.format("C-1_%s", s_1));
 
     // if (end < vt.length()) s1 = vt.get(end).str;
-    if (end < vt.size())
-      s1 = normalize(vt.get(end).str);
+    if (end < sentence.size())
+      s1 = normalize(sentence.get(end).str);
     else
       s1 = "EOS";
     mes.features.add(String.format("C+1_%s", s1));
 
     // if (begin >= 2) s_2 = vt.get(begin-2).str;
     if (begin >= 2)
-      s_2 = normalize(vt.get(begin - 2).str);
+      s_2 = normalize(sentence.get(begin - 2).str);
     else
       s_2 = "BOS";
 
     // if (end < vt.length()-1) s2 = vt.get(end+1).str;
-    if (end < vt.size() - 1)
-      s2 = normalize(vt.get(end + 1).str);
+    if (end < sentence.size() - 1)
+      s2 = normalize(sentence.get(end + 1).str);
     else
       s2 = "EOS";
 
@@ -173,8 +172,9 @@ public class NamedEntity {
     mes.features.add("C+1+2_" + s1 + "_" + s2);
 
     // term feature
-    char firstletter = vt.get(begin).str.charAt(0);
-    char lastletter = vt.get(end - 1).str.charAt(vt.get(end - 1).str.length() - 1);
+    //char firstletter = sentence.get(begin).str.charAt(0); //jenia, was never used
+    //char lastletter = sentence.get(end - 1).str.charAt(sentence.get(end - 1).str.length() - 1); //jenia, was never used
+
     // if (begin != 0 && isupper(firstletter))
     // if (isupper(firstletter) && isupper(lastletter))
     // mes.features.add("IS_UPPER");
@@ -183,16 +183,16 @@ public class NamedEntity {
     // mes.features.add("EXACT_" + vt.get(begin).str);
     // }
 
-    String tb = normalize(vt.get(begin).str);
+    String tb = normalize(sentence.get(begin).str);
     mes.features.add(String.format("TB_%s", tb));
 
     for (int i = begin + 1; i < end - 1; i++) {
       // for (int i = begin; i < end; i++) {
-      s = normalize(vt.get(i).str);
+      s = normalize(sentence.get(i).str);
       mes.features.add(String.format("TM_%s", s));
     }
 
-    String te = normalize(vt.get(end - 1).str);
+    String te = normalize(sentence.get(end - 1).str);
     mes.features.add(String.format("TE_%s", te));
 
     // combination
@@ -209,9 +209,9 @@ public class NamedEntity {
     String whole = "";
     boolean contain_comma = false;
     for (int i = begin; i < end; i++) {
-      if (s.length() + vt.get(i).str.length() > BUFLEN - 100) break;
-      s += normalize(vt.get(i).str);
-      whole += vt.get(i).str;
+      if (s.length() + sentence.get(i).str.length() > BUFLEN - 100) break;
+      s += normalize(sentence.get(i).str);
+      whole += sentence.get(i).str;
     }
 
     // if (label > 0) mes.features.add(buf);
@@ -240,12 +240,12 @@ public class NamedEntity {
     String p_2 = "BOS", p_1 = "BOS";
     String pb, pe;
     String p1 = "EOS", p2 = "EOS";
-    if (begin >= 2) p_2 = vt.get(begin - 2).pos;
-    if (begin >= 1) p_1 = vt.get(begin - 1).pos;
-    pb = vt.get(begin).pos;
-    pe = vt.get(end - 1).pos;
-    if (end < vt.size()) p1 = vt.get(end).pos;
-    if (end < vt.size() - 1) p2 = vt.get(end + 1).pos;
+    if (begin >= 2) p_2 = sentence.get(begin - 2).pos;
+    if (begin >= 1) p_1 = sentence.get(begin - 1).pos;
+    pb = sentence.get(begin).pos;
+    pe = sentence.get(end - 1).pos;
+    if (end < sentence.size()) p1 = sentence.get(end).pos;
+    if (end < sentence.size() - 1) p2 = sentence.get(end + 1).pos;
 
     mes.features.add("PoS-1_" + p_1);
     mes.features.add("PoS-B_" + pb);
@@ -357,7 +357,7 @@ public class NamedEntity {
     ArrayList<Double> label_p = newArrayList(s.size(), 0.0);
     for (int j = 0; j < s.size(); j++) {
       s.get(j).ne = "O";
-      // label_p.set(j, 0);
+      // jenia, done in init already; label_p.set(j, 0);
     }
 
     List<Annotation> la = newArrayList(); // TODO check size
@@ -369,10 +369,9 @@ public class NamedEntity {
           continue;
         }
         ME_Sample nbs = mesample("?", s, j, k);
-        ArrayList<Double> membp = newArrayList(me.num_classes());
         // int label = nb.classify(nbs, NULL, &membp);
         // me.classify(nbs, &membp);
-        membp = me.classify(nbs);
+        ArrayList<Double> membp = me.classify(nbs);
         int label = 0;
         minusEq(membp, other_class, BIAS_FOR_RECALL);
         for (int l = 0; l < me.num_classes(); l++) {
@@ -407,7 +406,7 @@ public class NamedEntity {
           while (s.get(lbegin).ne.charAt(0) != 'B')
             lbegin--;
           int lend = l;
-          while (s.get(lend).ne.charAt(0) != 'O' && lend < s.size())
+          while (lend < s.size() && s.get(lend).ne.charAt(0) != 'O')
             lend++;
           for (int t = lbegin; t < lend; t++) {
             s.get(t).ne = "O";

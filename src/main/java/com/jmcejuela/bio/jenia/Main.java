@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import com.jmcejuela.bio.jenia.common.Sentence;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.util.Util;
 
@@ -25,9 +26,9 @@ public class Main {
   public static String help() {
     StringBuilder s = new StringBuilder();
 
-    line(s, "Usage: geniatagger [OPTION]... [FILE]...");
-    line(s, "Analyze English sentences and print the base forms, part-of-speech tags, ");
-    line(s, "chunk tags, and named entity tags.");
+    line(s, "Usage: jeniatagger [OPTION]... [FILE]...");
+    line(s, "Analyze English sentences from the biomedicine domain and print ");
+    line(s, "the base forms, part-of-speech tags, chunk tags, and named entity tags.");
     line(s, "");
     line(s, "Options:");
     line(s, "  -nt          don't perform tokenization.");
@@ -49,7 +50,7 @@ public class Main {
   public static void main(String[] args) throws IOException {
     boolean dont_tokenize = false;
     String ifilename = null;
-    String ofilename;
+    // String ofilename;
     for (String arg : args) {
       if (arg.equals("-nt")) {
         dont_tokenize = true;
@@ -89,22 +90,21 @@ public class Main {
 
     NamedEntity.load_ne_models();
 
-    // TODO must delete, as the output is buffer for results
-    System.out.println("All models loaded");
+    System.err.println("All models loaded, ready to analyze your sentences");
 
     String line;
     int n = 1;
     while ((line = in.readLine()) != null) {
       if (line.length() > 1024) {
-        throw new IllegalArgumentException("warning: the sentence seems to be too long at line " + n +
+        System.err.println("warning: the sentence seems to be too long at line " + n +
             " (please note that the input should be one-sentence-per-line).");
       }
-      String postagged = Bidir.bidir_postag(line, vme, vme_chunking, dont_tokenize);
-      System.out.println(postagged);
-      // cout << postagged << endl; //TODO
+      Sentence analysis = Bidir.bidir_postag(line, vme, vme_chunking, dont_tokenize);
+      System.out.println(analysis);
       n++;
     }
 
     in.close();
+    System.out.flush();
   }
 }

@@ -557,9 +557,15 @@ public class Bidir {
     }
   }
 
-  static String bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
+  static Sentence bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
+    if (line.matches(".*[\n\r\u0085\u2028\u2029].*"))
+      throw new IllegalArgumentException("The input line cannot have any line terminator");
+
+    String trimmedLine = line.trim();
+    if (trimmedLine.isEmpty()) return new Sentence();
+
     final List<String> lt = (dont_tokenize) ?
-        Arrays.asList(line.trim().split(" ")) // jenia: see genia's README
+        Arrays.asList(trimmedLine.split("\\s+")) // jenia: see genia's README
         :
         tokenize(line);
 
@@ -580,22 +586,7 @@ public class Bidir {
 
     NamedEntity.netagging(sentence);
 
-    String tmp = "";
-    for (int i = 0; i < sentence.size(); i++) {
-      String token = sentence.get(i).str;
-      String postag = sentence.get(i).prd;
-      // s = ParenConverter.Pos2Ptb(s);
-      // p = ParenConverter.Pos2Ptb(p);
-      /*
-       * if (i == 0) tmp += s + "/" + p; else tmp += " " + s + "/" + p;
-       */
-      tmp += token + "\t";
-      tmp += MorphDic.base_form(token, postag) + "\t";
-      tmp += postag + "\t";
-      tmp += sentence.get(i).cprd + "\t";
-      tmp += sentence.get(i).ne + "\n";
-    }
-    return tmp;
+    return sentence;
   }
 
   // int push_stop_watch() {

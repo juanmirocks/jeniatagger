@@ -436,8 +436,8 @@ public class Bidir {
     int n = h.sentence.size();
     int pred_position = -1;
     double min_ent = 999999;
-    String pred = "";
-    double pred_prob = 0;
+    // String pred = ""; //jenia
+    // double pred_prob = 0; //jenia
     for (int j = 0; j < n; j++) {
       if (!h.sentence.get(j).pos.isEmpty()) continue;
       double ent = h.entropies.get(j);

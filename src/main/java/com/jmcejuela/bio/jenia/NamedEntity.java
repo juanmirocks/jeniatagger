@@ -26,23 +26,24 @@ import com.jmcejuela.bio.jenia.util.CppMap;
  */
 public class NamedEntity {
   private static ME_Model ne_model;
-  static Map<String, WordInfo> word_info;
+  private static Map<String, WordInfo> word_info;
 
   // private static Map<String, WordInfo> pos_info;
 
   // private final int max_term_length = 0;
   static final double BIAS_FOR_RECALL = 0.6;
 
-  static void init() {
-    String model_file = "/models_named_entity/model001";
-    String wordinfo_file = "/models_named_entity/word_info";
+  private NamedEntity() {};
 
-    // cerr << "loading named_entity_models.";
+  static {
+    init();
+  }
+
+  static void init() {
     ne_model = new ME_Model();
-    ne_model.load_from_file(model_file);
-    // cerr << ".";
-    word_info = load_word_info(wordinfo_file);
-    // cerr << "done." << endl;
+    ne_model.load_from_file("/models_named_entity/model001");
+
+    word_info = load_word_info("/models_named_entity/word_info");
   }
 
   static class WordInfo {

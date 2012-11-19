@@ -75,7 +75,7 @@ public class Main {
         System.err.println("warning: the sentence seems to be too long at line " + n +
             " (please note that the input should be one-sentence-per-line).");
       }
-      Sentence analysis = JeniaTagger.analyze(line, dont_tokenize);
+      Sentence analysis = JeniaTagger.analyzeAll(line, dont_tokenize);
       System.out.println(analysis);
       n++;
     }

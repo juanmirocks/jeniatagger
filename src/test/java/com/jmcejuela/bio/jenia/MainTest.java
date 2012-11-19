@@ -18,10 +18,10 @@ import com.jmcejuela.bio.jenia.util.Util;
 public class MainTest {
 
   @Test
-  public void testSameAsOriginalOutput() throws IOException, InterruptedException {
+  public void testSameAsOriginalOutputWithNT() throws IOException {
     System.setIn(Util.resourceStream("/genia-nt.in"));
     File tmpOut = File.createTempFile("test-genia-nt", ".out");
-    System.out.println("tmp out file: " + tmpOut.getAbsolutePath());
+    System.out.println("genia -nt test: tmp out file: " + tmpOut.getAbsolutePath());
     System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(tmpOut))));
 
     Main.main(new String[] { "-nt" });
@@ -47,8 +47,15 @@ public class MainTest {
   }
 
   @Test
-  private void testUnicode() {
+  public void testUnicodeDoesNotCrash() throws IOException {
     // TODO Known to have different output with unicode characters. The original geniatagger
     // actually does not handle them well
+
+    // System.setIn(Util.resourceStream("/genia-unicode.in"));
+    // File tmpOut = File.createTempFile("test-genia-unicode", ".out");
+    // System.out.println("genia unicode test: tmp out file: " + tmpOut.getAbsolutePath());
+    // System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(tmpOut))));
+    //
+    // Main.main(new String[] { "-nt" });
   }
 }

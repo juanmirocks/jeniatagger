@@ -13,34 +13,6 @@ public class Util {
         (resource.startsWith("/") ? resource : "/" + resource));
   }
 
-  /**
-   * c++ std::string::substr equivalent.
-   *
-   * Unlike java, n doesn't mark the end index, but the length of the string to return, starting from pos.
-   *
-   * @param s
-   * @param pos
-   * @param n
-   * @return
-   */
-  public static String substr(String s, int pos, int n) {
-    return s.substring(pos, pos + n);
-  }
-
-  /**
-   * c++ std::string::substr equivalent.
-   *
-   * This is the very same as java's {@link String#substring(int)}.
-   *
-   * It is give for completeness with {@link #substr(String, int, int)}
-   *
-   * @param s
-   * @param pos
-   * @return
-   */
-  public static String substr(String s, int pos) {
-    return s.substring(pos);
-  }
 
   public static <T> ArrayList<T> newArrayList(int size) {
     return new ArrayList<T>(size);
@@ -95,6 +67,7 @@ public class Util {
     }
   }
 
+  // TODO could create a CppVector for the following operations
   public static <T> T removeFirst(ArrayList<T> vector) {
     return vector.remove(0);
   }
@@ -149,15 +122,18 @@ public class Util {
    * @return
    */
   public static final List<String> tokenize(final String s1) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    throw new UnsupportedOperationException(
+        "genia's internal tokenizer not implemented yet. Use your own tokenizer and add the -nt option to the caller");
   }
 
   /**
    * From tokenize.cpp
    *
-   * Original c++ signature: replace(String & s, const String & s1, const String & s2, const char skip)
+   * Original c++ signature:
+   * 
+   * replace(String & s, const String & s1, const String & s2, const char skip)
    *
-   * Replace by {@link String#replace(char, char)} I believe the skip flag is not necessary
+   * Replaced by {@link String#replace(char, char)} I believe the skip flag is not necessary
    *
    * @param s
    * @param s1

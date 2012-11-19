@@ -40,7 +40,7 @@ public class Main {
   }
 
   public static String version() {
-    return "0.0.1";
+    return "0.1";
   }
 
   /**
@@ -70,6 +70,8 @@ public class Main {
 
     // ----------------------------------------------------------------------------
 
+    System.err.println("Loading dictionaries...");
+
     MorphDic.init_morphdic();
 
     ArrayList<ME_Model> vme = Util.newArrayList(16, ME_Model.CONSTRUCTOR);
@@ -90,7 +92,9 @@ public class Main {
 
     NamedEntity.load_ne_models();
 
-    System.err.println("All models loaded, ready to analyze your sentences");
+    // ----------------------------------------------------------------------------
+
+    System.err.println("Ready. Feed me with sentences");
 
     String line;
     int n = 1;

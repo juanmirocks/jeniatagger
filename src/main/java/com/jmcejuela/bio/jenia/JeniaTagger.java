@@ -48,15 +48,15 @@ public class JeniaTagger {
   }
 
   private static Sentence createSentence(final String line, boolean dont_tokenize, String trimmedLine) {
-    final List<String> lt = (dont_tokenize) ?
+    final List<String> tokens = (dont_tokenize) ?
         Arrays.asList(trimmedLine.split("\\s+")) // jenia: see genia's README
         :
         tokenize(line);
 
-    Sentence sentence = new Sentence(lt.size());
-    for (String slt : lt) {
+    Sentence sentence = new Sentence(tokens.size());
+    for (String tokenText : tokens) {
       // s = ParenConverter.Ptb2Pos(s);
-      sentence.add(new Token(slt));
+      sentence.add(new Token(tokenText));
     }
     return sentence;
   }

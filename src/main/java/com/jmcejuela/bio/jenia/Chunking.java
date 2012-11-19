@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.jmcejuela.bio.jenia.Bidir.Hypothesis;
 import com.jmcejuela.bio.jenia.common.Sentence;
 import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
@@ -51,21 +50,19 @@ public class Chunking {
   {
     ME_Sample sample = new ME_Sample();
 
-    sample.label = vt.get(pos).tag;
-
     String[] w = new String[5];
     String[] p = new String[5];
     String[] t = new String[5];
 
     w[0] = "BOS2";
-    if (pos > 1) w[0] = vt.get(pos - 2).str;
+    if (pos > 1) w[0] = vt.get(pos - 2).text;
     w[1] = "BOS";
-    if (pos > 0) w[1] = vt.get(pos - 1).str;
-    w[2] = vt.get(pos).str;
+    if (pos > 0) w[1] = vt.get(pos - 1).text;
+    w[2] = vt.get(pos).text;
     w[3] = "EOS";
-    if (pos < vt.size() - 1) w[3] = vt.get(pos + 1).str;
+    if (pos < vt.size() - 1) w[3] = vt.get(pos + 1).text;
     w[4] = "EOS2";
-    if (pos < vt.size() - 2) w[4] = vt.get(pos + 2).str;
+    if (pos < vt.size() - 2) w[4] = vt.get(pos + 2).text;
 
     p[0] = "BOS2";
     if (pos > 1) p[0] = vt.get(pos - 2).pos;
@@ -166,7 +163,7 @@ public class Chunking {
       order = newArrayList(n, 0);
       // model.resize(n);
       for (int i = 0; i < n; i++) {
-        this.sentence.get(i).cprd = "";
+        this.sentence.get(i).chunk = "";
         Update(i, vme);
       }
     }
@@ -216,21 +213,21 @@ public class Chunking {
 
     void Update(final int j, final ArrayList<ME_Model> vme) {
       String tag_left1 = "BOS", tag_left2 = "BOS2";
-      if (j >= 1) tag_left1 = sentence.get(j - 1).cprd; // maybe bug??
+      if (j >= 1) tag_left1 = sentence.get(j - 1).chunk; // maybe bug??
       // if (j >= 1 && !vt.get(j-1].isEmpty()) pos_left1 = vt[j-1).cprd; // this should be correct
-      if (j >= 2) tag_left2 = sentence.get(j - 2).cprd;
+      if (j >= 2) tag_left2 = sentence.get(j - 2).chunk;
       String tag_right1 = "EOS", tag_right2 = "EOS2";
-      if (j <= sentence.size() - 2) tag_right1 = sentence.get(j + 1).cprd;
-      if (j <= sentence.size() - 3) tag_right2 = sentence.get(j + 2).cprd;
+      if (j <= sentence.size() - 2) tag_right1 = sentence.get(j + 1).chunk;
+      if (j <= sentence.size() - 3) tag_right2 = sentence.get(j + 2).chunk;
       ME_Sample mes = mesample(sentence, j, tag_left2, tag_left1, tag_right1, tag_right2);
 
       ArrayList<Double> membp;
       ME_Model mep = null;
       int bits = 0;
-      if (TAG_WINDOW_SIZE >= 2 && !tag_left2.equals("")) bits += 8;
+      // if (TAG_WINDOW_SIZE >= 2 && !tag_left2.equals("")) bits += 8;, jenia TAG_WINDOW_SIZE is 1
       if (!tag_left1.isEmpty()) bits += 4;
       if (!tag_right1.isEmpty()) bits += 2;
-      if (TAG_WINDOW_SIZE >= 2 && !tag_right2.equals("")) bits += 1;
+      // if (TAG_WINDOW_SIZE >= 2 && !tag_right2.equals("")) bits += 1;, jenia TAG_WINDOW_SIZE is 1
       assert (bits >= 0 && bits < 16);
       mep = vme.get(bits);
       membp = mep.classify(mes);
@@ -268,8 +265,8 @@ public class Chunking {
 
     final boolean IsErroneous() {
       for (int i = 0; i < sentence.size() - 1; i++) {
-        final String a = sentence.get(i).cprd;
-        final String b = sentence.get(i + 1).cprd;
+        final String a = sentence.get(i).chunk;
+        final String b = sentence.get(i + 1).chunk;
         if (a.equals("") || b.equals("")) continue;
         // if (a[0] == 'B' && b[0] == 'B') {
         // if (a.substring(2) == b.substring(2)) return true;
@@ -293,7 +290,7 @@ public class Chunking {
     String pred = "";
     double pred_prob = 0;
     for (int j = 0; j < n; j++) {
-      if (!h.sentence.get(j).cprd.equals("")) continue;
+      if (!h.sentence.get(j).chunk.equals("")) continue;
       double ent = h.entropies.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
@@ -307,7 +304,7 @@ public class Chunking {
     for (Tuple2<String, Double> k : h.vvp.get(pred_position)) {
       Hypothesis newh = h.copy();
 
-      newh.sentence.get(pred_position).cprd = k._1;
+      newh.sentence.get(pred_position).chunk = k._1;
       newh.order.set(pred_position, order + 1);
       newh.prob = h.prob * k._2;
 
@@ -320,7 +317,7 @@ public class Chunking {
       // update the neighboring predictions
       for (int j = pred_position - TAG_WINDOW_SIZE; j <= pred_position + TAG_WINDOW_SIZE; j++) {
         if (j < 0 || j > n - 1) continue;
-        if (newh.sentence.get(j).cprd.equals("")) newh.Update(j, vme);
+        if (newh.sentence.get(j).chunk.equals("")) newh.Update(j, vme);
       }
       vh.add(newh);
     }
@@ -341,42 +338,42 @@ public class Chunking {
     }
   }
 
-  static void bidir_chuning_decode_beam(Sentence sentence, final ArrayList<ME_Model> vme) {
+  static void bidir_chunking_decode_beam(Sentence sentence, final ArrayList<ME_Model> chunkingModels) {
     int n = sentence.size();
     if (n == 0) return;
 
-    ArrayList<Hypothesis> vh = newArrayList(); // TODO check size
-    Hypothesis h = new Hypothesis(sentence, vme);
-    vh.add(h);
+    ArrayList<Hypothesis> hypotheses = newArrayList();
+    Hypothesis hyp = new Hypothesis(sentence, chunkingModels);
+    hypotheses.add(hyp);
 
     for (int i = 0; i < n; i++) {
-      ArrayList<Hypothesis> newvh = newArrayList(); // TODO check size
-      for (Hypothesis j : vh) {
-        generate_hypotheses(i, j, vme, newvh);
+      ArrayList<Hypothesis> newHypotheses = newArrayList();
+      for (Hypothesis j : hypotheses) {
+        generate_hypotheses(i, j, chunkingModels, newHypotheses);
       }
-      Collections.sort(newvh, Hypothesis.Order);
-      while (newvh.size() > BEAM_NUM) {
-        newvh.remove(0);
+      Collections.sort(newHypotheses, Hypothesis.Order);
+      while (newHypotheses.size() > BEAM_NUM) {
+        newHypotheses.remove(0);
       }
-      vh = newvh;
+      hypotheses = newHypotheses;
     }
 
-    if (!vh.isEmpty()) {
-      h = last(vh);
+    if (!hypotheses.isEmpty()) {
+      hyp = last(hypotheses);
     } else {
       // cerr << "warning: no hypothesis found" << endl;
-      h = new Hypothesis(sentence, vme);
+      hyp = new Hypothesis(sentence, chunkingModels);
     }
 
-    ArrayList<String> tags = newArrayList(); // TODO check size
+    ArrayList<String> tags = newArrayList();
     for (int k = 0; k < n; k++) {
       // cout << h.vt.get(k].str << "/" << h.vt[k).cprd << "/" << h.order[k] << " ";
-      tags.add(h.sentence.get(k).cprd);
+      tags.add(hyp.sentence.get(k).chunk);
     }
 
     convert_startend_to_iob2_sub(tags);
     for (int k = 0; k < n; k++) {
-      sentence.get(k).cprd = tags.get(k);
+      sentence.get(k).chunk = tags.get(k);
     }
 
     // cout << endl;

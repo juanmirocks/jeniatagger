@@ -52,7 +52,7 @@ public class ME_Model {
   int _nheldout;
   int _early_stopping_n;
   ArrayList<Double> _vhlogl;
-  private ME_Model _ref_modelp; // TODO jenia: was a pointer
+  private ME_Model _ref_modelp;
 
   public ME_Model() {
     _nheldout = 0;
@@ -100,7 +100,7 @@ public class ME_Model {
     ArrayList<Double> ref_pd = newArrayList(); // reference probability distribution
 
     // jenia, converted to Comparator
-    final boolean operator_less(final Sample x) {
+    private final boolean operator_less(final Sample x) {
       for (int i = 0; i < positive_features.size(); i++) {
         if (i >= x.positive_features.size()) return false;
         int v0 = positive_features.get(i);
@@ -411,11 +411,8 @@ public class ME_Model {
   }
 
   public final int conditional_probability(final Sample s, double[] membp) {
-    int num_classes = membp.length;
-    double sum = 0, maxpow = 0;
-    // int max_label = -1;
+    double sum = 0;
     int max_label = 0;
-    double maxp = 0;
 
     double[] powv = new double[_num_classes];
 
@@ -469,14 +466,14 @@ public class ME_Model {
       }
     }
 
-    int n = 0;
+    // int n = 0;, jenia
     for (Sample i : _vs) {
       max_num_features = max(max_num_features, (i.positive_features.size()));
       for (Integer j : i.positive_features) {
         final ME_Feature feature = new ME_Feature(i.label, j);
         // if (cutoff > 0 && count[feature.body()] < cutoff) continue;
         if (cutoff > 0 && count.get(feature.body()) <= cutoff) continue;
-        int id = _fb.Put(feature);
+        // int id = _fb.Put(feature);, jenia
         // cout << i->label << "\t" << *j << "\t" << id << endl;
         // feature2sample[id].push_back(n);
       }
@@ -484,16 +481,16 @@ public class ME_Model {
         final ME_Feature feature = new ME_Feature(i.label, j._1);
         // if (cutoff > 0 && count[feature.body()] < cutoff) continue;
         if (cutoff > 0 && count.get(feature.body()) <= cutoff) continue;
-        int id = _fb.Put(feature);
+        // int id = _fb.Put(feature);, jenia
       }
-      n++;
+      // n++;
     }
     count.clear();
 
     // cerr << "num_classes = " << _num_classes << endl;
     // cerr << "max_num_features = " << max_num_features << endl;
 
-    int c = 0;
+    // int c = 0;, jenia
 
     init_feature2mef();
 
@@ -521,7 +518,7 @@ public class ME_Model {
 
     _vme = newArrayList(_fb.Size(), 0.0);
 
-    int n = 0; // TODO never used
+    // int n = 0;, jenia
     for (Sample i : _vs) {
       double[] membp = new double[_num_classes];
       int max_label = conditional_probability(i, membp);
@@ -542,7 +539,7 @@ public class ME_Model {
         }
       }
 
-      n++;
+      // n++;, jenia
     }
 
     for (int i = 0; i < _fb.Size(); i++) {
@@ -677,7 +674,7 @@ public class ME_Model {
           // cerr << "widthfactor = " << widthfactor << endl;
         }
     // cerr << "preparing for estimation...";
-    int C = make_feature_bag(cutoff);
+    // int C = make_feature_bag(cutoff);, jenia
     // _vs.clear();
     // cerr << "done" << endl;
     // cerr << "number of samples = " << _vs.size() << endl;

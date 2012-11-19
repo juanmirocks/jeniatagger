@@ -13,9 +13,7 @@ public class ME_Sample {
   public final ArrayList<Tuple2<String, Double>> rvfeatures; // jenia: real value features
 
   public ME_Sample() {
-    label = "";
-    features = new ArrayList<String>();
-    rvfeatures = new ArrayList<Tuple2<String, Double>>();
+    this("");
   }
 
   public ME_Sample(String l) {

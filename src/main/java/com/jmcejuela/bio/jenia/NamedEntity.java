@@ -26,23 +26,24 @@ import com.jmcejuela.bio.jenia.util.CppMap;
  */
 public class NamedEntity {
   private static ME_Model ne_model;
-  static Map<String, WordInfo> word_info;
-  private static Map<String, WordInfo> pos_info;
+  private static Map<String, WordInfo> word_info;
 
+  // private static Map<String, WordInfo> pos_info;
+
+  // private final int max_term_length = 0;
   static final double BIAS_FOR_RECALL = 0.6;
 
-  private final int max_term_length = 0;
+  private NamedEntity() {};
 
-  static void load_ne_models() {
-    String model_file = "/models_named_entity/model001";
-    String wordinfo_file = "/models_named_entity/word_info";
+  static {
+    init();
+  }
 
-    // cerr << "loading named_entity_models.";
+  static void init() {
     ne_model = new ME_Model();
-    ne_model.load_from_file(model_file);
-    // cerr << ".";
-    word_info = load_word_info(wordinfo_file);
-    // cerr << "done." << endl;
+    ne_model.load_from_file("/models_named_entity/model001");
+
+    word_info = load_word_info("/models_named_entity/word_info");
   }
 
   static class WordInfo {
@@ -99,10 +100,12 @@ public class NamedEntity {
       tmp += c;
     }
     /*
-     * if (tmp.equals("is")) tmp = "be"; if (tmp.equals("was")) tmp = "be"; if (tmp.equals("are")) tmp = "be"; if
-     * (tmp.equals("were")) tmp = "be"; if (tmp.equals("an")) tmp = "a"; if (tmp.equals("the")) tmp = "a";
+     * if (tmp.equals("is")) tmp = "be"; if (tmp.equals("was")) tmp = "be"; if (tmp.equals("are"))
+     * tmp = "be"; if (tmp.equals("were")) tmp = "be"; if (tmp.equals("an")) tmp = "a"; if
+     * (tmp.equals("the")) tmp = "a";
      */
-    // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't throw an exception
+    // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't
+    // throw an exception
     // TODO this also makes "s" the empty string. I guess this was not intended
     if (!tmp.isEmpty() && tmp.charAt(tmp.length() - 1) == 's') return tmp.substring(0, tmp.length() - 1);
     return tmp;
@@ -131,9 +134,7 @@ public class NamedEntity {
   }
 
   static ME_Sample mesample(final String label, final Sentence sentence, int begin, int end) {
-    ME_Sample mes = new ME_Sample();
-
-    mes.label = label;
+    ME_Sample mes = new ME_Sample(label);
 
     final int BUFLEN = 1000;
 
@@ -143,27 +144,27 @@ public class NamedEntity {
     String s_1, s_2, s1, s2;
     // if (begin >= 1) s_1 = vt.get(begin-1).str;
     if (begin >= 1)
-      s_1 = normalize(sentence.get(begin - 1).str);
+      s_1 = normalize(sentence.get(begin - 1).text);
     else
       s_1 = "BOS";
     mes.features.add(String.format("C-1_%s", s_1));
 
     // if (end < vt.length()) s1 = vt.get(end).str;
     if (end < sentence.size())
-      s1 = normalize(sentence.get(end).str);
+      s1 = normalize(sentence.get(end).text);
     else
       s1 = "EOS";
     mes.features.add(String.format("C+1_%s", s1));
 
     // if (begin >= 2) s_2 = vt.get(begin-2).str;
     if (begin >= 2)
-      s_2 = normalize(sentence.get(begin - 2).str);
+      s_2 = normalize(sentence.get(begin - 2).text);
     else
       s_2 = "BOS";
 
     // if (end < vt.length()-1) s2 = vt.get(end+1).str;
     if (end < sentence.size() - 1)
-      s2 = normalize(sentence.get(end + 1).str);
+      s2 = normalize(sentence.get(end + 1).text);
     else
       s2 = "EOS";
 
@@ -172,8 +173,9 @@ public class NamedEntity {
     mes.features.add("C+1+2_" + s1 + "_" + s2);
 
     // term feature
-    //char firstletter = sentence.get(begin).str.charAt(0); //jenia, was never used
-    //char lastletter = sentence.get(end - 1).str.charAt(sentence.get(end - 1).str.length() - 1); //jenia, was never used
+    // char firstletter = sentence.get(begin).str.charAt(0); //jenia, was never used
+    // char lastletter = sentence.get(end - 1).str.charAt(sentence.get(end - 1).str.length() - 1);
+    // //jenia, was never used
 
     // if (begin != 0 && isupper(firstletter))
     // if (isupper(firstletter) && isupper(lastletter))
@@ -183,16 +185,16 @@ public class NamedEntity {
     // mes.features.add("EXACT_" + vt.get(begin).str);
     // }
 
-    String tb = normalize(sentence.get(begin).str);
+    String tb = normalize(sentence.get(begin).text);
     mes.features.add(String.format("TB_%s", tb));
 
     for (int i = begin + 1; i < end - 1; i++) {
       // for (int i = begin; i < end; i++) {
-      s = normalize(sentence.get(i).str);
+      s = normalize(sentence.get(i).text);
       mes.features.add(String.format("TM_%s", s));
     }
 
-    String te = normalize(sentence.get(end - 1).str);
+    String te = normalize(sentence.get(end - 1).text);
     mes.features.add(String.format("TE_%s", te));
 
     // combination
@@ -207,11 +209,11 @@ public class NamedEntity {
 
     s = "";
     String whole = "";
-    boolean contain_comma = false;
+    // boolean contain_comma = false;
     for (int i = begin; i < end; i++) {
-      if (s.length() + sentence.get(i).str.length() > BUFLEN - 100) break;
-      s += normalize(sentence.get(i).str);
-      whole += sentence.get(i).str;
+      if (s.length() + sentence.get(i).text.length() > BUFLEN - 100) break;
+      s += normalize(sentence.get(i).text);
+      whole += sentence.get(i).text;
     }
 
     // if (label > 0) mes.features.add(buf);
@@ -261,20 +263,20 @@ public class NamedEntity {
   }
 
   static boolean is_candidate(final Sentence s, final int begin, final int end) {
-    if (word_info.get(s.get(begin).str).edge_prob() < 0.01) return false;
-    if (word_info.get(s.get(end - 1).str).edge_prob() < 0.01) return false;
+    if (word_info.get(s.get(begin).text).edge_prob() < 0.01) return false;
+    if (word_info.get(s.get(end - 1).text).edge_prob() < 0.01) return false;
     // if (end - begin > 10) return false;
     if (end - begin > 30) return false;
 
     int penalty = 0;
     int kakko = 0;
     for (int x = begin; x < end; x++) {
-      if (s.get(x).str.equals("(")) kakko++;
-      if (s.get(x).str.equals(")")) {
+      if (s.get(x).text.equals("(")) kakko++;
+      if (s.get(x).text.equals(")")) {
         if (kakko % 2 == 0) return false;
         kakko--;
       }
-      double out_prob = word_info.get(s.get(x).str).out_prob();
+      double out_prob = word_info.get(s.get(x).text).out_prob();
       // if (out_prob >= 0.99) penalty++;
       // if (out_prob >= 0.90) penalty++;
       // if (out_prob >= 0.98) penalty++;
@@ -360,7 +362,7 @@ public class NamedEntity {
       // jenia, done in init already; label_p.set(j, 0);
     }
 
-    List<Annotation> la = newArrayList(); // TODO check size
+    List<Annotation> annotations = newArrayList();
     for (int j = 0; j < s.size(); j++) {
       // for (int k = s.length(); k > j; k--) {
       for (int k = j + 1; k <= s.size(); k++) {
@@ -385,18 +387,19 @@ public class NamedEntity {
         // cout << endl;
 
         if (label != other_class) {
-          la.add(new Annotation(label, j, k, prob));
+          annotations.add(new Annotation(label, j, k, prob));
         }
       }
     }
-    Collections.sort(la, Annotation.Order);
+    Collections.sort(annotations, Annotation.Order);
     // for (int j = 0; j < s.length(); j++) cout << j << ":" << s.get(j).str << " ";
     // cout << endl;
-    for (Annotation j : la) {
-      // cout << j.label << " begin = " << j.begin << " end = " << j.end << " prob = " << j.prob << endl;
+    for (Annotation annotation : annotations) {
+      // cout << j.label << " begin = " << j.begin << " end = " << j.end << " prob = " << j.prob <<
+      // endl;
       boolean override = true;
-      for (int l = j.begin; l < j.end; l++) {
-        if (label_p.get(l) >= j.prob) {
+      for (int l = annotation.begin; l < annotation.end; l++) {
+        if (label_p.get(l) >= annotation.prob) {
           override = false;
           break;
         }
@@ -415,19 +418,18 @@ public class NamedEntity {
         }
       }
       if (!override) continue;
-      for (int l = j.begin; l < j.end; l++) {
-        label_p.set(l, j.prob);
-        if (l == j.begin)
-          s.get(l).ne = "B-" + me.get_class_label(j.label);
+      for (int l = annotation.begin; l < annotation.end; l++) {
+        label_p.set(l, annotation.prob);
+        if (l == annotation.begin)
+          s.get(l).ne = "B-" + me.get_class_label(annotation.label);
         else
-          s.get(l).ne = "I-" + me.get_class_label(j.label);
+          s.get(l).ne = "I-" + me.get_class_label(annotation.label);
       }
     }
   }
 
-  static int netagging(Sentence vt) {
+  static void netagging(Sentence vt) {
     find_NEs(ne_model, vt);
-    return 0; // TODO no explicit return in original
   }
 
 }

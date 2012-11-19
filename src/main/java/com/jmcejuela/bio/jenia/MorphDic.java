@@ -27,8 +27,11 @@ public class MorphDic {
 
   private MorphDic() {}
 
-  static void Init() {
-    // cerr << "loading MorphDic...";
+  static {
+    init();
+  }
+
+  static void init() {
     nounex = LoadEx("/morphdic/noun.exc");
     verbex = LoadEx("/morphdic/verb.exc");
     adjex = LoadEx("/morphdic/adj.exc");
@@ -36,7 +39,6 @@ public class MorphDic {
     noundic = LoadIdx("/morphdic/noun.dic");
     verbdic = LoadIdx("/morphdic/verb.dic");
     adjdic = LoadIdx("/morphdic/adj.dic");
-    // cerr << "done." << endl;
   }
 
   static Map<String, String> LoadEx(final String filename) {
@@ -223,10 +225,6 @@ public class MorphDic {
     if (!ex.equals("")) return ex;
 
     return s;
-  }
-
-  static void init_morphdic() {
-    MorphDic.Init();
   }
 
   public static String base_form(final String s, final String pos) {

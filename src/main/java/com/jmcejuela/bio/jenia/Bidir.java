@@ -5,7 +5,6 @@ import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
 import static com.jmcejuela.bio.jenia.util.Util.tokenize;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isUpperCase;
-import static java.lang.Math.log;
 import static java.lang.Math.max;
 
 import java.util.ArrayList;
@@ -232,14 +231,19 @@ public class Bidir {
    *****************************/
 
   static double entropy(final ArrayList<Double> v) {
-    double sum = 0, maxp = 0;
+    double maxp = 0;
+    // double sum = 0;
     for (int i = 0; i < v.size(); i++) {
       if (v.get(i) == 0) continue;
-      sum += v.get(i) * log(v.get(i));
+      // sum += v.get(i) * log(v.get(i));
       maxp = max(maxp, v.get(i));
     }
     return -maxp;
-    // return -sum;//TODO original had 2 return statements?
+    /*
+     * jenia: the original calculated sum and had 2 return statements like this but sum was never
+     * effectively used
+     */
+    // return -sum;
   }
 
   private int bidir_train(final ArrayList<Sentence> vs, int para) {

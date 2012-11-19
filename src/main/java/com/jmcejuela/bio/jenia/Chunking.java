@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.jmcejuela.bio.jenia.Bidir.Hypothesis;
 import com.jmcejuela.bio.jenia.common.Sentence;
 import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;

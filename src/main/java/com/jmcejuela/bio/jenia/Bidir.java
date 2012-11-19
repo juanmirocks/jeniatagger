@@ -567,12 +567,8 @@ public class Bidir {
 
     Sentence sentence = createSentence(line, dont_tokenize, trimmedLine);
 
-    // jenia: final multimap<String, String> dummy;
-    // bidir_decode_search(vt, dummy, vme);
-    bidir_decode_beam(sentence, vme);
-
+    Bidir.bidir_decode_beam(sentence, vme);
     Chunking.bidir_chunking_decode_beam(sentence, chunking_vme);
-
     NamedEntity.netagging(sentence);
 
     return sentence;

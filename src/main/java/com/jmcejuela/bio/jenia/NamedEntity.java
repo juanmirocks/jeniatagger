@@ -406,7 +406,7 @@ public class NamedEntity {
           while (s.get(lbegin).ne.charAt(0) != 'B')
             lbegin--;
           int lend = l;
-          while (s.get(lend).ne.charAt(0) != 'O' && lend < s.size())
+          while (lend < s.size() && s.get(lend).ne.charAt(0) != 'O')
             lend++;
           for (int t = lbegin; t < lend; t++) {
             s.get(t).ne = "O";

@@ -67,6 +67,7 @@ public class Util {
     }
   }
 
+  // TODO could create a CppVector for the following operations
   public static <T> T removeFirst(ArrayList<T> vector) {
     return vector.remove(0);
   }

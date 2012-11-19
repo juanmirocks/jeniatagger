@@ -501,7 +501,7 @@ public class Bidir {
     // cout << endl;
   }
 
-  static void decode_no_context(ArrayList<Token> vt, final ME_Model me_none) {
+  private static void decode_no_context(ArrayList<Token> vt, final ME_Model me_none) {
     int n = vt.size();
     if (n == 0) return;
 

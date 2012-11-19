@@ -37,7 +37,7 @@ public class Main {
   }
 
   public static String version() {
-    return "0.1";
+    return "jeniatagger 0.1";
   }
 
   /**

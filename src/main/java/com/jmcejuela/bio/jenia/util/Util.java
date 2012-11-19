@@ -127,9 +127,11 @@ public class Util {
   /**
    * From tokenize.cpp
    *
-   * Original c++ signature: replace(String & s, const String & s1, const String & s2, const char skip)
+   * Original c++ signature:
+   * 
+   * replace(String & s, const String & s1, const String & s2, const char skip)
    *
-   * Replace by {@link String#replace(char, char)} I believe the skip flag is not necessary
+   * Replaced by {@link String#replace(char, char)} I believe the skip flag is not necessary
    *
    * @param s
    * @param s1

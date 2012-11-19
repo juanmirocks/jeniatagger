@@ -11,7 +11,7 @@ import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.util.Util;
 
-public class Jenia {
+public class JeniaTagger {
 
   static final ArrayList<ME_Model> posModels;
   static final ArrayList<ME_Model> chunkingModels;

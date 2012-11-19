@@ -33,7 +33,7 @@ public class NamedEntity {
   // private final int max_term_length = 0;
   static final double BIAS_FOR_RECALL = 0.6;
 
-  static void load_ne_models() {
+  static void load_models() {
     String model_file = "/models_named_entity/model001";
     String wordinfo_file = "/models_named_entity/word_info";
 

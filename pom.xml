@@ -3,7 +3,7 @@
 
   <groupId>com.jmcejuela.bio</groupId>
   <artifactId>jeniatagger</artifactId>
-  <version>0.0.1</version>
+  <version>0.1</version>
 
   <description>GENIA Tagger port to Java</description>
 

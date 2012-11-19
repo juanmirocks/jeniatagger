@@ -121,7 +121,8 @@ public class Util {
    * @return
    */
   public static final List<String> tokenize(final String s1) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    throw new UnsupportedOperationException(
+        "genia's internal tokenizer not implemented yet. Use your own tokenizer and add the -nt option to the caller");
   }
 
   /**

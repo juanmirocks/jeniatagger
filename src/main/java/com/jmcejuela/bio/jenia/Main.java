@@ -22,7 +22,6 @@ public class Main {
 
   public static String help() {
     StringBuilder s = new StringBuilder();
-
     line(s, "Usage: jeniatagger [OPTION]... [FILE]...");
     line(s, "Analyze English sentences from the biomedicine domain and print ");
     line(s, "the base forms, part-of-speech tags, chunk tags, and named entity tags.");
@@ -32,7 +31,6 @@ public class Main {
     line(s, "  --help       display this help and exit.");
     line(s, "");
     line(s, "Report bugs to: github.com/jmcejuela/jeniatagger/issues");
-
     return s.toString();
   }
 

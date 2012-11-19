@@ -361,7 +361,7 @@ public class NamedEntity {
       // jenia, done in init already; label_p.set(j, 0);
     }
 
-    List<Annotation> la = newArrayList(); // TODO check size
+    List<Annotation> annotations = newArrayList();
     for (int j = 0; j < s.size(); j++) {
       // for (int k = s.length(); k > j; k--) {
       for (int k = j + 1; k <= s.size(); k++) {
@@ -386,19 +386,19 @@ public class NamedEntity {
         // cout << endl;
 
         if (label != other_class) {
-          la.add(new Annotation(label, j, k, prob));
+          annotations.add(new Annotation(label, j, k, prob));
         }
       }
     }
-    Collections.sort(la, Annotation.Order);
+    Collections.sort(annotations, Annotation.Order);
     // for (int j = 0; j < s.length(); j++) cout << j << ":" << s.get(j).str << " ";
     // cout << endl;
-    for (Annotation j : la) {
+    for (Annotation annotation : annotations) {
       // cout << j.label << " begin = " << j.begin << " end = " << j.end << " prob = " << j.prob <<
       // endl;
       boolean override = true;
-      for (int l = j.begin; l < j.end; l++) {
-        if (label_p.get(l) >= j.prob) {
+      for (int l = annotation.begin; l < annotation.end; l++) {
+        if (label_p.get(l) >= annotation.prob) {
           override = false;
           break;
         }
@@ -417,12 +417,12 @@ public class NamedEntity {
         }
       }
       if (!override) continue;
-      for (int l = j.begin; l < j.end; l++) {
-        label_p.set(l, j.prob);
-        if (l == j.begin)
-          s.get(l).ne = "B-" + me.get_class_label(j.label);
+      for (int l = annotation.begin; l < annotation.end; l++) {
+        label_p.set(l, annotation.prob);
+        if (l == annotation.begin)
+          s.get(l).ne = "B-" + me.get_class_label(annotation.label);
         else
-          s.get(l).ne = "I-" + me.get_class_label(j.label);
+          s.get(l).ne = "I-" + me.get_class_label(annotation.label);
       }
     }
   }

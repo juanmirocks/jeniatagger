@@ -12,13 +12,13 @@ public class Token {
   public String cprd; // for chunking
   public String ne;
 
-  public Token(String s, String p) {
-    text = s;
-    pos = p;
+  public Token(String text, String pos) {
+    this.text = text;
+    this.pos = pos;
     // Must set to empty String to simulate c++ string default constructor behavior
-    prd = "";
-    cprd = "";
-    ne = "";
+    this.prd = "";
+    this.chunk = "";
+    this.ne = "";
   }
 
   public Token copy() {

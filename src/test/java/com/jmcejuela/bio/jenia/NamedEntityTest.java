@@ -12,7 +12,7 @@ public class NamedEntityTest {
 
   @Test
   public void testLoadNeModelsNothingCrashes() {
-    NamedEntity.load_models();
+    NamedEntity.init();
   }
 
   @Test

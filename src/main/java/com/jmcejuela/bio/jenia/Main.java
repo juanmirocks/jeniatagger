@@ -90,7 +90,7 @@ public class Main {
     }
     // cerr << "done." << endl;
 
-    NamedEntity.load_models();
+    NamedEntity.init();
 
     // ----------------------------------------------------------------------------
 

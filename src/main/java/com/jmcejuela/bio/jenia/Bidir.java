@@ -560,20 +560,10 @@ public class Bidir {
   static Sentence bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
     if (line.matches(".*[\n\r\u0085\u2028\u2029].*"))
       throw new IllegalArgumentException("The input line cannot have any line terminator");
-
     String trimmedLine = line.trim();
     if (trimmedLine.isEmpty()) return new Sentence();
 
-    final List<String> lt = (dont_tokenize) ?
-        Arrays.asList(trimmedLine.split("\\s+")) // jenia: see genia's README
-        :
-        tokenize(line);
-
-    Sentence sentence = new Sentence(lt.size());
-    for (String slt : lt) {
-      // s = ParenConverter.Ptb2Pos(s);
-      sentence.add(new Token(slt, "?"));
-    }
+    Sentence sentence = createSentence(line, dont_tokenize, trimmedLine);
 
     // jenia: final multimap<String, String> dummy;
     // bidir_decode_search(vt, dummy, vme);
@@ -586,6 +576,20 @@ public class Bidir {
 
     NamedEntity.netagging(sentence);
 
+    return sentence;
+  }
+
+  private static Sentence createSentence(final String line, boolean dont_tokenize, String trimmedLine) {
+    final List<String> lt = (dont_tokenize) ?
+        Arrays.asList(trimmedLine.split("\\s+")) // jenia: see genia's README
+        :
+        tokenize(line);
+
+    Sentence sentence = new Sentence(lt.size());
+    for (String slt : lt) {
+      // s = ParenConverter.Ptb2Pos(s);
+      sentence.add(new Token(slt, "?"));
+    }
     return sentence;
   }
 

@@ -12,5 +12,5 @@ The original C++ program contains [several issues](https://github.com/jmcejuela/
 
 * The output of the port has been successfully tested to be equal to the original's.
 * Only, the output is not the same with tokens using Unicode characters. In fact, the original code did not handle these well.
-* The built-in tokenizer has not been implemented yet. For now, you have to use your own. See the [original README](https://github.com/jmcejuela/jeniatagger/ORIGINAL_GENIATAGGER_README).
+* The built-in tokenizer has not been implemented yet. For now, you have to use your own. See the [original README](https://github.com/jmcejuela/jeniatagger/ORIGINAL_GENIATAGGER_README). Contributions are welcome.
 * Besides some few improvements and refactoring, for now the java code resembles almost exactly the original.

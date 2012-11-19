@@ -3,7 +3,7 @@
 
   <groupId>com.jmcejuela.bio</groupId>
   <artifactId>jeniatagger</artifactId>
-  <version>0.0.1</version>
+  <version>0.1</version>
 
   <description>GENIA Tagger port to Java</description>
 
@@ -30,10 +30,26 @@
         <version>2.12.4</version>
         <configuration>
           <!-- Tests must load big dictionaries -->
-          <argLine>-Xms512m -Xmx1500M</argLine>
+          <argLine>-Xms512m -Xmx2G</argLine>
           <enableAssertions>true</enableAssertions>
           <testFailureIgnore>false</testFailureIgnore>
           <skip>false</skip>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+
+          <archive>
+            <manifest>
+              <mainClass>com.jmcejuela.bio.jenia.Main</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
         </configuration>
       </plugin>
     </plugins>

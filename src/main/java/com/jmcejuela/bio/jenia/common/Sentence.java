@@ -2,6 +2,8 @@ package com.jmcejuela.bio.jenia.common;
 
 import java.util.ArrayList;
 
+import com.jmcejuela.bio.jenia.Main;
+
 /**
  * From common.h. In the original it's merely a wrapper (typedef std::vector<Token> Sentence)
  *
@@ -26,5 +28,15 @@ public class Sentence extends ArrayList<Token> {
       ret.add(t.copy());
     }
     return ret;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder s = new StringBuilder();
+    for (Token t : this) {
+      s.append(t);
+      s.append(Main.ENDL);
+    }
+    return s.toString();
   }
 }

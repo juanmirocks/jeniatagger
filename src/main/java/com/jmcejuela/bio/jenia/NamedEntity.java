@@ -16,11 +16,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.jmcejuela.bio.jenia.common.Sentence;
-import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
-import com.jmcejuela.bio.jenia.util.CppMap;
 import com.jmcejuela.bio.jenia.util.Constructor;
+import com.jmcejuela.bio.jenia.util.CppMap;
 
 /**
  * From namedentity.cpp

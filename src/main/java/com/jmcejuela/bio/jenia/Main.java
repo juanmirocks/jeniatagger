@@ -92,7 +92,7 @@ public class Main {
 
     NamedEntity.load_ne_models();
 
-    System.err.println("Done & Ready");
+    System.err.println("Ready. Feed me with sentences");
 
     String line;
     int n = 1;

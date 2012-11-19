@@ -3,3 +3,21 @@ Unicode friends
 ñ á Ó ö à ˆv <> ß ¿ ©¿•¡
 ñáÓöàˆv<>ß¿©¿•¡
 ∞§©ƒƒ√∫˙¨˙~µˆø¬π¬…¡™£¢¡™ £¢∞§¶•ªº–≠œ∑´®†¥¨ˆøπ“‘åß∂ƒ©˙∆˚¬…æΩ≈ç√ ∫~µ≤≥÷⁄€‹›ﬁﬁﬂˇ ˝~ÂÔÎ~Œ„´‰ˇÁ¨ˆØ∏”’ÅÍÎÏ˝ÓÔÒÚÆ¸˛Ç◊ı~Â¯˘¿⁄€‹›ﬁﬂ‡°·‚—± .
+
+
+From journal.pone.0029157.xml -> Sh3β in the following sentences is not well ne-tagged. But geniatagger does it right!
+
+
+These included genes that function in neural development ( abl , fax , BM - 40 - SPARC ) , neural modulator metabolism ( ple ) , other metabolic processes ( CAH1 ) or mRNA processing ( U2af50 ) , and genes with protein similarity or containing protein domains that suggest possible function in second messenger or other signal transduction processes ( Inos , Sh3β , CG32703 , CG6910 ) [ 24 ] .
+
+This list includes six genes up - regulated in the transition from hive bee to forager , GB12876 , GB11572 , GB15888 , GB11031 , GB14956 and GB15303 corresponding to fly orthologs U2af50 ( U2 small nuclear riboprotein auxiliary factor 50 ) , Inos , CAH1 ( Carbonic anhydrase 1 ) , CG32703 , CG6910 and ple ( pale ) , respectively , and four genes down - regulated in this transition , GB11301 , GB17380 , GB19996 and GB11432 corresponding to fly orthologs abl ( Abl tyrosine kinase ) , fax ( failed axon connections ) , Sh3β and BM - 40 - SPARC .
+
+UAS RNAi responder strains for the genes tested ( abl , BM - 40 - SPARC , CAH1 , fax , Inos , U2af 50 , Sh3β , ple , CG32703 and CG 6910 ) were ordered from the Vienna Drosophila Research Center ( VDRC ; Transformant IDs indicated in Table 1 ; all constructions on w background ) [ 26 ] .
+
+
+
+
+From journal.pone.0029157.xml -> ΔΔCt in original is ne-tagged as B-DNA but in jenia is B-protein (none is right, btw)
+
+
+mRNA reduction was calculated by 1 – 2 − ΔΔCt , where ΔΔCt   =   ΔCt , RNAi – ΔCt , control and ΔCt was the difference in mean threshold cycles between target gene and rp49 .

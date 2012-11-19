@@ -93,7 +93,7 @@ _
 
 ----------------------------------------------------------------------
 
-journal.pone.0029157.xml :
+journal.pone.0029157.xml
 
 ----------------------------------------------------------------------
 
@@ -139,21 +139,21 @@ This approach has been used to identify two honey bee genes ( orthologs of forag
 In the present study , we reverse this strategy by analyzing a set of genes associated with the onset of foraging in the honey bee for possible function using Drosophila as a test system .
 We have previously identified genes from microarray studies of honey bee brains that are good candidates for influencing the onset of foraging or specific foraging related behaviors ( see gene selection criteria in Methods ) .
 To explore possible function of these genes in daily activity pattern , we tested orthologs of 10 of these genes in Drosophila using neural targeted RNA interference ( RNAi ) .
-These included genes that function in neural development ( abl , fax , BM - 40 - SPARC ) , neural modulator metabolism ( ple ) , other metabolic processes ( CAH1 ) or mRNA processing ( U2af50 ) , and genes with protein similarity or containing protein domains that suggest possible function in second messenger or other signal transduction processes ( Inos , Sh3β , CG32703 , CG6910 ) [ 24 ] .
+TODO
 Of the genes tested , only ple was previously shown to affect locomotor behavior [ 25 ] .
 Our results indicated that a surprisingly large fraction of these genes affect daily rhythmic locomotor activity , likely affecting both endogenous clock - dependent and - independent pathways .
 These results suggest that a large proportion of gene expression changes in the honey bee brain during behavioral maturation may be associated with modulation of a bee ’ s 24 - hour pattern of locomotor behavior .
 Methods
 Selection of Genes to Test
 We used a set of criteria previously described [ 10 ] to obtain a list of candidate genes most likely to play a functional role in the onset of foraging in honey bees , based on analyses of brains across several microarray studies .
-This list includes six genes up - regulated in the transition from hive bee to forager , GB12876 , GB11572 , GB15888 , GB11031 , GB14956 and GB15303 corresponding to fly orthologs U2af50 ( U2 small nuclear riboprotein auxiliary factor 50 ) , Inos , CAH1 ( Carbonic anhydrase 1 ) , CG32703 , CG6910 and ple ( pale ) , respectively , and four genes down - regulated in this transition , GB11301 , GB17380 , GB19996 and GB11432 corresponding to fly orthologs abl ( Abl tyrosine kinase ) , fax ( failed axon connections ) , Sh3β and BM - 40 - SPARC .
+TODO
 We used three criteria in selecting these genes .
 First , they were among the most predictive genes for assigning individual bees to behavioral group ( hive bee versus forager ) [ 9 ] and showed consistent expression in an independent microarray study [ 10 ] .
 Second , they were not regulated by flight , light or other foraging - related experience [ 10 ] .
 Third , they were regulated by a juvenile hormone analog in a direction consistent with expression changes ( up - regulated for genes higher in forager brains or down - regulated for genes higher in hive bee brains ; all genes listed except GB15303 ) [ 10 ] .
 Orthologs were determined by best match in reciprocal BLASTP searches between Drosophila melanogaster and Apis mellifera predicted protein sets .
 Drosophila Strains and RNA Interference
-UAS RNAi responder strains for the genes tested ( abl , BM - 40 - SPARC , CAH1 , fax , Inos , U2af 50 , Sh3β , ple , CG32703 and CG 6910 ) were ordered from the Vienna Drosophila Research Center ( VDRC ; Transformant IDs indicated in Table 1 ; all constructions on w background ) [ 26 ] .
+TODO
 The nervous system - specific driver strain w ; elav - Gal4 ( stock # 8760 ) was backcrossed for five generations with w ; TM3 , Sb / Dr ( kindly provided by Dr . S . A . Kreher ) .
 To generate the RNAi genotype for testing , backcrossed w ; elav - Gal4 flies ( female ) were crossed with the respective responder strain to generate heterozygous RNAi flies .
 For all genes except abl and CAH1 , male flies were tested .
@@ -165,7 +165,7 @@ Activity patterns under light - dark ( LD ) regime .
 Efficiency of RNAi was measured by real - time quantitative reverse transcription PCR of single whole Drosophila heads using rp49 as the control gene .
 cDNA was generated and quantified using ABI - SDS 7900 system as in [ 27 ] .
 PCR reactions contained 3 µl targeted cDNA ( 10 – 100 ng ) , 5 µl Syber - green mix and 2 µl primer pair ( 2.5 µM ) . 3 µl of each reaction was added to 2 or 3 wells in the 384 - well reaction plate .
-mRNA reduction was calculated by 1 – 2 − ΔΔCt , where ΔΔCt   =   ΔCt , RNAi – ΔCt , control and ΔCt was the difference in mean threshold cycles between target gene and rp49 .
+TODO
 Efficiency was tested for a total of seven genes : U2af50 , Inos , CAH1 , fax , BM - 40 - SPARC , abl and CG32703 ( using primers indicated in Table S1 ) .
 RNAi and control flies were collected in parallel for mRNA quantification either as siblings of the behaviorally tested flies ( collected at 1 or 2 days of age ) or were the behaviorally tested flies collected immediately after the DD regime .
 Control group for mRNA quantification was driver or responder strain ( see Table S1 ) of the same age and gender as the RNAi group .

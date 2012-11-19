@@ -45,17 +45,17 @@ public class Bidir {
   {
     ME_Sample sample = new ME_Sample();
 
-    String str = vt.get(i).str;
+    String str = vt.get(i).text;
 
     sample.label = vt.get(i).pos;
 
     sample.features.add("W0_" + str);
     String prestr = "BOS";
-    if (i > 0) prestr = vt.get(i - 1).str;
+    if (i > 0) prestr = vt.get(i - 1).text;
     // String prestr2 = "BOS2";
     // if (i > 1) prestr2 = normalize(vt[i-2].str);
     String poststr = "EOS";
-    if (i < vt.size() - 1) poststr = vt.get(i + 1).str;
+    if (i < vt.size() - 1) poststr = vt.get(i + 1).text;
     // String poststr2 = "EOS2";
     // if (i < (int)vt.size()-2) poststr2 = normalize(vt[i+2].str);
 

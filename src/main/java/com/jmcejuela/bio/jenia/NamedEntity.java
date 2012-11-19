@@ -143,27 +143,27 @@ public class NamedEntity {
     String s_1, s_2, s1, s2;
     // if (begin >= 1) s_1 = vt.get(begin-1).str;
     if (begin >= 1)
-      s_1 = normalize(sentence.get(begin - 1).str);
+      s_1 = normalize(sentence.get(begin - 1).text);
     else
       s_1 = "BOS";
     mes.features.add(String.format("C-1_%s", s_1));
 
     // if (end < vt.length()) s1 = vt.get(end).str;
     if (end < sentence.size())
-      s1 = normalize(sentence.get(end).str);
+      s1 = normalize(sentence.get(end).text);
     else
       s1 = "EOS";
     mes.features.add(String.format("C+1_%s", s1));
 
     // if (begin >= 2) s_2 = vt.get(begin-2).str;
     if (begin >= 2)
-      s_2 = normalize(sentence.get(begin - 2).str);
+      s_2 = normalize(sentence.get(begin - 2).text);
     else
       s_2 = "BOS";
 
     // if (end < vt.length()-1) s2 = vt.get(end+1).str;
     if (end < sentence.size() - 1)
-      s2 = normalize(sentence.get(end + 1).str);
+      s2 = normalize(sentence.get(end + 1).text);
     else
       s2 = "EOS";
 
@@ -183,16 +183,16 @@ public class NamedEntity {
     // mes.features.add("EXACT_" + vt.get(begin).str);
     // }
 
-    String tb = normalize(sentence.get(begin).str);
+    String tb = normalize(sentence.get(begin).text);
     mes.features.add(String.format("TB_%s", tb));
 
     for (int i = begin + 1; i < end - 1; i++) {
       // for (int i = begin; i < end; i++) {
-      s = normalize(sentence.get(i).str);
+      s = normalize(sentence.get(i).text);
       mes.features.add(String.format("TM_%s", s));
     }
 
-    String te = normalize(sentence.get(end - 1).str);
+    String te = normalize(sentence.get(end - 1).text);
     mes.features.add(String.format("TE_%s", te));
 
     // combination
@@ -209,9 +209,9 @@ public class NamedEntity {
     String whole = "";
     boolean contain_comma = false;
     for (int i = begin; i < end; i++) {
-      if (s.length() + sentence.get(i).str.length() > BUFLEN - 100) break;
-      s += normalize(sentence.get(i).str);
-      whole += sentence.get(i).str;
+      if (s.length() + sentence.get(i).text.length() > BUFLEN - 100) break;
+      s += normalize(sentence.get(i).text);
+      whole += sentence.get(i).text;
     }
 
     // if (label > 0) mes.features.add(buf);
@@ -261,20 +261,20 @@ public class NamedEntity {
   }
 
   static boolean is_candidate(final Sentence s, final int begin, final int end) {
-    if (word_info.get(s.get(begin).str).edge_prob() < 0.01) return false;
-    if (word_info.get(s.get(end - 1).str).edge_prob() < 0.01) return false;
+    if (word_info.get(s.get(begin).text).edge_prob() < 0.01) return false;
+    if (word_info.get(s.get(end - 1).text).edge_prob() < 0.01) return false;
     // if (end - begin > 10) return false;
     if (end - begin > 30) return false;
 
     int penalty = 0;
     int kakko = 0;
     for (int x = begin; x < end; x++) {
-      if (s.get(x).str.equals("(")) kakko++;
-      if (s.get(x).str.equals(")")) {
+      if (s.get(x).text.equals("(")) kakko++;
+      if (s.get(x).text.equals(")")) {
         if (kakko % 2 == 0) return false;
         kakko--;
       }
-      double out_prob = word_info.get(s.get(x).str).out_prob();
+      double out_prob = word_info.get(s.get(x).text).out_prob();
       // if (out_prob >= 0.99) penalty++;
       // if (out_prob >= 0.90) penalty++;
       // if (out_prob >= 0.98) penalty++;

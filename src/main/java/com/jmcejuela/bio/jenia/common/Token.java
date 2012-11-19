@@ -6,14 +6,14 @@ import com.jmcejuela.bio.jenia.MorphDic;
  * From common.h
  */
 public class Token {
-  public final String str;
+  public final String text;
   public String pos;
   public String prd;
   public String cprd; // for chunking
   public String ne;
 
   public Token(String s, String p) {
-    str = s;
+    text = s;
     pos = p;
     // Must set to empty String to simulate c++ string default constructor behavior
     prd = "";
@@ -22,7 +22,7 @@ public class Token {
   }
 
   public Token copy() {
-    Token ret = new Token(this.str, this.pos);
+    Token ret = new Token(this.text, this.pos);
     ret.prd = this.prd;
     ret.cprd = this.cprd;
     ret.ne = this.ne;
@@ -33,7 +33,7 @@ public class Token {
   public String toString() {
     StringBuilder s = new StringBuilder();
 
-    String token = str;
+    String token = text;
     String postag = prd;
 
     // s = ParenConverter.Pos2Ptb(s);

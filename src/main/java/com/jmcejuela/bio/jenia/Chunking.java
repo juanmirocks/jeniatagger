@@ -56,14 +56,14 @@ public class Chunking {
     String[] t = new String[5];
 
     w[0] = "BOS2";
-    if (pos > 1) w[0] = vt.get(pos - 2).str;
+    if (pos > 1) w[0] = vt.get(pos - 2).text;
     w[1] = "BOS";
-    if (pos > 0) w[1] = vt.get(pos - 1).str;
-    w[2] = vt.get(pos).str;
+    if (pos > 0) w[1] = vt.get(pos - 1).text;
+    w[2] = vt.get(pos).text;
     w[3] = "EOS";
-    if (pos < vt.size() - 1) w[3] = vt.get(pos + 1).str;
+    if (pos < vt.size() - 1) w[3] = vt.get(pos + 1).text;
     w[4] = "EOS2";
-    if (pos < vt.size() - 2) w[4] = vt.get(pos + 2).str;
+    if (pos < vt.size() - 2) w[4] = vt.get(pos + 2).text;
 
     p[0] = "BOS2";
     if (pos > 1) p[0] = vt.get(pos - 2).pos;

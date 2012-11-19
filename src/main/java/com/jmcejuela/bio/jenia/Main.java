@@ -70,6 +70,8 @@ public class Main {
 
     // ----------------------------------------------------------------------------
 
+    System.err.println("Loading dictionaries...");
+
     MorphDic.init_morphdic();
 
     ArrayList<ME_Model> vme = Util.newArrayList(16, ME_Model.CONSTRUCTOR);
@@ -90,7 +92,7 @@ public class Main {
 
     NamedEntity.load_ne_models();
 
-    System.err.println("All models loaded, ready to analyze your sentences");
+    System.err.println("Done & Ready");
 
     String line;
     int n = 1;

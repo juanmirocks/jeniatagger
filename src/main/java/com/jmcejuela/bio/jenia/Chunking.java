@@ -341,7 +341,7 @@ public class Chunking {
     }
   }
 
-  static void bidir_chuning_decode_beam(Sentence sentence, final ArrayList<ME_Model> vme) {
+  static void bidir_chunking_decode_beam(Sentence sentence, final ArrayList<ME_Model> vme) {
     int n = sentence.size();
     if (n == 0) return;
 

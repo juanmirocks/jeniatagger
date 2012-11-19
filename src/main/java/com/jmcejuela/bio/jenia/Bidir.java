@@ -582,7 +582,7 @@ public class Bidir {
       sentence.get(i).pos = sentence.get(i).prd;
     }
 
-    Chunking.bidir_chuning_decode_beam(sentence, chunking_vme);
+    Chunking.bidir_chunking_decode_beam(sentence, chunking_vme);
 
     NamedEntity.netagging(sentence);
 

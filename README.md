@@ -23,7 +23,7 @@ For now,
     git clone https://github.com/jmcejuela/jeniatagger.git
     cd jeniatagger
 
-    mvn install #install locally in your m2 repository and use it as a library in other projects
+    mvn -Dmaven.test.skip=true install #install locally in your m2 repository (skip the tests not to load big dics)
     mvn assembly:single #create a single executable jar and run the program from the command line [as the original](https://github.com/jmcejuela/jeniatagger/ORIGINAL_GENIATAGGER_README).
 
 

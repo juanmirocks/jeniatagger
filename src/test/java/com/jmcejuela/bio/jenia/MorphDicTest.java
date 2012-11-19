@@ -20,7 +20,7 @@ public class MorphDicTest {
 
   @BeforeClass
   public static void setUpClass() {
-    MorphDic.init_morphdic();
+    MorphDic.init();
   }
 
   @Test

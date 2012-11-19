@@ -24,8 +24,10 @@ public class MainTest {
     System.out.println("genia -nt test: tmp out file: " + tmpOut.getAbsolutePath());
     System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(tmpOut))));
 
+    long before = System.currentTimeMillis();
     Main.main(new String[] { "-nt" });
-    System.err.println("Done. Now comparing the output files, line by line");
+    long time = System.currentTimeMillis() - before;
+    System.err.println("Done (" + (time / 1000) + " s). Now comparing the output files, line by line");
 
     BufferedReader expectOutput = new BufferedReader(new InputStreamReader(Util.resourceStream("/genia-nt.out")));
     BufferedReader actualOutput = new BufferedReader(new FileReader(tmpOut));

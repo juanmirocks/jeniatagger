@@ -1,33 +1,30 @@
 package com.jmcejuela.bio.jenia.common;
 
-import com.jmcejuela.bio.jenia.MorphDic;
 
 /**
  * From common.h
  */
 public class Token {
-  public final String str;
+  public final String text;
+  public String baseForm;
   public String pos;
-  public String prd;
-  public String cprd; // for chunking
-  public String tag; // for chunking
+  public String chunk;
   public String ne;
 
-  public Token(String s, String p) {
-    str = s;
-    pos = p;
+  public Token(String text) {
+    this.text = text;
     // Must set to empty String to simulate c++ string default constructor behavior
-    prd = "";
-    cprd = "";
-    tag = "";
-    ne = "";
+    this.baseForm = "";
+    this.pos = "";
+    this.chunk = "";
+    this.ne = "";
   }
 
   public Token copy() {
-    Token ret = new Token(this.str, this.pos);
-    ret.prd = this.prd;
-    ret.cprd = this.cprd;
-    ret.tag = this.tag;
+    Token ret = new Token(this.text);
+    ret.baseForm = this.baseForm;
+    ret.pos = this.pos;
+    ret.chunk = this.chunk;
     ret.ne = this.ne;
     return ret;
   }
@@ -36,25 +33,22 @@ public class Token {
   public String toString() {
     StringBuilder s = new StringBuilder();
 
-    String token = str;
-    String postag = prd;
-
     // s = ParenConverter.Pos2Ptb(s);
     // p = ParenConverter.Pos2Ptb(p);
     /*
      * if (i == 0) tmp += s + "/" + p; else tmp += " " + s + "/" + p;
      */
 
-    s.append(token);
+    s.append(text);
     s.append("\t");
 
-    s.append(MorphDic.base_form(token, postag));
+    s.append(baseForm);
     s.append("\t");
 
-    s.append(postag);
+    s.append(pos);
     s.append("\t");
 
-    s.append(cprd);
+    s.append(chunk);
     s.append("\t");
 
     s.append(ne);

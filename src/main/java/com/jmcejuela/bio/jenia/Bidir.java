@@ -5,7 +5,6 @@ import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
 import static com.jmcejuela.bio.jenia.util.Util.tokenize;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isUpperCase;
-import static java.lang.Math.log;
 import static java.lang.Math.max;
 
 import java.util.ArrayList;
@@ -36,26 +35,24 @@ public class Bidir {
   static final boolean ONLY_VERTICAL_FEATURES = false;
 
   private static ME_Sample mesample(
-      final ArrayList<Token> vt,
+      final Sentence sentence,
       int i,
       final String pos_left2,
       final String pos_left1,
       final String pos_right1,
       final String pos_right2)
   {
-    ME_Sample sample = new ME_Sample();
+    ME_Sample sample = new ME_Sample("?");
 
-    String str = vt.get(i).str;
+    String token = sentence.get(i).text;
 
-    sample.label = vt.get(i).pos;
-
-    sample.features.add("W0_" + str);
+    sample.features.add("W0_" + token);
     String prestr = "BOS";
-    if (i > 0) prestr = vt.get(i - 1).str;
+    if (i > 0) prestr = sentence.get(i - 1).text;
     // String prestr2 = "BOS2";
     // if (i > 1) prestr2 = normalize(vt[i-2].str);
     String poststr = "EOS";
-    if (i < vt.size() - 1) poststr = vt.get(i + 1).str;
+    if (i < sentence.size() - 1) poststr = sentence.get(i + 1).text;
     // String poststr2 = "EOS2";
     // if (i < (int)vt.size()-2) poststr2 = normalize(vt[i+2].str);
 
@@ -63,24 +60,24 @@ public class Bidir {
       sample.features.add("W-1_" + prestr);
       sample.features.add("W+1_" + poststr);
 
-      sample.features.add("W-10_" + prestr + "_" + str);
-      sample.features.add("W0+1_" + str + "_" + poststr);
+      sample.features.add("W-10_" + prestr + "_" + token);
+      sample.features.add("W0+1_" + token + "_" + poststr);
     }
 
     for (int j = 1; j <= 10; j++) {
-      if (str.length() >= j) {
+      if (token.length() >= j) {
         sample.features.add(
-            String.format("suf%d_%s", j, str.substring(str.length() - j)));
+            String.format("suf%d_%s", j, token.substring(token.length() - j)));
       }
-      if (str.length() >= j) {
+      if (token.length() >= j) {
         sample.features.add(
-            String.format("pre%d_%s", j, str.substring(0, j)));
+            String.format("pre%d_%s", j, token.substring(0, j)));
       }
     }
     // L
     if (!pos_left1.isEmpty()) {
       sample.features.add("P-1_" + pos_left1);
-      sample.features.add("P-1W0_" + pos_left1 + "_" + str);
+      sample.features.add("P-1W0_" + pos_left1 + "_" + token);
     }
     // L2
     if (!pos_left2.isEmpty()) {
@@ -89,7 +86,7 @@ public class Bidir {
     // R
     if (!pos_right1.isEmpty()) {
       sample.features.add("P+1_" + pos_right1);
-      sample.features.add("P+1W0_" + pos_right1 + "_" + str);
+      sample.features.add("P+1W0_" + pos_right1 + "_" + token);
     }
     // R2
     if (!pos_right2.isEmpty()) {
@@ -98,7 +95,7 @@ public class Bidir {
     // LR
     if (!pos_left1.isEmpty() && !pos_right1.isEmpty()) {
       sample.features.add("P-1+1_" + pos_left1 + "_" + pos_right1);
-      sample.features.add("P-1W0P+1_" + pos_left1 + "_" + str + "_" + pos_right1);
+      sample.features.add("P-1W0P+1_" + pos_left1 + "_" + token + "_" + pos_right1);
     }
     // LL
     if (!pos_left1.isEmpty() && !pos_left2.isEmpty()) {
@@ -126,28 +123,28 @@ public class Bidir {
       // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
 
-    for (int j = 0; j < str.length(); j++) {
-      if (isDigit(str.charAt(j))) {
+    for (int j = 0; j < token.length(); j++) {
+      if (isDigit(token.charAt(j))) {
         sample.features.add("CONTAIN_NUMBER");
         break;
       }
     }
-    for (int j = 0; j < str.length(); j++) {
-      if (isUpperCase(str.charAt(j))) {
+    for (int j = 0; j < token.length(); j++) {
+      if (isUpperCase(token.charAt(j))) {
         sample.features.add("CONTAIN_UPPER");
         break;
       }
     }
-    for (int j = 0; j < str.length(); j++) {
-      if (str.charAt(j) == '-') {
+    for (int j = 0; j < token.length(); j++) {
+      if (token.charAt(j) == '-') {
         sample.features.add("CONTAIN_HYPHEN");
         break;
       }
     }
 
     boolean allupper = true;
-    for (int j = 0; j < str.length(); j++) {
-      if (!isUpperCase(str.charAt(j))) {
+    for (int j = 0; j < token.length(); j++) {
+      if (!isUpperCase(token.charAt(j))) {
         allupper = false;
         break;
       }
@@ -234,24 +231,29 @@ public class Bidir {
    *****************************/
 
   static double entropy(final ArrayList<Double> v) {
-    double sum = 0, maxp = 0;
+    double maxp = 0;
+    // double sum = 0;
     for (int i = 0; i < v.size(); i++) {
       if (v.get(i) == 0) continue;
-      sum += v.get(i) * log(v.get(i));
+      // sum += v.get(i) * log(v.get(i));
       maxp = max(maxp, v.get(i));
     }
     return -maxp;
-    // return -sum;//TODO original had 2 return statements?
+    /*
+     * jenia: the original calculated sum and had 2 return statements like this but sum was never
+     * effectively used
+     */
+    // return -sum;
   }
 
-  int bidir_train(final ArrayList<Sentence> vs, int para) {
+  private int bidir_train(final ArrayList<Sentence> vs, int para) {
     // vme.clear();
     // vme.resize(16);
 
     for (int t = 0; t < 16; t++) {
       if (t != 15 && t != 0) continue;
       // for (int t = 15; t >= 0; t--) {
-      ArrayList<ME_Sample> train = newArrayList(); // TODO check size
+      ArrayList<ME_Sample> train = newArrayList();
 
       if (para != -1 && t % 4 != para) continue;
       // if (t % 2 == 1) continue;
@@ -315,7 +317,7 @@ public class Bidir {
       });
       order = newArrayList(n, 0);
       for (int i = 0; i < n; i++) {
-        this.sentence.get(i).prd = "";
+        this.sentence.get(i).pos = "";
         Update(i, vme);
       }
     }
@@ -378,12 +380,12 @@ public class Bidir {
         final ArrayList<ME_Model> vme)
     {
       String pos_left1 = "BOS", pos_left2 = "BOS2";
-      if (j >= 1) pos_left1 = sentence.get(j - 1).prd; // maybe bug??
+      if (j >= 1) pos_left1 = sentence.get(j - 1).pos; // maybe bug??
       // if (j >= 1 && !vt[j-1].isEmpty()) pos_left1 = vt[j-1].prd; // this should be correct
-      if (j >= 2) pos_left2 = sentence.get(j - 2).prd;
+      if (j >= 2) pos_left2 = sentence.get(j - 2).pos;
       String pos_right1 = "EOS", pos_right2 = "EOS2";
-      if (j <= sentence.size() - 2) pos_right1 = sentence.get(j + 1).prd;
-      if (j <= sentence.size() - 3) pos_right2 = sentence.get(j + 2).prd;
+      if (j <= sentence.size() - 2) pos_right1 = sentence.get(j + 1).pos;
+      if (j <= sentence.size() - 3) pos_right2 = sentence.get(j + 2).pos;
 
       ME_Sample mes = mesample(sentence, j, pos_left2, pos_left1, pos_right1, pos_right2);
 
@@ -434,10 +436,10 @@ public class Bidir {
     int n = h.sentence.size();
     int pred_position = -1;
     double min_ent = 999999;
-    String pred = "";
-    double pred_prob = 0;
+    // String pred = ""; //jenia
+    // double pred_prob = 0; //jenia
     for (int j = 0; j < n; j++) {
-      if (!h.sentence.get(j).prd.isEmpty()) continue;
+      if (!h.sentence.get(j).pos.isEmpty()) continue;
       double ent = h.entropies.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
@@ -451,14 +453,14 @@ public class Bidir {
     for (Tuple2<String, Double> k : h.vvp.get(pred_position)) {
       Hypothesis newh = h.copy();
 
-      newh.sentence.get(pred_position).prd = k._1;
+      newh.sentence.get(pred_position).pos = k._1;
       newh.order.set(pred_position, order + 1);
       newh.prob = h.prob * k._2;
 
       // update the neighboring predictions
       for (int j = pred_position - UPDATE_WINDOW_SIZE; j <= pred_position + UPDATE_WINDOW_SIZE; j++) {
         if (j < 0 || j > n - 1) continue;
-        if (newh.sentence.get(j).prd.isEmpty()) newh.Update(j, vme);
+        if (newh.sentence.get(j).pos.isEmpty()) newh.Update(j, vme);
       }
       vh.add(newh);
     }
@@ -468,23 +470,23 @@ public class Bidir {
    * tag_dictionary discarded
    *
    * @param sentence
-   * @param vme
+   * @param posModels
    */
   static void bidir_decode_beam(Sentence sentence,
       // final multimap<String, String> tag_dictionary,
-      final ArrayList<ME_Model> vme)
+      final ArrayList<ME_Model> posModels)
   {
     int n = sentence.size();
     if (n == 0) return;
 
-    ArrayList<Hypothesis> hypotheses = newArrayList(); // TODO check size
-    Hypothesis hyp = new Hypothesis(sentence, vme);
+    ArrayList<Hypothesis> hypotheses = newArrayList();
+    Hypothesis hyp = new Hypothesis(sentence, posModels);
     hypotheses.add(hyp);
 
     for (int i = 0; i < n; i++) {
-      ArrayList<Hypothesis> newHypotheses = newArrayList(); // TODO check size
+      ArrayList<Hypothesis> newHypotheses = newArrayList();
       for (Hypothesis j : hypotheses) {
-        generate_hypotheses(i, j, vme, newHypotheses);
+        generate_hypotheses(i, j, posModels, newHypotheses);
       }
       Collections.sort(newHypotheses, Hypothesis.Order);
       while (newHypotheses.size() > BEAM_NUM) {
@@ -496,19 +498,19 @@ public class Bidir {
     hyp = last(hypotheses);
     for (int k = 0; k < n; k++) {
       // cout << h.vt[k].str << "/" << h.vt[k].prd << "/" << h.order[k] << " ";
-      sentence.get(k).prd = hyp.sentence.get(k).prd;
+      sentence.get(k).pos = hyp.sentence.get(k).pos;
     }
     // cout << endl;
   }
 
-  static void decode_no_context(ArrayList<Token> vt, final ME_Model me_none) {
-    int n = vt.size();
+  private static void decode_no_context(Sentence sentence, final ME_Model me_none) {
+    int n = sentence.size();
     if (n == 0) return;
 
     for (int i = 0; i < n; i++) {
-      ME_Sample mes = mesample(vt, i, "", "", "", "");
+      ME_Sample mes = mesample(sentence, i, "", "", "", "");
       me_none.classify(mes);
-      vt.get(i).prd = mes.label;
+      sentence.get(i).pos = mes.label;
     }
 
     for (int k = 0; k < n; k++) {
@@ -557,38 +559,6 @@ public class Bidir {
     }
   }
 
-  static Sentence bidir_postag(final String line, final ArrayList<ME_Model> vme, final ArrayList<ME_Model> chunking_vme, boolean dont_tokenize) {
-    if (line.matches(".*[\n\r\u0085\u2028\u2029].*"))
-      throw new IllegalArgumentException("The input line cannot have any line terminator");
-
-    String trimmedLine = line.trim();
-    if (trimmedLine.isEmpty()) return new Sentence();
-
-    final List<String> lt = (dont_tokenize) ?
-        Arrays.asList(trimmedLine.split("\\s+")) // jenia: see genia's README
-        :
-        tokenize(line);
-
-    Sentence sentence = new Sentence(lt.size());
-    for (String slt : lt) {
-      // s = ParenConverter.Ptb2Pos(s);
-      sentence.add(new Token(slt, "?"));
-    }
-
-    // jenia: final multimap<String, String> dummy;
-    // bidir_decode_search(vt, dummy, vme);
-    bidir_decode_beam(sentence, vme);
-    for (int i = 0; i < sentence.size(); i++) {
-      sentence.get(i).pos = sentence.get(i).prd;
-    }
-
-    Chunking.bidir_chuning_decode_beam(sentence, chunking_vme);
-
-    NamedEntity.netagging(sentence);
-
-    return sentence;
-  }
-
   // int push_stop_watch() {
   // static struct timeval start_time, end_time;
   // static boolean start = true;
@@ -612,7 +582,7 @@ public class Bidir {
    * @param vs
    * @param vme
    */
-  void bidir_postagging(ArrayList<Sentence> vs,
+  private void bidir_postagging(ArrayList<Sentence> vs,
       // final multimap<String, String> tag_dictionary,
       final ArrayList<ME_Model> vme)
   {

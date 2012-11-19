@@ -164,7 +164,7 @@ public class Chunking {
       order = newArrayList(n, 0);
       // model.resize(n);
       for (int i = 0; i < n; i++) {
-        this.sentence.get(i).cprd = "";
+        this.sentence.get(i).chunk = "";
         Update(i, vme);
       }
     }
@@ -214,12 +214,12 @@ public class Chunking {
 
     void Update(final int j, final ArrayList<ME_Model> vme) {
       String tag_left1 = "BOS", tag_left2 = "BOS2";
-      if (j >= 1) tag_left1 = sentence.get(j - 1).cprd; // maybe bug??
+      if (j >= 1) tag_left1 = sentence.get(j - 1).chunk; // maybe bug??
       // if (j >= 1 && !vt.get(j-1].isEmpty()) pos_left1 = vt[j-1).cprd; // this should be correct
-      if (j >= 2) tag_left2 = sentence.get(j - 2).cprd;
+      if (j >= 2) tag_left2 = sentence.get(j - 2).chunk;
       String tag_right1 = "EOS", tag_right2 = "EOS2";
-      if (j <= sentence.size() - 2) tag_right1 = sentence.get(j + 1).cprd;
-      if (j <= sentence.size() - 3) tag_right2 = sentence.get(j + 2).cprd;
+      if (j <= sentence.size() - 2) tag_right1 = sentence.get(j + 1).chunk;
+      if (j <= sentence.size() - 3) tag_right2 = sentence.get(j + 2).chunk;
       ME_Sample mes = mesample(sentence, j, tag_left2, tag_left1, tag_right1, tag_right2);
 
       ArrayList<Double> membp;
@@ -266,8 +266,8 @@ public class Chunking {
 
     final boolean IsErroneous() {
       for (int i = 0; i < sentence.size() - 1; i++) {
-        final String a = sentence.get(i).cprd;
-        final String b = sentence.get(i + 1).cprd;
+        final String a = sentence.get(i).chunk;
+        final String b = sentence.get(i + 1).chunk;
         if (a.equals("") || b.equals("")) continue;
         // if (a[0] == 'B' && b[0] == 'B') {
         // if (a.substring(2) == b.substring(2)) return true;
@@ -291,7 +291,7 @@ public class Chunking {
     String pred = "";
     double pred_prob = 0;
     for (int j = 0; j < n; j++) {
-      if (!h.sentence.get(j).cprd.equals("")) continue;
+      if (!h.sentence.get(j).chunk.equals("")) continue;
       double ent = h.entropies.get(j);
       if (ent < min_ent) {
         // pred = h.vvp[j].begin()->first;
@@ -305,7 +305,7 @@ public class Chunking {
     for (Tuple2<String, Double> k : h.vvp.get(pred_position)) {
       Hypothesis newh = h.copy();
 
-      newh.sentence.get(pred_position).cprd = k._1;
+      newh.sentence.get(pred_position).chunk = k._1;
       newh.order.set(pred_position, order + 1);
       newh.prob = h.prob * k._2;
 
@@ -318,7 +318,7 @@ public class Chunking {
       // update the neighboring predictions
       for (int j = pred_position - TAG_WINDOW_SIZE; j <= pred_position + TAG_WINDOW_SIZE; j++) {
         if (j < 0 || j > n - 1) continue;
-        if (newh.sentence.get(j).cprd.equals("")) newh.Update(j, vme);
+        if (newh.sentence.get(j).chunk.equals("")) newh.Update(j, vme);
       }
       vh.add(newh);
     }
@@ -369,12 +369,12 @@ public class Chunking {
     ArrayList<String> tags = newArrayList(); // TODO check size
     for (int k = 0; k < n; k++) {
       // cout << h.vt.get(k].str << "/" << h.vt[k).cprd << "/" << h.order[k] << " ";
-      tags.add(h.sentence.get(k).cprd);
+      tags.add(h.sentence.get(k).chunk);
     }
 
     convert_startend_to_iob2_sub(tags);
     for (int k = 0; k < n; k++) {
-      sentence.get(k).cprd = tags.get(k);
+      sentence.get(k).chunk = tags.get(k);
     }
 
     // cout << endl;

@@ -9,7 +9,7 @@ public class Token {
   public final String text;
   public String pos;
   public String prd;
-  public String cprd; // for chunking
+  public String chunk;
   public String ne;
 
   public Token(String text, String pos) {
@@ -24,7 +24,7 @@ public class Token {
   public Token copy() {
     Token ret = new Token(this.text, this.pos);
     ret.prd = this.prd;
-    ret.cprd = this.cprd;
+    ret.chunk = this.chunk;
     ret.ne = this.ne;
     return ret;
   }
@@ -51,7 +51,7 @@ public class Token {
     s.append(postag);
     s.append("\t");
 
-    s.append(cprd);
+    s.append(chunk);
     s.append("\t");
 
     s.append(ne);

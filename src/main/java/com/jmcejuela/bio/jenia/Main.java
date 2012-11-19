@@ -5,11 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import com.jmcejuela.bio.jenia.common.Sentence;
-import com.jmcejuela.bio.jenia.maxent.ME_Model;
-import com.jmcejuela.bio.jenia.util.Util;
 
 /**
  * From main.cpp
@@ -63,38 +60,15 @@ public class Main {
       }
     }
 
-    BufferedReader in = new BufferedReader(new InputStreamReader(System.in)); // default standard input
+    // default, standard input
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     if (ifilename != null && !ifilename.isEmpty() && !ifilename.equals("-")) {
       in = new BufferedReader(new FileReader(new File(ifilename)));
     }
 
     // ----------------------------------------------------------------------------
 
-    System.err.println("Loading dictionaries...");
-
-    MorphDic.init();
-
-    ArrayList<ME_Model> vme = Util.newArrayList(16, ME_Model.CONSTRUCTOR);
-    // cerr << "loading pos_models";
-    for (int i = 0; i < 16; i++) {
-      vme.get(i).load_from_file("/models_medline/model.bidir." + i);
-      // cerr << ".";
-    }
-    // cerr << "done." << endl;
-
-    // cerr << "loading chunk_models";
-    ArrayList<ME_Model> vme_chunking = Util.newArrayList(8, ME_Model.CONSTRUCTOR);
-    for (int i = 0; i < 8; i += 2) {
-      vme_chunking.get(i).load_from_file("/models_chunking/model.bidir." + i);
-      // cerr << ".";
-    }
-    // cerr << "done." << endl;
-
-    NamedEntity.init();
-
-    // ----------------------------------------------------------------------------
-
-    System.err.println("Ready. Feed me with sentences");
+    System.err.println("Ready (the first sentence will take longer until all dictionaries are loaded)");
 
     String line;
     int n = 1;
@@ -103,7 +77,7 @@ public class Main {
         System.err.println("warning: the sentence seems to be too long at line " + n +
             " (please note that the input should be one-sentence-per-line).");
       }
-      Sentence analysis = Bidir.bidir_postag(line, vme, vme_chunking, dont_tokenize);
+      Sentence analysis = Jenia.analyze(line, dont_tokenize);
       System.out.println(analysis);
       n++;
     }

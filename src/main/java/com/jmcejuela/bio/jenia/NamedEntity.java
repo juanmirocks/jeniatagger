@@ -27,11 +27,11 @@ import com.jmcejuela.bio.jenia.util.CppMap;
 public class NamedEntity {
   private static ME_Model ne_model;
   static Map<String, WordInfo> word_info;
-  private static Map<String, WordInfo> pos_info;
 
+  // private static Map<String, WordInfo> pos_info;
+
+  // private final int max_term_length = 0;
   static final double BIAS_FOR_RECALL = 0.6;
-
-  private final int max_term_length = 0;
 
   static void load_ne_models() {
     String model_file = "/models_named_entity/model001";
@@ -208,7 +208,7 @@ public class NamedEntity {
 
     s = "";
     String whole = "";
-    boolean contain_comma = false;
+    // boolean contain_comma = false;
     for (int i = begin; i < end; i++) {
       if (s.length() + sentence.get(i).text.length() > BUFLEN - 100) break;
       s += normalize(sentence.get(i).text);
@@ -427,9 +427,8 @@ public class NamedEntity {
     }
   }
 
-  static int netagging(Sentence vt) {
+  static void netagging(Sentence vt) {
     find_NEs(ne_model, vt);
-    return 0; // TODO no explicit return in original
   }
 
 }

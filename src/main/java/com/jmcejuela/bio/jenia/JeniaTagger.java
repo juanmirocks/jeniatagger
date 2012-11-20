@@ -37,14 +37,10 @@ public class JeniaTagger {
   }
 
   // Implicit in MorphDic
-  // static {
-  // MorphDic.init();
-  // }
+  // static { MorphDic.init(); }
 
   // Implicit in NamedEntity
-  // static {
-  // NamedEntity.init();
-  // }
+  // static { NamedEntity.init(); }
 
   public static Sentence analyzeAll(final String line, boolean dont_tokenize) {
     Sentence sentence = analyzePos(line, dont_tokenize);

@@ -10,10 +10,10 @@ The original C++ program contains [several issues](https://github.com/jmcejuela/
 
 ## State of the port
 
-* The output of the port has been successfully tested to be equal to the original's.
-* Only, the output is not the same with tokens using Unicode characters. In fact, the original code did not handle these well.
+* It is known that for some instances jenia's output for named-entity recognition is not the same as the original's.
+* All other analyses (`base form`, `pos tag`, and `shallow parsing`) have been thoroughly and successfully tested.
 * The built-in tokenizer has not been implemented yet. For now, you have to use your own. See the [original README](https://github.com/jmcejuela/jeniatagger/ORIGINAL_GENIATAGGER_README). Contributions are welcome.
-* Besides some few improvements and refactoring, for now the java code resembles almost exactly the original.
+* Besides some few improvements and refactoring, for now the java code resembles almost exactly the original's.
 
 
 ## Installation
@@ -23,7 +23,7 @@ For now,
     git clone https://github.com/jmcejuela/jeniatagger.git
     cd jeniatagger
 
-    mvn -Dmaven.test.skip=true install #install locally in your m2 repository (skip the tests not to load big dics)
+    mvn -Dmaven.test.skip=true install #install locally in your m2 repository
     mvn assembly:single #create a single executable jar and run the program from the command line [as the original](https://github.com/jmcejuela/jeniatagger/ORIGINAL_GENIATAGGER_README).
 
 

@@ -25,7 +25,7 @@ public class MainTest {
   }
 
   @Test
-  public void testOutputWithNT() throws IOException {
+  public void testOutputNT() throws IOException {
     testSameAsOriginalOutput("/genia-nt.in", "/genia-nt.out", "-nt");
   }
 
@@ -40,7 +40,7 @@ public class MainTest {
    * @throws IOException
    */
   @Test
-  public void testOutputWithNTBc2GmTrainingData() throws IOException {
+  public void testOutputNTBc2GmTrainingData() throws IOException {
     testSameAsOriginalOutput("genia-nt.bc2gm-training.in", "genia-nt.bc2gm-training.out", "-nt");
   }
 

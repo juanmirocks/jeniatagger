@@ -96,7 +96,6 @@ public class ME_Model {
   private static class Sample {
     int label;
     ArrayList<Integer> positive_features = newArrayList();
-    ArrayList<Tuple2<Integer, Double>> rvfeatures = newArrayList();
     ArrayList<Double> ref_pd = newArrayList(); // reference probability distribution
 
     // jenia, converted to Comparator
@@ -112,12 +111,13 @@ public class ME_Model {
     }
 
     /**
-     * jenia: This is my interpretation of Sample comparator according to operator_less.
+     * jenia: This is my interpretation of Sample comparator according to
+     * operator_less.
      */
     static final Comparator<Sample> Order = new Comparator<Sample>() {
       @Override
       public int compare(Sample s1, Sample s2) {
-        // TODO watch out, this doesn't appear in operator_less
+        //this clause doesn't appear in the original operator_less
         if (s1.positive_features.size() < s2.positive_features.size())
           return -1;
         else if (s1.positive_features.size() > s2.positive_features.size())
@@ -136,41 +136,23 @@ public class ME_Model {
   }
 
   private static class ME_Feature {
-    private final int _body; // unsigned
+    public final int body; // unsigned
+    public final int label;
+    //public final int feature;
 
     static final int MAX_LABEL_TYPES = 255;
 
-    // ME_Feature(final int l, final int f) : _body((l << 24) + f) {
-    // assert(l >= 0 && l < 256);
-    // assert(f >= 0 && f <= 0xffffff);
-    // };
-    // int label() final { return _body >> 24; }
-    // int feature() final { return _body & 0xffffff; }
-
     ME_Feature(int l, int f) {
-      _body = ME_Feature.body(l, f);
       assert (l >= 0 && l <= MAX_LABEL_TYPES);
       assert (f >= 0 && f <= 0xffffff);
+      body = ME_Feature.body(l, f);
+      label = l;
+      //feature = f;
     };
 
-    final int label() {
-      return _body & 0xff;
-    }
-
-    final int feature() {
-      return _body >> 8;
-    }
-
-    final int body() {
-      return _body;
-    }
-
     /**
-     * New in jenia. Used to calculate the bodyvalue of a {@link ME_Feature} without having to create a new object.
-     *
-     * @param l
-     * @param f
-     * @return
+     * New in jenia. Used to calculate the body value of a {@link ME_Feature}
+     * without having to create a new object.
      */
     final static int body(int l, int f) {
       return ((f << 8) + l);
@@ -188,18 +170,18 @@ public class ME_Model {
     }
 
     int Put(final ME_Feature i) {
-      Integer j = mef2id.get(i.body());
+      Integer j = mef2id.get(i.body);
       if (j == null) {
         int id = id2mef.size();
         id2mef.add(i);
-        mef2id.put(i.body(), id);
+        mef2id.put(i.body, id);
         return id;
       }
       return j;
     }
 
     final int Id(final ME_Feature i) {
-      Integer j = mef2id.get(i.body());
+      Integer j = mef2id.get(i.body);
       if (j == null) {
         return -1;
       }
@@ -207,7 +189,6 @@ public class ME_Model {
     }
 
     final ME_Feature Feature(int id) {
-      assert (id >= 0 && id < id2mef.size());
       return id2mef.get(id);
     }
 
@@ -260,9 +241,10 @@ public class ME_Model {
       return j;
     }
 
-    final int Id(final String i) {
+    final Integer Id(final String i) {
       Integer j = str2id.get(i);
-      if (j == null) return -1;
+      if (j == null)
+        return -1;
       else
         return j;
     }
@@ -418,13 +400,7 @@ public class ME_Model {
 
     for (Integer j : s.positive_features) {
       for (Integer k : _feature2mef.get(j)) {
-        powv[_fb.Feature(k).label()] += _vl.get(k);
-      }
-    }
-
-    for (Tuple2<Integer, Double> j : s.rvfeatures) {
-      for (Integer k : _feature2mef.get(j._1)) {
-        powv[_fb.Feature(k).label()] += _vl.get(k) * j._2;
+        powv[_fb.Feature(k).label] += _vl.get(k);
       }
     }
 
@@ -434,9 +410,7 @@ public class ME_Model {
     for (int label = 0; label < _num_classes; label++) {
       double pow = powv[label] - offset;
       double prod = exp(pow);
-      // cout << pow << " " << prod << ", ";
-      // if (_ref_modelp != NULL) prod *= _train_refpd[n][label];
-      if (_ref_modelp != null) prod *= s.ref_pd.get(label);
+      //if (_ref_modelp != null) prod *= s.ref_pd.get(label);
       assert (prod != 0);
       membp[label] = prod;
       sum += prod;
@@ -460,30 +434,19 @@ public class ME_Model {
         for (Integer j : i.positive_features) {
           increase(count, ME_Feature.body(i.label, j));
         }
-        for (Tuple2<Integer, Double> j : i.rvfeatures) {
-          increase(count, ME_Feature.body(i.label, j._1));
-        }
       }
     }
 
-    // int n = 0;, jenia
     for (Sample i : _vs) {
       max_num_features = max(max_num_features, (i.positive_features.size()));
       for (Integer j : i.positive_features) {
         final ME_Feature feature = new ME_Feature(i.label, j);
         // if (cutoff > 0 && count[feature.body()] < cutoff) continue;
-        if (cutoff > 0 && count.get(feature.body()) <= cutoff) continue;
+        if (cutoff > 0 && count.get(feature.body) <= cutoff) continue;
         // int id = _fb.Put(feature);, jenia
         // cout << i->label << "\t" << *j << "\t" << id << endl;
         // feature2sample[id].push_back(n);
       }
-      for (Tuple2<Integer, Double> j : i.rvfeatures) {
-        final ME_Feature feature = new ME_Feature(i.label, j._1);
-        // if (cutoff > 0 && count[feature.body()] < cutoff) continue;
-        if (cutoff > 0 && count.get(feature.body()) <= cutoff) continue;
-        // int id = _fb.Put(feature);, jenia
-      }
-      // n++;
     }
     count.clear();
 
@@ -518,7 +481,6 @@ public class ME_Model {
 
     _vme = newArrayList(_fb.Size(), 0.0);
 
-    // int n = 0;, jenia
     for (Sample i : _vs) {
       double[] membp = new double[_num_classes];
       int max_label = conditional_probability(i, membp);
@@ -530,16 +492,9 @@ public class ME_Model {
       // model_expectation
       for (Integer j : i.positive_features) {
         for (Integer k : _feature2mef.get(j)) {
-          plusEq(_vme, k, membp[_fb.Feature(k).label()]);
+          plusEq(_vme, k, membp[_fb.Feature(k).label]);
         }
       }
-      for (Tuple2<Integer, Double> j : i.rvfeatures) {
-        for (Integer k : _feature2mef.get(j._1)) {
-          plusEq(_vme, k, (membp[_fb.Feature(k).label()] * j._2));
-        }
-      }
-
-      // n++;, jenia
     }
 
     for (int i = 0; i < _fb.Size(); i++) {
@@ -593,19 +548,11 @@ public class ME_Model {
     for (String j : mes.features) {
       s.positive_features.add(_featurename_bag.Put(j));
     }
-    for (Tuple2<String, Double> j : mes.rvfeatures) {
-      s.rvfeatures.add(Tuple2.$(_featurename_bag.Put(j._1), j._2));
-    }
 
     if (_ref_modelp != null) {
       ME_Sample tmp = mes;
       s.ref_pd = _ref_modelp.classify(tmp);
     }
-    // cout << s.label << "\t";
-    // for (ArrayList<Integer>::final_iterator j = s.positive_features.begin(); j != s.positive_features.end(); j++){
-    // cout << *j << " ";
-    // }
-    // cout << endl;
 
     _vs.add(s);
   }
@@ -688,13 +635,7 @@ public class ME_Model {
     for (Sample i : _vs) {
       for (Integer j : i.positive_features) {
         for (Integer k : _feature2mef.get(j)) {
-          if (_fb.Feature(k).label() == i.label) plusEq(_vee, k, 1.0);
-        }
-      }
-
-      for (Tuple2<Integer, Double> j : i.rvfeatures) {
-        for (Integer k : _feature2mef.get(j._1)) {
-          if (_fb.Feature(k).label() == i.label) plusEq(_vee, k, j._2);
+          if (_fb.Feature(k).label == i.label) plusEq(_vee, k, 1.0);
         }
       }
     }
@@ -755,8 +696,9 @@ public class ME_Model {
 
       // char[] buf = new char[1024];
       /*
-       * jenia: the original algorithm read the file with a char buffer of size 1024. In main this is fixed as the
-       * maximum line size. Therefore the original algorithm was equivalent to read the file line by line.
+       * jenia: the original algorithm read the file with a char buffer of size
+       * 1024. In main this is fixed as the maximum line size. Therefore the
+       * original algorithm was equivalent to read the file line by line.
        */
 
       BufferedReader br = new BufferedReader(new InputStreamReader(resourceStream(filename)));
@@ -771,8 +713,9 @@ public class ME_Model {
            *
            * "CONTAIN_UPPER 0.606178" (model.bidir.0)
            *
-           * The original doesn't treat this explicitly but when this happens classname is set to the empty String
-           * featurename to first token (typically second) and w to the second token (typically third)
+           * The original doesn't treat this explicitly but when this happens
+           * classname is set to the empty String featurename to first token
+           * (typically second) and w to the second token (typically third)
            */
           tokens = new String[] { "", tokens[0], tokens[1] };
         }
@@ -897,15 +840,9 @@ public class ME_Model {
   public final ArrayList<Double> classify(ME_Sample mes) {
     Sample s = new Sample();
     for (String j : mes.features) {
-      int id = _featurename_bag.Id(j);
+      Integer id = _featurename_bag.Id(j);
       if (id >= 0)
         s.positive_features.add(id);
-    }
-    for (Tuple2<String, Double> j : mes.rvfeatures) {
-      int id = _featurename_bag.Id(j._1);
-      if (id >= 0) {
-        s.rvfeatures.add(Tuple2.$(id, j._2));
-      }
     }
     if (_ref_modelp != null) {
       s.ref_pd = _ref_modelp.classify(mes);
@@ -925,8 +862,10 @@ public class ME_Model {
 
   // BLMVM
   /*
-   * int BLMVMComputeFunctionGradient(BLMVM blmvm, BLMVMVec X,double *f,BLMVMVec G); int BLMVMComputeBounds(BLMVM blmvm,
-   * BLMVMVec XL, BLMVMVec XU); int BLMVMSolve(double *x, int n); int BLMVMFunctionGradient(double *x, double *f, double
-   * *g, int n); int BLMVMLowerAndUpperBounds(double *xl,double *xu,int n); int Solve_BLMVM(BLMVM blmvm, BLMVMVec X);
+   * int BLMVMComputeFunctionGradient(BLMVM blmvm, BLMVMVec X,double *f,BLMVMVec
+   * G); int BLMVMComputeBounds(BLMVM blmvm, BLMVMVec XL, BLMVMVec XU); int
+   * BLMVMSolve(double *x, int n); int BLMVMFunctionGradient(double *x, double
+   * *f, double *g, int n); int BLMVMLowerAndUpperBounds(double *xl,double
+   * *xu,int n); int Solve_BLMVM(BLMVM blmvm, BLMVMVec X);
    */
 }

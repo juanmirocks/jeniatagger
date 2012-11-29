@@ -50,7 +50,10 @@ public class MainTest {
    */
   @Test
   public void testOutputNTBc2GmTrainingDataSmall() throws IOException {
+    long before = System.currentTimeMillis();
     testSameAsOriginalOutput("genia-nt.bc2gm-training-3000.in", "genia-nt.bc2gm-training-3000.out", "-nt");
+    long after = System.currentTimeMillis();
+    System.err.println("Time testOutputNTBc2GmTrainingDataSmall in s: " + ((double) (after - before)) / 1000);
   }
 
   public void testSameAsOriginalOutput(String in, String out, String arguments) throws IOException {

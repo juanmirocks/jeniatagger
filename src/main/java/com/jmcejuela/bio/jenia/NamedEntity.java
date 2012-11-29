@@ -92,18 +92,19 @@ public class NamedEntity {
   }
 
   static String normalize(final String s) {
-    String tmp = "";
+    //String tmp = "";
+    StringBuilder sb = new StringBuilder();
     for (int i = 0; i < s.length(); i++) {
       char c = toLowerCase(s.charAt(i));
       if (isDigit(c)) c = '#';
       if (c == '-' || c == ' ') continue;
-      tmp += c;
+      sb.append(c);
     }
     // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't
     // throw an exception
     // TODO this also makes "s" the empty string. I guess this was not intended
-    if (!tmp.isEmpty() && tmp.charAt(tmp.length() - 1) == 's') return tmp.substring(0, tmp.length() - 1);
-    return tmp;
+    if (!(sb.length() == 0) && sb.charAt(sb.length() - 1) == 's') return sb.substring(0, sb.length() - 1);
+    return sb.toString();
   }
 
   static String wordshape(final String s, boolean fine) {
@@ -142,14 +143,14 @@ public class NamedEntity {
       s_1 = normalize(sentence.get(begin - 1).text);
     else
       s_1 = "BOS";
-    mes.features.add(String.format("C-1_%s", s_1));
+    mes.features.add("C-1_" + s_1);
 
     // if (end < vt.length()) s1 = vt.get(end).str;
     if (end < sentence.size())
       s1 = normalize(sentence.get(end).text);
     else
       s1 = "EOS";
-    mes.features.add(String.format("C+1_%s", s1));
+    mes.features.add("C+1_" + s1);
 
     // if (begin >= 2) s_2 = vt.get(begin-2).str;
     if (begin >= 2)
@@ -168,16 +169,16 @@ public class NamedEntity {
     mes.features.add("C+1+2_" + s1 + "_" + s2);
 
     String tb = normalize(sentence.get(begin).text);
-    mes.features.add(String.format("TB_%s", tb));
+    mes.features.add("TB_" + tb);
 
     for (int i = begin + 1; i < end - 1; i++) {
       // for (int i = begin; i < end; i++) {
       s = normalize(sentence.get(i).text);
-      mes.features.add(String.format("TM_%s", s));
+      mes.features.add("TM_" + s);
     }
 
     String te = normalize(sentence.get(end - 1).text);
-    mes.features.add(String.format("TE_%s", te));
+    mes.features.add("TE_" + te);
 
     // combination
     mes.features.add("C-1_TB_" + s_1 + "_" + tb);
@@ -199,26 +200,27 @@ public class NamedEntity {
     }
 
     // if (label > 0) mes.features.add(buf);
-    mes.features.add(String.format("WHOLE_%s", s));
+    mes.features.add("WHOLE_" + s);
     mes.features.add("WS1_" + wordshape(whole, true));
     mes.features.add("WS2_" + wordshape(whole, false));
 
     // mes.features.add("WHOLE_C+1_" + whole + "-" + s1);
 
     // preffix and suffix
-    for (int j = 1; j <= 10; j++) { //TODO this loop can be improved a lot
-      if (s.length() >= j) {
-        mes.add_feature(String.format("SUF%d_%s", j, s.substring(s.length() - j)));
-      }
-      if (s.length() >= j) {
-        mes.add_feature(String.format("PRE%d_%s", j, s.substring(0, j)));
-      }
+    int limit = Math.min(s.length(), 10);
+    for (int j = 1; j <= limit; j++) {
+      //mes.add_feature(String.format("SUF%d_%s", j, s.substring(s.length() - j)));
+      mes.add_feature("SUF" + j + "_" + s.substring(s.length() - j));
+      //mes.add_feature(String.format("PRE%d_%s", j, s.substring(0, j)));
+      mes.add_feature("PRE" + j + "_" + s.substring(0, j));
     }
 
     // POS feature
-    String p_2 = "BOS", p_1 = "BOS";
+    String p_1 = "BOS";
+    String p_2 = "BOS";
     String pb, pe;
-    String p1 = "EOS", p2 = "EOS";
+    String p1 = "EOS";
+    String p2 = "EOS";
     if (begin >= 2) p_2 = sentence.get(begin - 2).pos;
     if (begin >= 1) p_1 = sentence.get(begin - 1).pos;
     pb = sentence.get(begin).pos;

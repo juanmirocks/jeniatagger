@@ -2,13 +2,11 @@ package com.jmcejuela.bio.jenia;
 
 import static com.jmcejuela.bio.jenia.util.Util.last;
 import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
-import static com.jmcejuela.bio.jenia.util.Util.tokenize;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Math.max;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -16,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.jmcejuela.bio.jenia.common.Sentence;
-import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
 import com.jmcejuela.bio.jenia.util.Constructor;
@@ -49,12 +46,8 @@ public class Bidir {
     sample.features.add("W0_" + token);
     String prestr = "BOS";
     if (i > 0) prestr = sentence.get(i - 1).text;
-    // String prestr2 = "BOS2";
-    // if (i > 1) prestr2 = normalize(vt[i-2].str);
     String poststr = "EOS";
     if (i < sentence.size() - 1) poststr = sentence.get(i + 1).text;
-    // String poststr2 = "EOS2";
-    // if (i < (int)vt.size()-2) poststr2 = normalize(vt[i+2].str);
 
     if (!ONLY_VERTICAL_FEATURES) {
       sample.features.add("W-1_" + prestr);
@@ -64,15 +57,12 @@ public class Bidir {
       sample.features.add("W0+1_" + token + "_" + poststr);
     }
 
-    for (int j = 1; j <= 10; j++) {
-      if (token.length() >= j) {
-        sample.features.add(
-            String.format("suf%d_%s", j, token.substring(token.length() - j)));
-      }
-      if (token.length() >= j) {
-        sample.features.add(
-            String.format("pre%d_%s", j, token.substring(0, j)));
-      }
+    int limit = Math.min(token.length(), 10);
+    for (int j = 1; j <= limit; j++) {
+      //sample.features.add(String.format("suf%d_%s", j, token.substring(token.length() - j)));
+      sample.features.add("suf" + j + "_" + token.substring(token.length() - j));
+      //sample.features.add(String.format("pre%d_%s", j, token.substring(0, j)));
+      sample.features.add("pre" + j + "_" + token.substring(0, j));
     }
     // L
     if (!pos_left1.isEmpty()) {
@@ -100,27 +90,22 @@ public class Bidir {
     // LL
     if (!pos_left1.isEmpty() && !pos_left2.isEmpty()) {
       sample.features.add("P-2-1_" + pos_left2 + "_" + pos_left1);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // RR
     if (!pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P+1+2_" + pos_right1 + "_" + pos_right2);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LLR
     if (!pos_left1.isEmpty() && !pos_left2.isEmpty() && !pos_right1.isEmpty()) {
       sample.features.add("P-2-1+1_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LRR
     if (!pos_left1.isEmpty() && !pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P-1+1+2_" + pos_left1 + "_" + pos_right1 + "_" + pos_right2);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LLRR
     if (!pos_left2.isEmpty() && !pos_left1.isEmpty() && !pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P-2-1+1+2_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1 + "_" + pos_right2);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
 
     for (int j = 0; j < token.length(); j++) {
@@ -152,80 +137,94 @@ public class Bidir {
     if (allupper)
       sample.features.add("ALL_UPPER");
 
-    // for (int j = 0; j < vt.size(); j++)
-    // cout << vt[j].str << " ";
-    // cout << endl;
-    // cout << i << endl;
-    // for (List<String>::final_iterator j = sample.features.begin(); j != sample.features.end(); j++) {
-    // cout << *j << " ";
-    // }
-    // cout << endl << endl;
-
     return sample;
   }
 
   /*****************************
-   * //////////////////////////////////////////////////////////////////// //// Toutanova feature
-   * //////////////////////////////////////////////////////////////////// static ME_Sample mesample(final
-   * ArrayList<Token> &vt, int i, final String & pos_left2, final String & pos_left1, final String & pos_right1, final
+   * //////////////////////////////////////////////////////////////////// ////
+   * Toutanova feature
+   * //////////////////////////////////////////////////////////////////// static
+   * ME_Sample mesample(final ArrayList<Token> &vt, int i, final String &
+   * pos_left2, final String & pos_left1, final String & pos_right1, final
    * String & pos_right2) { ME_Sample sample = new ME_Sample();
    *
    * String str = vt.get(i).str;
    *
    * sample.label = vt.get(i).pos;
    *
-   * sample.features.add("W0_" + str); String prestr = "BOS"; if (i > 0) prestr = vt[i-1].str; // String prestr2 =
-   * "BOS2"; // if (i > 1) prestr2 = normalize(vt[i-2].str); String poststr = "EOS"; if (i < (int)vt.size()-1) poststr =
-   * vt[i+1].str; // String poststr2 = "EOS2"; // if (i < (int)vt.size()-2) poststr2 = normalize(vt[i+2].str);
+   * sample.features.add("W0_" + str); String prestr = "BOS"; if (i > 0) prestr
+   * = vt[i-1].str; // String prestr2 = "BOS2"; // if (i > 1) prestr2 =
+   * normalize(vt[i-2].str); String poststr = "EOS"; if (i < (int)vt.size()-1)
+   * poststr = vt[i+1].str; // String poststr2 = "EOS2"; // if (i <
+   * (int)vt.size()-2) poststr2 = normalize(vt[i+2].str);
    *
-   * if (!ONLY_VERTICAL_FEATURES) { sample.features.add("W-1_" + prestr); sample.features.add("W+1_" + poststr);
+   * if (!ONLY_VERTICAL_FEATURES) { sample.features.add("W-1_" + prestr);
+   * sample.features.add("W+1_" + poststr);
    *
-   * sample.features.add("W-10_" + prestr + "_" + str); sample.features.add("W0+1_" + str + "_" + poststr); }
+   * sample.features.add("W-10_" + prestr + "_" + str);
+   * sample.features.add("W0+1_" + str + "_" + poststr); }
    *
-   * for (int j = 1; j <= 10; j++) { char buf[1000]; if (str.length() >= j) { sprintf(buf, "suf%d_%s", j,
-   * str.substring(str.length() - j)); sample.features.add(buf); } if (str.length() >= j) { sprintf(buf, "pre%d_%s", j,
-   * str.substring(0, j)); sample.features.add(buf); } } // L if (!pos_left1.isEmpty()) { sample.features.add("P-1_" +
-   * pos_left1); sample.features.add("P-1W0_" + pos_left1 + "_" + str); }
+   * for (int j = 1; j <= 10; j++) { char buf[1000]; if (str.length() >= j) {
+   * sprintf(buf, "suf%d_%s", j, str.substring(str.length() - j));
+   * sample.features.add(buf); } if (str.length() >= j) { sprintf(buf,
+   * "pre%d_%s", j, str.substring(0, j)); sample.features.add(buf); } } // L if
+   * (!pos_left1.isEmpty()) { sample.features.add("P-1_" + pos_left1);
+   * sample.features.add("P-1W0_" + pos_left1 + "_" + str); }
    *
-   * // L2 // if (!pos_left2.isEmpty()) { // sample.features.add("P-2_" + pos_left2); // }
+   * // L2 // if (!pos_left2.isEmpty()) { // sample.features.add("P-2_" +
+   * pos_left2); // }
    *
-   * // R if (!pos_right1.isEmpty()) { sample.features.add("P+1_" + pos_right1); sample.features.add("P+1W0_" +
-   * pos_right1 + "_" + str); }
+   * // R if (!pos_right1.isEmpty()) { sample.features.add("P+1_" + pos_right1);
+   * sample.features.add("P+1W0_" + pos_right1 + "_" + str); }
    *
-   * // R2 // if (!pos_right2.isEmpty()) { // sample.features.add("P+2_" + pos_right2); // }
+   * // R2 // if (!pos_right2.isEmpty()) { // sample.features.add("P+2_" +
+   * pos_right2); // }
    *
-   * // LR if (!pos_left1.isEmpty() && !pos_right1.isEmpty()) { sample.features.add("P-1+1_" + pos_left1 + "_" +
-   * pos_right1); // sample.features.add("P-1W0P+1_" + pos_left1 + "_" + str + "_" + pos_right1); } // LL if
-   * (!pos_left1.isEmpty() && !pos_left2.isEmpty()) { sample.features.add("P-2-1_" + pos_left2 + "_" + pos_left1); //
-   * sample.features.add("P-1W0_" + pos_left + "_" + str); } // RR if (!pos_right1.isEmpty() && !pos_right2.isEmpty()) {
-   * sample.features.add("P+1+2_" + pos_right1 + "_" + pos_right2); // sample.features.add("P-1W0_" + pos_left + "_" +
-   * str); }
+   * // LR if (!pos_left1.isEmpty() && !pos_right1.isEmpty()) {
+   * sample.features.add("P-1+1_" + pos_left1 + "_" + pos_right1); //
+   * sample.features.add("P-1W0P+1_" + pos_left1 + "_" + str + "_" +
+   * pos_right1); } // LL if (!pos_left1.isEmpty() && !pos_left2.isEmpty()) {
+   * sample.features.add("P-2-1_" + pos_left2 + "_" + pos_left1); //
+   * sample.features.add("P-1W0_" + pos_left + "_" + str); } // RR if
+   * (!pos_right1.isEmpty() && !pos_right2.isEmpty()) {
+   * sample.features.add("P+1+2_" + pos_right1 + "_" + pos_right2); //
+   * sample.features.add("P-1W0_" + pos_left + "_" + str); }
    *
-   * // LLR // if (!pos_left1.isEmpty() && !pos_left2.isEmpty() && !pos_right1.isEmpty()) { //
-   * sample.features.add("P-2-1+1_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1); // //
-   * sample.features.add("P-1W0_" + pos_left + "_" + str); // } // LRR // if (!pos_left1.isEmpty() &&
-   * !pos_right1.isEmpty() && !pos_right2.isEmpty()) { // sample.features.add("P-1+1+2_" + pos_left1 + "_" + pos_right1
-   * + "_" + pos_right2); // // sample.features.add("P-1W0_" + pos_left + "_" + str); // } // LLRR // if
-   * (!pos_left2.isEmpty() && !pos_left1.isEmpty() && !pos_right1.isEmpty() && !pos_right2.isEmpty()) { //
-   * sample.features.add("P-2-1+1+2_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1 + "_" + pos_right2); // //
-   * sample.features.add("P-1W0_" + pos_left + "_" + str); // }
+   * // LLR // if (!pos_left1.isEmpty() && !pos_left2.isEmpty() &&
+   * !pos_right1.isEmpty()) { // sample.features.add("P-2-1+1_" + pos_left2 +
+   * "_" + pos_left1 + "_" + pos_right1); // // sample.features.add("P-1W0_" +
+   * pos_left + "_" + str); // } // LRR // if (!pos_left1.isEmpty() &&
+   * !pos_right1.isEmpty() && !pos_right2.isEmpty()) { //
+   * sample.features.add("P-1+1+2_" + pos_left1 + "_" + pos_right1 + "_" +
+   * pos_right2); // // sample.features.add("P-1W0_" + pos_left + "_" + str); //
+   * } // LLRR // if (!pos_left2.isEmpty() && !pos_left1.isEmpty() &&
+   * !pos_right1.isEmpty() && !pos_right2.isEmpty()) { //
+   * sample.features.add("P-2-1+1+2_" + pos_left2 + "_" + pos_left1 + "_" +
+   * pos_right1 + "_" + pos_right2); // // sample.features.add("P-1W0_" +
+   * pos_left + "_" + str); // }
    *
-   * boolean contain_number = false; for (int j = 0; j < str.length(); j++) { if (isdigit(str[j])) {
-   * sample.features.add("CONTAIN_NUMBER"); contain_number = true; break; } } boolean contain_upper = false; for (int j
-   * = 0; j < str.length(); j++) { if (isupper(str[j])) { sample.features.add("CONTAIN_UPPER"); contain_upper = true;
-   * break; } } boolean contain_hyphen = false; for (int j = 0; j < str.length(); j++) { if (str[j] == '-') {
-   * sample.features.add("CONTAIN_HYPHEN"); contain_hyphen = true; break; } } if (contain_number && contain_upper &&
-   * contain_hyphen) { sample.features.add("CONTAIN_NUMBER_UPPER_HYPHEN"); } if (contain_upper) { boolean company =
-   * false; for (int j = i + 1; j <= i + 3; j++) { if (j >= vt.size()) continue; if (vt[j].str.equals("Co.")) company =
-   * true; if (vt[j].str.equals("Inc.")) company = true; if (vt[j].str.equals("Corp.")) company = true; } if (company)
-   * sample.features.add("CRUDE_COMPANY_NAME"); }
+   * boolean contain_number = false; for (int j = 0; j < str.length(); j++) { if
+   * (isdigit(str[j])) { sample.features.add("CONTAIN_NUMBER"); contain_number =
+   * true; break; } } boolean contain_upper = false; for (int j = 0; j <
+   * str.length(); j++) { if (isupper(str[j])) {
+   * sample.features.add("CONTAIN_UPPER"); contain_upper = true; break; } }
+   * boolean contain_hyphen = false; for (int j = 0; j < str.length(); j++) { if
+   * (str[j] == '-') { sample.features.add("CONTAIN_HYPHEN"); contain_hyphen =
+   * true; break; } } if (contain_number && contain_upper && contain_hyphen) {
+   * sample.features.add("CONTAIN_NUMBER_UPPER_HYPHEN"); } if (contain_upper) {
+   * boolean company = false; for (int j = i + 1; j <= i + 3; j++) { if (j >=
+   * vt.size()) continue; if (vt[j].str.equals("Co.")) company = true; if
+   * (vt[j].str.equals("Inc.")) company = true; if (vt[j].str.equals("Corp."))
+   * company = true; } if (company) sample.features.add("CRUDE_COMPANY_NAME"); }
    *
-   * boolean allupper = true; for (int j = 0; j < str.length(); j++) { if (!isupper(str[j])) { allupper = false; break;
-   * } } if (allupper) sample.features.add("ALL_UPPER");
+   * boolean allupper = true; for (int j = 0; j < str.length(); j++) { if
+   * (!isupper(str[j])) { allupper = false; break; } } if (allupper)
+   * sample.features.add("ALL_UPPER");
    *
-   * // for (int j = 0; j < vt.size(); j++) // cout << vt[j].str << " "; // cout << endl; // cout << i << endl; // for
-   * (List<String>::final_iterator j = sample.features.begin(); j != sample.features.end(); j++) { // cout << *j << " ";
-   * // } // cout << endl << endl;
+   * // for (int j = 0; j < vt.size(); j++) // cout << vt[j].str << " "; // cout
+   * << endl; // cout << i << endl; // for (List<String>::final_iterator j =
+   * sample.features.begin(); j != sample.features.end(); j++) { // cout << *j
+   * << " "; // } // cout << endl << endl;
    *
    * return sample; }
    *****************************/
@@ -240,8 +239,8 @@ public class Bidir {
     }
     return -maxp;
     /*
-     * jenia: the original calculated sum and had 2 return statements like this but sum was never
-     * effectively used
+     * jenia: the original calculated sum and had 2 return statements like this
+     * but sum was never effectively used
      */
     // return -sum;
   }
@@ -291,8 +290,9 @@ public class Bidir {
   }
 
   /*
-   * TODO jenia: A Hypothesis has more information than needed. In particular entropies refer to the maximum probability
-   * already and vvp contains in fact all the hypothesis
+   * TODO jenia: A Hypothesis has more information than needed. In particular
+   * entropies refer to the maximum probability already and vvp contains in fact
+   * all the hypothesis
    */
   static class Hypothesis {
     Sentence sentence;
@@ -327,7 +327,10 @@ public class Bidir {
     Hypothesis copy() {
       Hypothesis ret = new Hypothesis();
       ret.sentence = this.sentence.copy();
-      /* The following can be done because Double, Integer, and Tuple2<String, Double> are immutable objects */
+      /*
+       * The following can be done because Double, Integer, and Tuple2<String,
+       * Double> are immutable objects
+       */
       ret.entropies = new ArrayList<Double>(this.entropies);
       ret.order = new ArrayList<Integer>(this.order);
       ret.vvp = newArrayList(this.vvp.size());
@@ -363,17 +366,6 @@ public class Bidir {
           return 0;
       }
     };
-
-    void Print() {
-      for (int k = 0; k < sentence.size(); k++) {
-        // TODO
-        // cout << vt[k].str << "/";
-        // if (vt[k].prd.equals("")) cout << "?";
-        // else cout << vt[k].prd;
-        // cout << " ";
-      }
-      // cout << endl;
-    }
 
     void Update(final int j,
         // final multimap<String, String> tagdic,
@@ -412,10 +404,13 @@ public class Bidir {
           vvp.get(j).add(Tuple2.$(mep.get_class_label(i), p));
       }
       /*
-       * if (tagdic.find(vt[j].str) != tagdic.end()) { // known words String max_tag = ""; double max = 0; for
-       * (multimap<String, String>::final_iterator i = tagdic.lower_bound(vt[j].str); i !=
-       * tagdic.upper_bound(vt[j].str); i++) { double p = membp[mep->get_class_id(i->second)]; if (p > max) { max = p;
-       * max_tag = i->second; } } vp[j] = max_tag; } else { // unknown words vp[j] = mes.label; // vent[j] += 99999; }
+       * if (tagdic.find(vt[j].str) != tagdic.end()) { // known words String
+       * max_tag = ""; double max = 0; for (multimap<String,
+       * String>::final_iterator i = tagdic.lower_bound(vt[j].str); i !=
+       * tagdic.upper_bound(vt[j].str); i++) { double p =
+       * membp[mep->get_class_id(i->second)]; if (p > max) { max = p; max_tag =
+       * i->second; } } vp[j] = max_tag; } else { // unknown words vp[j] =
+       * mes.label; // vent[j] += 99999; }
        */
     }
   }
@@ -600,7 +595,8 @@ public class Bidir {
 
       // cout << n << endl;
       /*
-       * for (int k = 0; k < s.size(); k++) { cout << s[k].str << "/" << s[k].prd << " "; } cout << endl;
+       * for (int k = 0; k < s.size(); k++) { cout << s[k].str << "/" <<
+       * s[k].prd << " "; } cout << endl;
        */
       // if (n > 100) break;
 

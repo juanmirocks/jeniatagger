@@ -138,7 +138,7 @@ public class ME_Model {
   private static class ME_Feature {
     public final int body; // unsigned
     public final int label;
-    public final int feature;
+    //public final int feature;
 
     static final int MAX_LABEL_TYPES = 255;
 
@@ -147,7 +147,7 @@ public class ME_Model {
       assert (f >= 0 && f <= 0xffffff);
       body = ME_Feature.body(l, f);
       label = l;
-      feature = f;
+      //feature = f;
     };
 
     /**

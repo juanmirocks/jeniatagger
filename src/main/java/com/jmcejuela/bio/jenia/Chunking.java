@@ -44,7 +44,8 @@ public class Chunking {
   // final DecodingStrategy decoding_strategy = LEFT_TO_RIGHT;
   // final DecodingStrategy decoding_strategy = RIGHT_TO_LEFT;
 
-  static ME_Sample mesample(final ArrayList<Token> vt, int pos,
+  static ME_Sample mesample(
+      final ArrayList<Token> vt, int pos,
       final String tag_left2, final String tag_left1,
       final String tag_right1, final String tag_right2)
   {
@@ -99,7 +100,6 @@ public class Chunking {
     t[4] = tag_right2;
     // first-order
     for (int i = 0; i < 5; i++) {
-      // for (int i = 1; i < 4; i++) {
       if (t[i].isEmpty()) continue;
       sample.features.add(String.format("T%d_%s", i - 2, t[i]));
     }
@@ -121,12 +121,6 @@ public class Chunking {
     if (!t[1].isEmpty() && !t[3].isEmpty() && !t[4].isEmpty()) {
       sample.features.add(String.format("T%dT%dT%d_%s_%s_%s", 1 - 2, 3 - 2, 4 - 2, t[1], t[3], t[4]));
     }
-
-    /*
-     * for (int j = 0; j < vt.size(); j++) cout << vt.get(j].str << "/" << vt[j).pos << " "; cout << endl; cout << pos
-     * << endl; for (List<String>::final_iterator j = sample.features.begin(); j != sample.features.end(); j++) { cout
-     * << *j << " "; } cout << endl << endl;
-     */
 
     return sample;
   }

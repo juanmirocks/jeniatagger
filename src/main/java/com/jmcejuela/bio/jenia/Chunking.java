@@ -20,7 +20,8 @@ import com.jmcejuela.bio.jenia.util.Tuple2;
 /**
  * From chunking.cpp
  *
- * TODO This is essentially all a copy of {@link Bidir} except for the implicitly declared chunking models used.
+ * TODO This is essentially all a copy of {@link Bidir} except for the
+ * implicitly declared chunking models used.
  *
  * Keep it DRY.
  *
@@ -164,11 +165,11 @@ public class Chunking {
       int n = this.sentence.size();
       entropies = newArrayList(n, 0.0);
       vvp = newArrayList(n, new Constructor<ArrayList<Tuple2<String, Double>>>() {
-            @Override
-            public ArrayList<Tuple2<String, Double>> neu() {
-              return new ArrayList<Tuple2<String, Double>>();
-            }
-          });
+        @Override
+        public ArrayList<Tuple2<String, Double>> neu() {
+          return new ArrayList<Tuple2<String, Double>>();
+        }
+      });
       order = newArrayList(n, 0);
       // model.resize(n);
       for (int i = 0; i < n; i++) {
@@ -182,7 +183,10 @@ public class Chunking {
     Hypothesis copy() {
       Hypothesis ret = new Hypothesis();
       ret.sentence = this.sentence.copy();
-      /* The following can be done because Double, Integer, and Tuple2<String, Double> are immutable objects */
+      /*
+       * The following can be done because Double, Integer, and Tuple2<String,
+       * Double> are immutable objects
+       */
       ret.entropies = new ArrayList<Double>(this.entropies);
       ret.order = new ArrayList<Integer>(this.order);
       ret.vvp = newArrayList(this.vvp.size());
@@ -389,11 +393,13 @@ public class Chunking {
   }
 
   /*
-   * void bidir_chunking(ArrayList<Sentence> vs, final ArrayList<ME_Model> vme) { cerr << "now tagging";
+   * void bidir_chunking(ArrayList<Sentence> vs, final ArrayList<ME_Model> vme)
+   * { cerr << "now tagging";
    *
-   * int n = 0; int ntokens = 0; for (ArrayList<Sentence>::iterator i = vs.begin(); i != vs.end(); i++) { Sentence s =
-   * *i; ntokens += s.size(); bidir_decode_beam(s, vme); // bidir_decode_search(s, vme[0], vme[4], vme[2], vme[6]); //
-   * decode_no_context(s, vme[0]); // decode_l1(s, vme[4]);
+   * int n = 0; int ntokens = 0; for (ArrayList<Sentence>::iterator i =
+   * vs.begin(); i != vs.end(); i++) { Sentence s = *i; ntokens += s.size();
+   * bidir_decode_beam(s, vme); // bidir_decode_search(s, vme[0], vme[4],
+   * vme[2], vme[6]); // decode_no_context(s, vme[0]); // decode_l1(s, vme[4]);
    *
    * cout << n << endl; if (n++ % 10 == 0) cerr << "."; } cerr << endl;
    *

@@ -318,6 +318,11 @@ public class NamedEntity {
       end = e;
       prob = p;
     }
+
+    @Override
+    public String toString() {
+      return "Annotation(" + label + ", " + begin + ", " + end + ", " + prob + ")";
+    }
   }
 
   static void find_NEs(final ME_Model me, Sentence s) {

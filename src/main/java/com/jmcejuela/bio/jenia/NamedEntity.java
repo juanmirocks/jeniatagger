@@ -99,11 +99,6 @@ public class NamedEntity {
       if (c == '-' || c == ' ') continue;
       tmp += c;
     }
-    /*
-     * if (tmp.equals("is")) tmp = "be"; if (tmp.equals("was")) tmp = "be"; if (tmp.equals("are"))
-     * tmp = "be"; if (tmp.equals("were")) tmp = "be"; if (tmp.equals("an")) tmp = "a"; if
-     * (tmp.equals("the")) tmp = "a";
-     */
     // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't
     // throw an exception
     // TODO this also makes "s" the empty string. I guess this was not intended
@@ -171,19 +166,6 @@ public class NamedEntity {
     mes.features.add("C-2-1_" + s_2 + "_" + s_1);
     mes.features.add("C-1+1_" + s_1 + "_" + s1);
     mes.features.add("C+1+2_" + s1 + "_" + s2);
-
-    // term feature
-    // char firstletter = sentence.get(begin).str.charAt(0); //jenia, was never used
-    // char lastletter = sentence.get(end - 1).str.charAt(sentence.get(end - 1).str.length() - 1);
-    // //jenia, was never used
-
-    // if (begin != 0 && isupper(firstletter))
-    // if (isupper(firstletter) && isupper(lastletter))
-    // mes.features.add("IS_UPPER");
-
-    // if (end - begin == 1) {
-    // mes.features.add("EXACT_" + vt.get(begin).str);
-    // }
 
     String tb = normalize(sentence.get(begin).text);
     mes.features.add(String.format("TB_%s", tb));

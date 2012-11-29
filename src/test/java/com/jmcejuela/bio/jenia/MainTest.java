@@ -38,9 +38,19 @@ public class MainTest {
    *
    * @throws IOException
    */
-  @Test
+  //@Test
   public void testOutputNTBc2GmTrainingData() throws IOException {
     testSameAsOriginalOutput("genia-nt.bc2gm-training.in", "genia-nt.bc2gm-training.out", "-nt");
+  }
+
+  /**
+   * Test for a subset of the Bc2GmTrainingData for rapid testing
+   *
+   * @throws IOException
+   */
+  @Test
+  public void testOutputNTBc2GmTrainingDataSmall() throws IOException {
+    testSameAsOriginalOutput("genia-nt.bc2gm-training-3000.in", "genia-nt.bc2gm-training-3000.out", "-nt");
   }
 
   public void testSameAsOriginalOutput(String in, String out, String arguments) throws IOException {

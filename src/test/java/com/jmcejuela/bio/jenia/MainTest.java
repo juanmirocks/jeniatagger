@@ -71,7 +71,7 @@ public class MainTest {
     String actualLine = null;
     int n = 1;
     while (((expectLine = expectOutput.readLine()) != null) && ((actualLine = actualOutput.readLine()) != null)) {
-      assertEquals("The lines are the same at line " + n, expectLine, actualLine);
+      assertEquals("The lines are not the same at line " + n, expectLine, actualLine);
       n++;
     }
 

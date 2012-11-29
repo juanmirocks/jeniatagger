@@ -434,8 +434,6 @@ public class ME_Model {
     for (int label = 0; label < _num_classes; label++) {
       double pow = powv[label] - offset;
       double prod = exp(pow);
-      // cout << pow << " " << prod << ", ";
-      // if (_ref_modelp != NULL) prod *= _train_refpd[n][label];
       if (_ref_modelp != null) prod *= s.ref_pd.get(label);
       assert (prod != 0);
       membp[label] = prod;

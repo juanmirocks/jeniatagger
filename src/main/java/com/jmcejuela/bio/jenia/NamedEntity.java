@@ -92,18 +92,19 @@ public class NamedEntity {
   }
 
   static String normalize(final String s) {
-    String tmp = "";
+    //String tmp = "";
+    StringBuilder sb = new StringBuilder();
     for (int i = 0; i < s.length(); i++) {
       char c = toLowerCase(s.charAt(i));
       if (isDigit(c)) c = '#';
       if (c == '-' || c == ' ') continue;
-      tmp += c;
+      sb.append(c);
     }
     // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't
     // throw an exception
     // TODO this also makes "s" the empty string. I guess this was not intended
-    if (!tmp.isEmpty() && tmp.charAt(tmp.length() - 1) == 's') return tmp.substring(0, tmp.length() - 1);
-    return tmp;
+    if (!(sb.length() == 0) && sb.charAt(sb.length() - 1) == 's') return sb.substring(0, sb.length() - 1);
+    return sb.toString();
   }
 
   static String wordshape(final String s, boolean fine) {

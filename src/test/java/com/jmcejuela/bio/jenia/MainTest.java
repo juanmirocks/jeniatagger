@@ -84,19 +84,20 @@ public class MainTest {
   }
 
   /**
-   * TODO known to have different output for named-entity recognition with unicode characters.
+   * TODO known to be different in some particular cases to the original output
+   * with unicode characters.
    *
-   * The original geniatagger actually does not handle unicode well.
+   * In fact, the original c++ code did not handle unicode well. It used
+   * std::string which makes a unicode character of >= 2 bytes appear in a
+   * string as multiple characters and thus wrongnly increment the size of the
+   * containing string. This leads to unexpected behavior in the same original
+   * code.
    *
    * @throws IOException
    */
   @Test
-  public void testUnicodeDoesNotCrash() throws IOException {
-    System.setIn(Util.resourceStream("/genia-unicode.in"));
-    File tmpOut = File.createTempFile("test-genia-unicode", ".out");
-    System.out.println("genia unicode test: tmp out file: " + tmpOut.getAbsolutePath());
-    System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(tmpOut))));
-    Main.main(new String[] { "-nt" });
+  public void testUnicode() throws IOException {
+    testSameAsOriginalOutput("genia-unicode.in", "genia-unicode.out", "-nt");
   }
 
 }

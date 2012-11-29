@@ -136,42 +136,23 @@ public class ME_Model {
   }
 
   private static class ME_Feature {
-    private final int _body; // unsigned
+    public final int body; // unsigned
+    public final int label;
+    public final int feature;
 
     static final int MAX_LABEL_TYPES = 255;
 
-    // ME_Feature(final int l, final int f) : _body((l << 24) + f) {
-    // assert(l >= 0 && l < 256);
-    // assert(f >= 0 && f <= 0xffffff);
-    // };
-    // int label() final { return _body >> 24; }
-    // int feature() final { return _body & 0xffffff; }
-
     ME_Feature(int l, int f) {
-      _body = ME_Feature.body(l, f);
       assert (l >= 0 && l <= MAX_LABEL_TYPES);
       assert (f >= 0 && f <= 0xffffff);
+      body = ME_Feature.body(l, f);
+      label = l;
+      feature = f;
     };
 
-    final int label() {
-      return _body & 0xff;
-    }
-
-    final int feature() {
-      return _body >> 8;
-    }
-
-    final int body() {
-      return _body;
-    }
-
     /**
-     * New in jenia. Used to calculate the bodyvalue of a {@link ME_Feature}
+     * New in jenia. Used to calculate the body value of a {@link ME_Feature}
      * without having to create a new object.
-     *
-     * @param l
-     * @param f
-     * @return
      */
     final static int body(int l, int f) {
       return ((f << 8) + l);
@@ -189,18 +170,18 @@ public class ME_Model {
     }
 
     int Put(final ME_Feature i) {
-      Integer j = mef2id.get(i.body());
+      Integer j = mef2id.get(i.body);
       if (j == null) {
         int id = id2mef.size();
         id2mef.add(i);
-        mef2id.put(i.body(), id);
+        mef2id.put(i.body, id);
         return id;
       }
       return j;
     }
 
     final int Id(final ME_Feature i) {
-      Integer j = mef2id.get(i.body());
+      Integer j = mef2id.get(i.body);
       if (j == null) {
         return -1;
       }
@@ -419,7 +400,7 @@ public class ME_Model {
 
     for (Integer j : s.positive_features) {
       for (Integer k : _feature2mef.get(j)) {
-        powv[_fb.Feature(k).label()] += _vl.get(k);
+        powv[_fb.Feature(k).label] += _vl.get(k);
       }
     }
 
@@ -461,7 +442,7 @@ public class ME_Model {
       for (Integer j : i.positive_features) {
         final ME_Feature feature = new ME_Feature(i.label, j);
         // if (cutoff > 0 && count[feature.body()] < cutoff) continue;
-        if (cutoff > 0 && count.get(feature.body()) <= cutoff) continue;
+        if (cutoff > 0 && count.get(feature.body) <= cutoff) continue;
         // int id = _fb.Put(feature);, jenia
         // cout << i->label << "\t" << *j << "\t" << id << endl;
         // feature2sample[id].push_back(n);
@@ -511,7 +492,7 @@ public class ME_Model {
       // model_expectation
       for (Integer j : i.positive_features) {
         for (Integer k : _feature2mef.get(j)) {
-          plusEq(_vme, k, membp[_fb.Feature(k).label()]);
+          plusEq(_vme, k, membp[_fb.Feature(k).label]);
         }
       }
     }
@@ -654,7 +635,7 @@ public class ME_Model {
     for (Sample i : _vs) {
       for (Integer j : i.positive_features) {
         for (Integer k : _feature2mef.get(j)) {
-          if (_fb.Feature(k).label() == i.label) plusEq(_vee, k, 1.0);
+          if (_fb.Feature(k).label == i.label) plusEq(_vee, k, 1.0);
         }
       }
     }

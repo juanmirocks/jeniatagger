@@ -117,7 +117,7 @@ public class ME_Model {
     static final Comparator<Sample> Order = new Comparator<Sample>() {
       @Override
       public int compare(Sample s1, Sample s2) {
-        // TODO watch out, this doesn't appear in operator_less
+        //this clause doesn't appear in the original operator_less
         if (s1.positive_features.size() < s2.positive_features.size())
           return -1;
         else if (s1.positive_features.size() > s2.positive_features.size())

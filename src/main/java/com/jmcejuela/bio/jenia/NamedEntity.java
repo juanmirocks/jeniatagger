@@ -248,11 +248,6 @@ public class NamedEntity {
     mes.features.add("PoS-B_" + pb);
     mes.features.add("PoS-E_" + pe);
     mes.features.add("PoS+1_" + p1);
-    // String posseq;
-    // for (int i = begin; i < end; i++) {
-    // posseq += vt.get(i).pos + "_";
-    // }
-    // mes.features.add("PosSeq_" + posseq);
 
     return mes;
   }

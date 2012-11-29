@@ -53,7 +53,6 @@ public class Chunking {
 
     String[] w = new String[5];
     String[] p = new String[5];
-    String[] t = new String[5];
 
     w[0] = "BOS2";
     if (pos > 1) w[0] = vt.get(pos - 2).text;
@@ -77,31 +76,43 @@ public class Chunking {
 
     // first-order
     for (int i = 0; i < 5; i++) {
-      sample.features.add(String.format("W%d_%s", i - 2, w[i]));
-      sample.features.add(String.format("P%d_%s", i - 2, p[i]));
+      int iminus2 = i - 2;
+      //sample.features.add(String.format("W%d_%s", i - 2, w[i]));
+      sample.features.add("W" + iminus2 + "_" + w[i]);
+      //sample.features.add(String.format("P%d_%s", i - 2, p[i]));
+      sample.features.add("P" + iminus2 + "_" + p[i]);
     }
     // bigram
     for (int i = 0; i < 4; i++) {
+      int iminus2 = i - 2;
       int j = i + 1;
-      sample.features.add(String.format("P%dP%d_%s_%s", i - 2, j - 2, p[i], p[j]));
-      sample.features.add(String.format("W%dW%d_%s_%s", i - 2, j - 2, w[i], w[j]));
+      int jminus2 = j - 2;
+      //sample.features.add(String.format("P%dP%d_%s_%s", i - 2, j - 2, p[i], p[j]));
+      sample.features.add("P" + iminus2 + "P" + jminus2 + "_" + p[i] + "_" + p[j]);
+      //sample.features.add(String.format("W%dW%d_%s_%s", i - 2, j - 2, w[i], w[j]));
+      sample.features.add("W" + iminus2 + "W" + jminus2 + "_" + w[i] + "_" + w[j]);
     }
     // pos trigram
     for (int i = 0; i < 3; i++) {
       int j = i + 1;
       int k = i + 2;
-      sample.features.add(String.format("P%dP%dP%d_%s_%s_%s", i - 2, j - 2, k - 2, p[i], p[j], p[k]));
+      //sample.features.add(String.format("P%dP%dP%d_%s_%s_%s", i - 2, j - 2, k - 2, p[i], p[j], p[k]));
+      sample.features.add("P" + (i - 2) + "P" + (j - 2) + "P" + (k - 2) + "_" + p[i] + "_" + p[j] + "_" + p[k]);
     }
 
-    t[0] = tag_left2;
-    t[1] = tag_left1;
-    t[2] = "";
-    t[3] = tag_right1;
-    t[4] = tag_right2;
+    String[] t = new String[] {
+        tag_left2,
+        tag_left1,
+        "",
+        tag_right1,
+        tag_right2
+    };
+
     // first-order
     for (int i = 0; i < 5; i++) {
       if (t[i].isEmpty()) continue;
-      sample.features.add(String.format("T%d_%s", i - 2, t[i]));
+      //sample.features.add(String.format("T%d_%s", i - 2, t[i]));
+      sample.features.add("T" + (i - 2) + "_" + t[i]);
     }
 
     // second-order
@@ -109,17 +120,21 @@ public class Chunking {
       int j = i + 1;
       if (t[i].isEmpty()) continue;
       if (t[j].isEmpty()) continue;
-      sample.features.add(String.format("T%dT%d_%s_%s", i - 2, j - 2, t[i], t[j]));
+      //sample.features.add(String.format("T%dT%d_%s_%s", i - 2, j - 2, t[i], t[j]));
+      sample.features.add("T" + (i - 2) + "T" + (j - 2) + "_" + t[i] + "_" + t[j]);
     }
 
     if (!t[1].isEmpty() && !t[3].isEmpty()) {
-      sample.features.add(String.format("T%dT%d_%s_%s", 1 - 2, 3 - 2, t[1], t[3]));
+      //sample.features.add(String.format("T%dT%d_%s_%s", 1 - 2, 3 - 2, t[1], t[3]));
+      sample.features.add("T" + (1 - 2) + "T" + (3 - 2) + "_" + t[1] + "_" + t[3]);
     }
     if (!t[0].isEmpty() && !t[1].isEmpty() && !t[3].isEmpty()) {
-      sample.features.add(String.format("T%dT%dT%d_%s_%s_%s", 0 - 2, 1 - 2, 3 - 2, t[0], t[1], t[3]));
+      //sample.features.add(String.format("T%dT%dT%d_%s_%s_%s", 0 - 2, 1 - 2, 3 - 2, t[0], t[1], t[3]));
+      sample.features.add("T" + (0 - 2) + "T" + (1 - 2) + "T" + (3 - 2) + "_" + t[0] + "_" + t[1] + "_" + t[3]);
     }
     if (!t[1].isEmpty() && !t[3].isEmpty() && !t[4].isEmpty()) {
-      sample.features.add(String.format("T%dT%dT%d_%s_%s_%s", 1 - 2, 3 - 2, 4 - 2, t[1], t[3], t[4]));
+      //sample.features.add(String.format("T%dT%dT%d_%s_%s_%s", 1 - 2, 3 - 2, 4 - 2, t[1], t[3], t[4]));
+      sample.features.add("T" + (1 - 2) + "T" + (3 - 2) + "T" + (4 - 2) + "_" + t[1] + "_" + t[3] + "_" + t[4]);
     }
 
     return sample;

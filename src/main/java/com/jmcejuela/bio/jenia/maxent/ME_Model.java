@@ -410,7 +410,7 @@ public class ME_Model {
     for (int label = 0; label < _num_classes; label++) {
       double pow = powv[label] - offset;
       double prod = exp(pow);
-      if (_ref_modelp != null) prod *= s.ref_pd.get(label);
+      //if (_ref_modelp != null) prod *= s.ref_pd.get(label);
       assert (prod != 0);
       membp[label] = prod;
       sum += prod;

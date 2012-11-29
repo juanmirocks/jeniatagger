@@ -367,17 +367,6 @@ public class Bidir {
       }
     };
 
-    void Print() {
-      for (int k = 0; k < sentence.size(); k++) {
-        // TODO
-        // cout << vt[k].str << "/";
-        // if (vt[k].prd.equals("")) cout << "?";
-        // else cout << vt[k].prd;
-        // cout << " ";
-      }
-      // cout << endl;
-    }
-
     void Update(final int j,
         // final multimap<String, String> tagdic,
         final ArrayList<ME_Model> vme)

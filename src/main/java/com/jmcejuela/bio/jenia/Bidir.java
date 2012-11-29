@@ -2,13 +2,11 @@ package com.jmcejuela.bio.jenia;
 
 import static com.jmcejuela.bio.jenia.util.Util.last;
 import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
-import static com.jmcejuela.bio.jenia.util.Util.tokenize;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Math.max;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -16,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.jmcejuela.bio.jenia.common.Sentence;
-import com.jmcejuela.bio.jenia.common.Token;
 import com.jmcejuela.bio.jenia.maxent.ME_Model;
 import com.jmcejuela.bio.jenia.maxent.ME_Sample;
 import com.jmcejuela.bio.jenia.util.Constructor;
@@ -49,12 +46,8 @@ public class Bidir {
     sample.features.add("W0_" + token);
     String prestr = "BOS";
     if (i > 0) prestr = sentence.get(i - 1).text;
-    // String prestr2 = "BOS2";
-    // if (i > 1) prestr2 = normalize(vt[i-2].str);
     String poststr = "EOS";
     if (i < sentence.size() - 1) poststr = sentence.get(i + 1).text;
-    // String poststr2 = "EOS2";
-    // if (i < (int)vt.size()-2) poststr2 = normalize(vt[i+2].str);
 
     if (!ONLY_VERTICAL_FEATURES) {
       sample.features.add("W-1_" + prestr);
@@ -100,27 +93,22 @@ public class Bidir {
     // LL
     if (!pos_left1.isEmpty() && !pos_left2.isEmpty()) {
       sample.features.add("P-2-1_" + pos_left2 + "_" + pos_left1);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // RR
     if (!pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P+1+2_" + pos_right1 + "_" + pos_right2);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LLR
     if (!pos_left1.isEmpty() && !pos_left2.isEmpty() && !pos_right1.isEmpty()) {
       sample.features.add("P-2-1+1_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LRR
     if (!pos_left1.isEmpty() && !pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P-1+1+2_" + pos_left1 + "_" + pos_right1 + "_" + pos_right2);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
     // LLRR
     if (!pos_left2.isEmpty() && !pos_left1.isEmpty() && !pos_right1.isEmpty() && !pos_right2.isEmpty()) {
       sample.features.add("P-2-1+1+2_" + pos_left2 + "_" + pos_left1 + "_" + pos_right1 + "_" + pos_right2);
-      // sample.features.add("P-1W0_" + pos_left + "_" + str);
     }
 
     for (int j = 0; j < token.length(); j++) {
@@ -151,15 +139,6 @@ public class Bidir {
     }
     if (allupper)
       sample.features.add("ALL_UPPER");
-
-    // for (int j = 0; j < vt.size(); j++)
-    // cout << vt[j].str << " ";
-    // cout << endl;
-    // cout << i << endl;
-    // for (List<String>::final_iterator j = sample.features.begin(); j != sample.features.end(); j++) {
-    // cout << *j << " ";
-    // }
-    // cout << endl << endl;
 
     return sample;
   }

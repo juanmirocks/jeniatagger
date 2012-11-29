@@ -143,14 +143,14 @@ public class NamedEntity {
       s_1 = normalize(sentence.get(begin - 1).text);
     else
       s_1 = "BOS";
-    mes.features.add(String.format("C-1_%s", s_1));
+    mes.features.add("C-1_" + s_1);
 
     // if (end < vt.length()) s1 = vt.get(end).str;
     if (end < sentence.size())
       s1 = normalize(sentence.get(end).text);
     else
       s1 = "EOS";
-    mes.features.add(String.format("C+1_%s", s1));
+    mes.features.add("C+1_" + s1);
 
     // if (begin >= 2) s_2 = vt.get(begin-2).str;
     if (begin >= 2)
@@ -169,16 +169,16 @@ public class NamedEntity {
     mes.features.add("C+1+2_" + s1 + "_" + s2);
 
     String tb = normalize(sentence.get(begin).text);
-    mes.features.add(String.format("TB_%s", tb));
+    mes.features.add("TB_" + tb);
 
     for (int i = begin + 1; i < end - 1; i++) {
       // for (int i = begin; i < end; i++) {
       s = normalize(sentence.get(i).text);
-      mes.features.add(String.format("TM_%s", s));
+      mes.features.add("TM_" + s);
     }
 
     String te = normalize(sentence.get(end - 1).text);
-    mes.features.add(String.format("TE_%s", te));
+    mes.features.add("TE_" + te);
 
     // combination
     mes.features.add("C-1_TB_" + s_1 + "_" + tb);
@@ -200,7 +200,7 @@ public class NamedEntity {
     }
 
     // if (label > 0) mes.features.add(buf);
-    mes.features.add(String.format("WHOLE_%s", s));
+    mes.features.add("WHOLE_" + s);
     mes.features.add("WS1_" + wordshape(whole, true));
     mes.features.add("WS2_" + wordshape(whole, false));
 

@@ -26,22 +26,31 @@ public class MainTest {
 
   @Test
   public void testOutputNT() throws IOException {
-    testSameAsOriginalOutput("/genia-nt.in", "/genia-nt.out", "-nt");
+    testSameAsOriginalOutput("genia-nt.in", "genia-nt.out", "-nt");
   }
 
   /**
-   * TODO known to fail for named-entity recognition in some instances
-   *
    * The test file is very big (the output is 8.8MB)
    *
-   * It should throughly test whether jenia's output is the same as genia's. The Bc2Gm training data
-   * contained various entities for all named-classes recognized by the genia tagger.
+   * It should throughly test whether jenia's output is the same as genia's. The
+   * Bc2Gm training data contained various entities for all named-classes
+   * recognized by the genia tagger.
+   *
+   * @throws IOException
+   */
+  //@Test
+  public void testOutputNTBc2GmTrainingData() throws IOException {
+    testSameAsOriginalOutput("genia-nt.bc2gm-training.in", "genia-nt.bc2gm-training.out", "-nt");
+  }
+
+  /**
+   * Test for a subset of the Bc2GmTrainingData for rapid testing
    *
    * @throws IOException
    */
   @Test
-  public void testOutputNTBc2GmTrainingData() throws IOException {
-    testSameAsOriginalOutput("genia-nt.bc2gm-training.in", "genia-nt.bc2gm-training.out", "-nt");
+  public void testOutputNTBc2GmTrainingDataSmall() throws IOException {
+    testSameAsOriginalOutput("genia-nt.bc2gm-training-3000.in", "genia-nt.bc2gm-training-3000.out", "-nt");
   }
 
   public void testSameAsOriginalOutput(String in, String out, String arguments) throws IOException {
@@ -62,7 +71,7 @@ public class MainTest {
     String actualLine = null;
     int n = 1;
     while (((expectLine = expectOutput.readLine()) != null) && ((actualLine = actualOutput.readLine()) != null)) {
-      assertEquals("The lines are the same at line " + n, expectLine, actualLine);
+      assertEquals("The lines are not the same at line " + n, expectLine, actualLine);
       n++;
     }
 
@@ -75,19 +84,20 @@ public class MainTest {
   }
 
   /**
-   * TODO known to have different output for named-entity recognition with unicode characters.
+   * TODO known to be different in some particular cases to the original output
+   * with unicode characters.
    *
-   * The original geniatagger actually does not handle unicode well.
+   * In fact, the original c++ code did not handle unicode well. It used
+   * std::string which makes a unicode character of >= 2 bytes appear in a
+   * string as multiple characters and thus wrongnly increment the size of the
+   * containing string. This leads to unexpected behavior in the same original
+   * code.
    *
    * @throws IOException
    */
   @Test
-  public void testUnicodeDoesNotCrash() throws IOException {
-    System.setIn(Util.resourceStream("/genia-unicode.in"));
-    File tmpOut = File.createTempFile("test-genia-unicode", ".out");
-    System.out.println("genia unicode test: tmp out file: " + tmpOut.getAbsolutePath());
-    System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(tmpOut))));
-    Main.main(new String[] { "-nt" });
+  public void testUnicode() throws IOException {
+    testSameAsOriginalOutput("genia-unicode.in", "genia-unicode.out", "-nt");
   }
 
 }

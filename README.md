@@ -10,8 +10,8 @@ The original C++ program contains [several issues](https://github.com/jmcejuela/
 
 ## State of the port
 
-* It is known that for some instances jenia's output for named-entity recognition is not the same as the original's.
-* All other analyses (`base form`, `pos tag`, and `shallow parsing`) have been thoroughly and successfully tested.
+* The output of the original tagger and jenia's has been thoroughly and successfully tested to be the same.
+* It is known that when unicode characters appear in an instance, some few analyses differ from the original's. In fact, the original c++ code did not handle unicode well. It used std::string which makes a unicode character of >= 2 bytes appear in a string as multiple characters and thus wrongnly increment the size of the containing string. This leads to unexpected behavior in the same original code. Therefore comparison tests are difficult to carry for unicode.
 * The built-in tokenizer has not been implemented yet. For now, you have to use your own. See the [original README](https://github.com/jmcejuela/jeniatagger/ORIGINAL_GENIATAGGER_README). Contributions are welcome.
 * Besides some few improvements and refactoring, for now the java code resembles almost exactly the original's.
 

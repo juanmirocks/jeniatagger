@@ -62,8 +62,8 @@ public class NamedEntity {
     WordInfo(final String s, int i, int e, int t) {
       str = s;
       inside_ne = i;
+      edge_ne = e;
       total = t;
-      edge_ne = e; // TODO this is the order written in the original
     }
 
     static Constructor<WordInfo> CONSTRUCTOR = new Constructor<WordInfo>() {
@@ -99,11 +99,6 @@ public class NamedEntity {
       if (c == '-' || c == ' ') continue;
       tmp += c;
     }
-    /*
-     * if (tmp.equals("is")) tmp = "be"; if (tmp.equals("was")) tmp = "be"; if (tmp.equals("are"))
-     * tmp = "be"; if (tmp.equals("were")) tmp = "be"; if (tmp.equals("an")) tmp = "a"; if
-     * (tmp.equals("the")) tmp = "a";
-     */
     // jenia. Note, the original did normalize '-' to the empty string but in c++ ""[-1] doesn't
     // throw an exception
     // TODO this also makes "s" the empty string. I guess this was not intended
@@ -172,19 +167,6 @@ public class NamedEntity {
     mes.features.add("C-1+1_" + s_1 + "_" + s1);
     mes.features.add("C+1+2_" + s1 + "_" + s2);
 
-    // term feature
-    // char firstletter = sentence.get(begin).str.charAt(0); //jenia, was never used
-    // char lastletter = sentence.get(end - 1).str.charAt(sentence.get(end - 1).str.length() - 1);
-    // //jenia, was never used
-
-    // if (begin != 0 && isupper(firstletter))
-    // if (isupper(firstletter) && isupper(lastletter))
-    // mes.features.add("IS_UPPER");
-
-    // if (end - begin == 1) {
-    // mes.features.add("EXACT_" + vt.get(begin).str);
-    // }
-
     String tb = normalize(sentence.get(begin).text);
     mes.features.add(String.format("TB_%s", tb));
 
@@ -224,7 +206,7 @@ public class NamedEntity {
     // mes.features.add("WHOLE_C+1_" + whole + "-" + s1);
 
     // preffix and suffix
-    for (int j = 1; j <= 10; j++) {
+    for (int j = 1; j <= 10; j++) { //TODO this loop can be improved a lot
       if (s.length() >= j) {
         mes.add_feature(String.format("SUF%d_%s", j, s.substring(s.length() - j)));
       }
@@ -232,11 +214,6 @@ public class NamedEntity {
         mes.add_feature(String.format("PRE%d_%s", j, s.substring(0, j)));
       }
     }
-
-    // if (contain_comma)
-    // mes.features.add("CONTAIN_COMMA");
-
-    // cout << fb.Id(buf) << " " << buf << endl;
 
     // POS feature
     String p_2 = "BOS", p_1 = "BOS";
@@ -253,11 +230,6 @@ public class NamedEntity {
     mes.features.add("PoS-B_" + pb);
     mes.features.add("PoS-E_" + pe);
     mes.features.add("PoS+1_" + p1);
-    // String posseq;
-    // for (int i = begin; i < end; i++) {
-    // posseq += vt.get(i).pos + "_";
-    // }
-    // mes.features.add("PosSeq_" + posseq);
 
     return mes;
   }
@@ -300,11 +272,6 @@ public class NamedEntity {
 
     if (kakko % 2 != 0) return false;
 
-    // for (int x = begin; x < end; x++) {
-    // cout << s.get(x].str << "/" << s[x).pos << " ";
-    // }
-    // cout << endl;
-
     return true;
   }
 
@@ -330,15 +297,15 @@ public class NamedEntity {
     double prob;
 
     boolean operator_less(final Annotation x) {
-      return prob > x.prob;
+      return prob > x.prob; //note, descending order
     }
 
-    static final Comparator<Annotation> Order = new Comparator<Annotation>() {
+    static final Comparator<Annotation> DescOrder = new Comparator<Annotation>() {
       @Override
       public int compare(Annotation o1, Annotation o2) {
-        if (o1.prob < o2.prob)
+        if (o1.prob > o2.prob)
           return -1;
-        else if (o1.prob > o2.prob)
+        else if (o1.prob < o2.prob)
           return +1;
         else
           return 0;
@@ -350,6 +317,11 @@ public class NamedEntity {
       begin = b;
       end = e;
       prob = p;
+    }
+
+    @Override
+    public String toString() {
+      return "Annotation(" + label + ", " + begin + ", " + end + ", " + prob + ")";
     }
   }
 
@@ -364,15 +336,11 @@ public class NamedEntity {
 
     List<Annotation> annotations = newArrayList();
     for (int j = 0; j < s.size(); j++) {
-      // for (int k = s.length(); k > j; k--) {
       for (int k = j + 1; k <= s.size(); k++) {
         if (!is_candidate(s, j, k)) {
-          // if (isterm(s_org, j, k)) num_candidate_false_negatives++;
           continue;
         }
         ME_Sample nbs = mesample("?", s, j, k);
-        // int label = nb.classify(nbs, NULL, &membp);
-        // me.classify(nbs, &membp);
         ArrayList<Double> membp = me.classify(nbs);
         int label = 0;
         minusEq(membp, other_class, BIAS_FOR_RECALL);
@@ -380,23 +348,14 @@ public class NamedEntity {
           if (membp.get(l) > membp.get(label)) label = l;
         }
         double prob = membp.get(label);
-
-        // print_features(fb, nbs);
-        // cout << endl << "------- ";
-        // for (int l = 0; l < me.num_classes(); l++) cout << membp[l] << " ";
-        // cout << endl;
-
         if (label != other_class) {
           annotations.add(new Annotation(label, j, k, prob));
         }
       }
     }
-    Collections.sort(annotations, Annotation.Order);
-    // for (int j = 0; j < s.length(); j++) cout << j << ":" << s.get(j).str << " ";
-    // cout << endl;
+    Collections.sort(annotations, Annotation.DescOrder);
+
     for (Annotation annotation : annotations) {
-      // cout << j.label << " begin = " << j.begin << " end = " << j.end << " prob = " << j.prob <<
-      // endl;
       boolean override = true;
       for (int l = annotation.begin; l < annotation.end; l++) {
         if (label_p.get(l) >= annotation.prob) {

@@ -19,12 +19,12 @@ import com.jmcejuela.bio.jenia.util.Tuple2;
 
 /**
  * From chunking.cpp
- *
+ * 
  * TODO This is essentially all a copy of {@link Bidir} except for the
  * implicitly declared chunking models used.
- *
+ * 
  * Keep it DRY.
- *
+ * 
  */
 public class Chunking {
 
@@ -214,16 +214,6 @@ public class Chunking {
       }
     };
 
-    void Print() {
-      for (int k = 0; k < this.sentence.size(); k++) {
-        // cout << vt.get(k).str << "/";
-        // if (vt.get(k).cprd.equals("")) cout << "?";
-        // cout << vt.get(k).cprd;
-        // cout << " ";
-      }
-      // cout << endl;
-    }
-
     void Update(final int j, final ArrayList<ME_Model> vme) {
       String tag_left1 = "BOS", tag_left2 = "BOS2";
       if (j >= 1) tag_left1 = sentence.get(j - 1).chunk; // maybe bug??
@@ -395,14 +385,14 @@ public class Chunking {
   /*
    * void bidir_chunking(ArrayList<Sentence> vs, final ArrayList<ME_Model> vme)
    * { cerr << "now tagging";
-   *
+   * 
    * int n = 0; int ntokens = 0; for (ArrayList<Sentence>::iterator i =
    * vs.begin(); i != vs.end(); i++) { Sentence s = *i; ntokens += s.size();
    * bidir_decode_beam(s, vme); // bidir_decode_search(s, vme[0], vme[4],
    * vme[2], vme[6]); // decode_no_context(s, vme[0]); // decode_l1(s, vme[4]);
-   *
+   * 
    * cout << n << endl; if (n++ % 10 == 0) cerr << "."; } cerr << endl;
-   *
+   * 
    * // cerr << ntokens / (msec/1000.0) << " tokens / sec" << endl; }
    */
 

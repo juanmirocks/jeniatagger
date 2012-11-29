@@ -206,13 +206,12 @@ public class NamedEntity {
     // mes.features.add("WHOLE_C+1_" + whole + "-" + s1);
 
     // preffix and suffix
-    for (int j = 1; j <= 10; j++) { //TODO this loop can be improved a lot
-      if (s.length() >= j) {
-        mes.add_feature(String.format("SUF%d_%s", j, s.substring(s.length() - j)));
-      }
-      if (s.length() >= j) {
-        mes.add_feature(String.format("PRE%d_%s", j, s.substring(0, j)));
-      }
+    int limit = Math.min(s.length(), 10);
+    for (int j = 1; j <= limit; j++) {
+      //mes.add_feature(String.format("SUF%d_%s", j, s.substring(s.length() - j)));
+      mes.add_feature("SUF" + j + "_" + s.substring(s.length() - j));
+      //mes.add_feature(String.format("PRE%d_%s", j, s.substring(0, j)));
+      mes.add_feature("PRE" + j + "_" + s.substring(0, j));
     }
 
     // POS feature

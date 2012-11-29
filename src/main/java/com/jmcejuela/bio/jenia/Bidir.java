@@ -57,15 +57,12 @@ public class Bidir {
       sample.features.add("W0+1_" + token + "_" + poststr);
     }
 
-    for (int j = 1; j <= 10; j++) {
-      if (token.length() >= j) {
-        sample.features.add(
-            String.format("suf%d_%s", j, token.substring(token.length() - j)));
-      }
-      if (token.length() >= j) {
-        sample.features.add(
-            String.format("pre%d_%s", j, token.substring(0, j)));
-      }
+    int limit = Math.min(token.length(), 10);
+    for (int j = 1; j <= limit; j++) {
+      //sample.features.add(String.format("suf%d_%s", j, token.substring(token.length() - j)));
+      sample.features.add("suf" + j + "_" + token.substring(token.length() - j));
+      //sample.features.add(String.format("pre%d_%s", j, token.substring(0, j)));
+      sample.features.add("pre" + j + "_" + token.substring(0, j));
     }
     // L
     if (!pos_left1.isEmpty()) {

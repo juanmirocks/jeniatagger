@@ -290,11 +290,6 @@ public class NamedEntity {
 
     if (kakko % 2 != 0) return false;
 
-    // for (int x = begin; x < end; x++) {
-    // cout << s.get(x].str << "/" << s[x).pos << " ";
-    // }
-    // cout << endl;
-
     return true;
   }
 

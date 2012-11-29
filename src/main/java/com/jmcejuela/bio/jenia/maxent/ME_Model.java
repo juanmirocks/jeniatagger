@@ -46,12 +46,12 @@ public class ME_Model {
   ArrayList<Double> _vee; // empirical expectation
   ArrayList<Double> _vme; // empirical expectation
   ArrayList<ArrayList<Integer>> _feature2mef = newArrayList();
-  ArrayList<Sample> _heldout;
-  double _train_error; // current error rate on the training data
-  double _heldout_error; // current error rate on the heldout data
-  int _nheldout;
-  int _early_stopping_n;
-  ArrayList<Double> _vhlogl;
+  private ArrayList<Sample> _heldout;
+  private double _train_error; // current error rate on the training data
+  private double _heldout_error; // current error rate on the heldout data
+  private int _nheldout;
+  private int _early_stopping_n;
+  private ArrayList<Double> _vhlogl;
   private ME_Model _ref_modelp;
 
   public ME_Model() {

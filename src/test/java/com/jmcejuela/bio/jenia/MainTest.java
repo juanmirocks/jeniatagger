@@ -26,7 +26,7 @@ public class MainTest {
 
   @Test
   public void testOutputNT() throws IOException {
-    testSameAsOriginalOutput("/genia-nt.in", "/genia-nt.out", "-nt");
+    testSameAsOriginalOutput("genia-nt.in", "genia-nt.out", "-nt");
   }
 
   /**

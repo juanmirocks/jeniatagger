@@ -224,7 +224,7 @@ public class NamedEntity {
     // mes.features.add("WHOLE_C+1_" + whole + "-" + s1);
 
     // preffix and suffix
-    for (int j = 1; j <= 10; j++) {
+    for (int j = 1; j <= 10; j++) { //TODO this loop can be improved a lot
       if (s.length() >= j) {
         mes.add_feature(String.format("SUF%d_%s", j, s.substring(s.length() - j)));
       }

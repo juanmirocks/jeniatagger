@@ -62,8 +62,8 @@ public class NamedEntity {
     WordInfo(final String s, int i, int e, int t) {
       str = s;
       inside_ne = i;
+      edge_ne = e;
       total = t;
-      edge_ne = e; // TODO this is the order written in the original
     }
 
     static Constructor<WordInfo> CONSTRUCTOR = new Constructor<WordInfo>() {

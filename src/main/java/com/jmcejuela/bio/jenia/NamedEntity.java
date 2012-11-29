@@ -297,15 +297,15 @@ public class NamedEntity {
     double prob;
 
     boolean operator_less(final Annotation x) {
-      return prob > x.prob;
+      return prob > x.prob; //note, descending order
     }
 
-    static final Comparator<Annotation> Order = new Comparator<Annotation>() {
+    static final Comparator<Annotation> DescOrder = new Comparator<Annotation>() {
       @Override
       public int compare(Annotation o1, Annotation o2) {
-        if (o1.prob < o2.prob)
+        if (o1.prob > o2.prob)
           return -1;
-        else if (o1.prob > o2.prob)
+        else if (o1.prob < o2.prob)
           return +1;
         else
           return 0;
@@ -353,7 +353,8 @@ public class NamedEntity {
         }
       }
     }
-    Collections.sort(annotations, Annotation.Order);
+    Collections.sort(annotations, Annotation.DescOrder);
+
     for (Annotation annotation : annotations) {
       boolean override = true;
       for (int l = annotation.begin; l < annotation.end; l++) {

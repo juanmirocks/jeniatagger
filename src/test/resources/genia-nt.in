@@ -47,17 +47,17 @@ He is Robert and American and blind and very much in trouble .
 -
 
 mind the gap (the following tests contain import whitespaces for the tests. Make sure they're not automatically trimmed!)
- 
-                         
+
+
 
  leading space
 
-trailing space 
+trailing space
 
 big        space
 
 
- 
+
 
 CD4-CD8 alpha protein binds with TH - 8 receptor
 
@@ -92,170 +92,3 @@ _
 
 
 ----------------------------------------------------------------------
-
-journal.pone.0029157.xml
-
-----------------------------------------------------------------------
-
-Genes Associated with Honey Bee Behavioral Maturation Affect Clock - Dependent and - Independent Aspects of Daily Rhythmic Activity in Fruit Flies
-Abstract
-Background
-In the honey bee , the age - related and socially regulated transition of workers from in - hive task performance ( e . g . , caring for young ) to foraging ( provisioning the hive ) is associated with changes in many behaviors including the 24 - hour pattern of rhythmic activity .
-We have previously shown that the hive - bee to forager transition is associated with extensive changes in brain gene expression .
-In this study , we test the possible function of a subset of these genes in daily rhythmic activity pattern using neural - targeted RNA interference ( RNAi ) of an orthologous gene set in Drosophila melanogaster .
-Principal Findings
-Of 10 genes tested , knockdown of six affected some aspect of locomotor activity under a 12 h ∶ 12 h light : dark regime ( LD ) .
-Inos affected anticipatory activity preceding lights - off , suggesting a possible clock - dependent function .
-BM - 40 - SPARC , U2af50 and fax affected peak activity at dawn without affecting anticipation or overall inactivity ( proportion of 15 - min intervals without activity ) , suggesting that these effects may depend on the day - night light cycle .
-CAH1 affected overall inactivity .
-The remaining gene , abl , affected peak activity levels but was not clearly time - of - day - specific .
-No gene tested affected length of period or strength of rhythmicity in constant dark ( DD ) , suggesting that these genes do not act in the core clock .
-Significance
-Taking advantage of Drosophila molecular genetic tools , our study provides an important step in understanding the large set of gene expression changes that occur in the honey bee transition from hive bee to forager .
-We show that orthologs of many of these genes influence locomotor activity in Drosophila , possibly through both clock - dependent and - independent pathways .
-Our results support the importance of both circadian clock and direct environmental stimuli ( apart from entrainment ) in shaping the bee ’ s 24 - hour pattern of activity .
-Our study also outlines a new approach to dissecting complex behavior in a social animal .
-Introduction
-Understanding the mechanisms that underlie behavioral maturation in social animals is an important but difficult task .
-In the honey bee worker , behavioral maturation involves a transition from in - hive task performance to foraging outside the hive [ 1 ] .
-This transition is associated with many behavioral changes , including phototaxis , foraging strategy and daily rhythmic locomotor behavior .
-Mechanisms that underlie the onset of foraging have been studied intensively .
-Two circulating factors , juvenile hormone ( JH ) and the protein vitellogenin [ 2 ] , [ 3 ] act in the onset of foraging and are thought to act as mutual repressors [ 2 ] , [ 4 ] .
-Foragers have higher titers of JH and lower vitellogenin than hive bees ; treatment with juvenile hormone analog or knockdown of vitellogenin by RNA interference accelerate the onset of foraging [ 5 ] – [ 7 ] .
-These physiological changes presumably act via the brain to cause changes in an extensive repertoire of behaviors , including transition from an arrhythmic pattern of activity in hive bees to a pattern of activity that is strongly linked to the day - night cycle in foragers [ 8 ] .
-Microarray studies [ 9 ] – [ 11 ] have identified large sets of gene expression changes in the brain associated with behavioral maturation in the honey bee .
-However , it is not known which of these genes affect specific behaviors that are part of the foraging repertoire .
-Here we examine a subset of these genes for possible function in an animal ’ s 24 - hour pattern of locomotor activity .
-Rhythmic locomotor activity in a natural day - night setting is likely to result from a complex interplay between clock entrainment , the core endogenous clock ( the “ pacemaker ” ) , clock output pathways , and so - called “ masking ” effects ( direct environmental effects apart from entrainment of the clock [ 12 ] ) .
-Studies in Drosophila have been instrumental in identifying the core clock genes and genes involved with clock entrainment and output pathways [ 13 ] .
-However , there have been remarkably few genetic studies in Drosophila on the role of genes in masking ( two examples are [ 14 ] , [ 15 ] ) .
-Many genes involved in these processes are conserved between the honey bee and Drosophila , including many of the endogenous clock genes [ 16 ] .
-Studies in the honey bee have focused primarily on changes in the core clock machinery during the switch from arrhythmic to circadian activity pattern [ 17 ] – [ 19 ] .
-These studies have shown a link between expression of clock genes and development of circadian rhythmicity in foragers .
-Further , they have demonstrated that social environment interacts with the clock to affect circadian phenotype [ 20 ] , [ 21 ] .
-Understanding how daily locomotor patterns develop and change in social species like the honey bee will likely require identification and functional understanding of genes affecting locomotor activity at many different levels , including both clock - dependent and - independent pathways .
-A productive approach in studies of honey bee behavioral maturation has been to use gene - behavior information derived in Drosophila melanogaster to identify potential genes of importance in honey bee behavior .
-This approach has been used to identify two honey bee genes ( orthologs of foraging and malvolio ) that change expression in the onset of foraging and influence its timing [ 22 ] , [ 23 ] .
-In the present study , we reverse this strategy by analyzing a set of genes associated with the onset of foraging in the honey bee for possible function using Drosophila as a test system .
-We have previously identified genes from microarray studies of honey bee brains that are good candidates for influencing the onset of foraging or specific foraging related behaviors ( see gene selection criteria in Methods ) .
-To explore possible function of these genes in daily activity pattern , we tested orthologs of 10 of these genes in Drosophila using neural targeted RNA interference ( RNAi ) .
-TODO
-Of the genes tested , only ple was previously shown to affect locomotor behavior [ 25 ] .
-Our results indicated that a surprisingly large fraction of these genes affect daily rhythmic locomotor activity , likely affecting both endogenous clock - dependent and - independent pathways .
-These results suggest that a large proportion of gene expression changes in the honey bee brain during behavioral maturation may be associated with modulation of a bee ’ s 24 - hour pattern of locomotor behavior .
-Methods
-Selection of Genes to Test
-We used a set of criteria previously described [ 10 ] to obtain a list of candidate genes most likely to play a functional role in the onset of foraging in honey bees , based on analyses of brains across several microarray studies .
-TODO
-We used three criteria in selecting these genes .
-First , they were among the most predictive genes for assigning individual bees to behavioral group ( hive bee versus forager ) [ 9 ] and showed consistent expression in an independent microarray study [ 10 ] .
-Second , they were not regulated by flight , light or other foraging - related experience [ 10 ] .
-Third , they were regulated by a juvenile hormone analog in a direction consistent with expression changes ( up - regulated for genes higher in forager brains or down - regulated for genes higher in hive bee brains ; all genes listed except GB15303 ) [ 10 ] .
-Orthologs were determined by best match in reciprocal BLASTP searches between Drosophila melanogaster and Apis mellifera predicted protein sets .
-Drosophila Strains and RNA Interference
-TODO
-The nervous system - specific driver strain w ; elav - Gal4 ( stock # 8760 ) was backcrossed for five generations with w ; TM3 , Sb / Dr ( kindly provided by Dr . S . A . Kreher ) .
-To generate the RNAi genotype for testing , backcrossed w ; elav - Gal4 flies ( female ) were crossed with the respective responder strain to generate heterozygous RNAi flies .
-For all genes except abl and CAH1 , male flies were tested .
-For abl and CAH1 , the UAS RNAi responder construct was on the X chromosome and only females could be tested ( with the transgene passed from the paternal X ) .
-For activity recording , RNAi group and control lines ( driver and responder ) were tested in parallel for each gene , using flies of the same age and gender .
-Driver flies were a mixture of homozygous w ; elav - Gal4 and heterozygous w ; elav - Gal4 / TM3 , Sb from the backcross .
-Responder flies were the original VDRC strains .
-Activity patterns under light - dark ( LD ) regime .
-Efficiency of RNAi was measured by real - time quantitative reverse transcription PCR of single whole Drosophila heads using rp49 as the control gene .
-cDNA was generated and quantified using ABI - SDS 7900 system as in [ 27 ] .
-PCR reactions contained 3 µl targeted cDNA ( 10 – 100 ng ) , 5 µl Syber - green mix and 2 µl primer pair ( 2.5 µM ) . 3 µl of each reaction was added to 2 or 3 wells in the 384 - well reaction plate .
-TODO
-Efficiency was tested for a total of seven genes : U2af50 , Inos , CAH1 , fax , BM - 40 - SPARC , abl and CG32703 ( using primers indicated in Table S1 ) .
-RNAi and control flies were collected in parallel for mRNA quantification either as siblings of the behaviorally tested flies ( collected at 1 or 2 days of age ) or were the behaviorally tested flies collected immediately after the DD regime .
-Control group for mRNA quantification was driver or responder strain ( see Table S1 ) of the same age and gender as the RNAi group .
-Reduction of mRNA in single whole heads varied from 35 % to 90 % and was significant for all seven genes tested ( p < 0.05 ;
-Table S1 ) .
-Drosophila Activity Recording
-One - or 2 - day - old flies from the RNAi group and control groups ( driver and responder lines ) were put into the Drosophila Activity Monitor ( Trikenetics , Inc ) .
-Locomotor activity was recorded by computer as in [ 28 ] .
-The flies experienced 2 days light : dark ( LD ) entrainment ( 12 h ∶ 12 h ) and activity was recorded over the subsequent 5 days of LD .
-Flies were then shifted to a constant dark regime ( DD ) and activity recorded for 5 more days .
-Measurement of Behavioral Parameters
-A total of five behavioral parameters were derived from individual fly activity in LD condition and five additional parameters in DD .
-In all cases , parameters were estimated for single flies ( after exclusion of dead flies ) using activity data over 5 days of LD or 5 days of DD ; individual values were then used in statistical analyses below .
-Several parameters were calculated from unsmoothed activity data including inactivity ( proportion of 15 - min intervals with no activity ) for both LD and DD and anticipation indices for lights - on and lights - off ( LD only ) .
-Anticipation index was calculated as in [ 29 ] by dividing the sum of activity during 3 hours preceding light change by the sum of activity during 6 hours preceding light change .
-Peak activity at dawn and dusk ( LD ) and subjective dawn and dusk ( DD ) were calculated from smoothed activity data for each fly .
-Activity was smoothed using a non - recursive linear digital low - pass filter that has been used in Drosophila activity studies and is not expected to cause phase shift [ 30 ] .
-Smoothed activity at each 15 - min time interval ( Yi ) was calculated using the formula Yi   =   Xi + fc1 ( Xi + 1 + Xi − 1 ) + fc2 ( Xi + 2 + Xi − 2 ) + fc3 ( Xi + 3 + Xi − 3 ) , ( i   =   4 to 477 in this study ) where fcj   =   sin ( 2πj / rtc ) / ( 2πj / rtc ) , j   =   1 to 3 , r   =   4 h − 1 ( sampling rate per hour ) and tc   =   2 h ( cut - off period ) .
-This formula was applied using R . 2.90 .
-Peak activity at each dawn or dusk period was determined as the highest activity in the smoothed plot in the 5.5 h period centered on Zeitgeber time 0 ( dawn ) or 12 ( dusk ) .
-Peak dawn and dusk activities were then calculated for each fly as the average over the 5 day recording period .
-Strength of rhythmicity ( amplitude ) and length of period ( tau ) for each fly were estimated from DD activity using the LSP program [ 31 ] .
-Only flies with χ2 periodogram ( Qp ) significant at p < 0.01 were used in statistical analyses of tau and amplitude .
-Statistical Analysis
-Proportion of intervals with no activity and anticipation indices were arc - sine transformed .
-ANOVA was performed using R . 2.90 package to test for differences between the three groups tested ( RNAi , driver and responder ) treating trial and group as factors .
-To address multiple testing , we used Bonferroni adjustments to calculate two critical significance thresholds .
-The first threshold , referred to as gene - level significance , accounted for the 10 behavioral parameters tested for each gene ( α   =   0.05 ; p < 0.005 ) .
-We consider this a marginal significance level .
-The second threshold , referred to as experiment - wide significance , accounted for the 10 parameters and the 10 genes examined ( α   =   0.05 ; p < 0.0005 ) .
-Results that were significant at either threshold were examined post hoc to ensure that RNAi group differed significantly ( p < 0.05 ) from both control groups in the same direction ; only results meeting this standard are reported as significant .
-Results
-We tested neural - targeted RNAi lines for the selected 10 genes ( see Methods ) for effects on different aspects of locomotion in LD ( Table 1 ) and DD following LD entrainment ( Table 2 and 3 ) .
-A total of six genes affected some aspect of locomotion in LD , significant at the gene - level or experiment - wide thresholds , p < 0.005 or 0.0005 , respectively ( ANOVA ; post hoc showed RNAi group differed from both control groups , p < 0.05 ) .
-Two of these genes also affected locomotion in DD .
-RNAi and control lines for these six genes are shown in Fig . 1 , with activity averaged across replicate flies and over the 5 day LD period ( left panels ) or 5 day DD period ( right panels ) .
-Activity patterns in light - dark ( LD ) and constant dark following entrainment ( DD ) .
-Plots show unsmoothed activity averaged across individual flies and the 5 - day recording period under LD ( left panels ) and DD ( right panels ) .
-Shading indicates dark period .
-RNAi , Responder and Driver genotypes are described in Methods .
-All genes were tested in males except for Abl and CAH1 , which were tested in females .
-Significant effects on peak activity are indicated by black bar ( asterisks as in Table 1 and 2 ) .
-Significant effect on anticipatory activity is indicated by a red bar .
-Additional effects on inactivity for CAH1 ( in LD ) and BM - 40 - SPARC ( in DD ) are not indicated in figure ( see Table 1 and 2 ) .
-Activity patterns under constant dark ( DD ) regime .
-Rhythmicity and length of period under DD .
-Knockdown of BM - 40 - SPARC , fax and U2af50 increased peak locomotor behavior at dawn in LD ( p < 0.0005 ) , but did not decrease overall inactivity ( proportion of 15 - min intervals with no activity , p > 0.005 ) ( Table 1 and Fig . 1 ) .
-The latter result suggests that increased activity in these lines was not a general increase at all times of the day .
-Although they did not show significant effects on dusk , two of these genes showed trends in dusk activity ( non - significant elevation ) that make it difficult to interpret a specific effect on dawn versus dusk activity .
-Knockdown of abl caused increased peak activity at both dawn and dusk ( p < 0.0005 ) ;
-however , control line differences in inactivity make it difficult to rule out a general increase in activity at all times .
-Two other genes showed effects under LD conditions .
-Knockdown of Inos caused a significant increase in lights - off anticipatory locomotion ( p < 0.0005 ;
-Table 1 and Fig . 1 ) .
-Knockdown of CAH1 caused a decrease in inactivity at the marginal gene level threshold ( p < 0.005 ) .
-Locomotor activity under constant dark ( DD ) following LD entrainment was affected for two genes ( Table 2 ) .
-RNAi knockdown of BM - 40 - SPARC caused increased activity at subjective dawn ( p < 0.0005 )
-but also a decrease in total inactive time , suggesting that constant dark may have a general activating effect on BM - 40 - SPARC knockdown flies .
-Knockdown of abl increased in peak activities in DD ( p < 0.0005 )
-similar to its effect in LD ; however , control line differences in inactivity make it difficult to rule out a general increase in activity .
-No gene tested showed differences in strength of rhythmicity or length of period ( tau ) in DD ( p > 0.005 ;
-Table 3 ) .
-Discussion
-In this study , we tested orthologs of 10 genes associated with honey bee behavioral maturation , finding six that affected some aspect of Drosophila locomotor activity .
-One gene , Inos , affected anticipation of lights - off .
-Three genes , BM - 40 - SPARC , fax and U2af50 , affected dawn activity without affecting total time spent inactive .
-Knockdown of abl caused increased peak activities , but our data did not strongly support a time - specific effect .
-Knockdown of CAH1 caused a marginally significant ( gene - level threshold ) decrease in time inactive .
-No genes affected strength of rythmicity or length of period in DD .
-These six genes could influence activity via either clock - dependent or direct stimulus - dependent ( apart from entrainment ; i . e . , masking ) pathways .
-Our data suggest that at least one , Inos , acts downstream of the endogenous clock .
-Knockdown of Inos affected activity in the 3 - hours prior to lights - off ( anticipation of dusk ) , but did not affect strength of rhythmicity or length of period in DD , suggesting a clock - dependent rather than a core clock function [ 32 ] .
-Consistent with a possible role downstream of the clock , Inos was identified as significant clock controlled genes in a meta - analysis of Drosophila circadian microarray studies [ 33 ] ( of the 10 genes examined in the present study , CAH1 and ple were also identified as clock controlled genes ) .
-Both BM - 40 - SPARC and abl showed effects in DD resembling their effects in LD .
-However , we cannot make a strong interpretation of clock - dependent effect for either of these genes : BM - 40 - SPARC exhibited a general increase in activity in DD , while control line effects in abl make it difficult to interpret inactivity .
-No other gene in this study affected strength of rhythmicity or length of period in DD , suggesting no role in the core clock machinery for genes examined in this study .
-Results for the two remaining genes that affected dawn peak activity , fax and U2af50 , were consistent with possible modulation by direct light stimulus rather than the endogenous clock .
-RNAi of both genes increased activity at dawn without decreasing total time spent inactive , indicating time - specific effects under LD .
-However , neither gene showed effects on dawn or dusk anticipation , nor activity under DD .
-These results suggest that observed increases in dawn activity may result from light transition .
-Results were similar for BM - 40 - SPARC , although unlike fax and U2af50 , BM - 40 - SPARC may have shown a generalized response ( elevated locomotor activity ) to DD .
-Taken together , our results suggest that fax , U2af50 and BM - 40 - SPARC may mediate direct stimulus effects on activity , though further behavioral tests are needed to establish light masking effects [ 12 ] .
-Considered together , a surprisingly large fraction of genes tested showed effects on the 24 - hour pattern of locomotor activity in Drosophila ( six out of ten ) , although only one exhibited a clear clock - dependent function .
-This result may point to the importance ( and complexity ) of changes in locomotor behavior in the honey bee transition to foraging .
-The onset of foraging involves both increased overall activity ( foraging flight ) but also long inactive periods linked to the circadian clock [ 8 ] .
-Perhaps resulting from this complexity , we did not observe a simple correspondence between direction of effect in Drosophila ( more or less activity ) and direction of regulation in the hive bee to forager transition ( up or down regulation ) .
-An important caveat is that our results do not address how many genes in the Drosophila genome would show similar effects .
-Because genes can act pleiotropically , it is possible that our results reflect a general trend in which a large fraction of genes in the genome have small but measurable effect on some aspect of locomotion in addition to affecting other phenotypes .
-More detailed understanding of the function of each of these genes in Drosophila locomotion may provide insight into their possible specific roles in the complex honey bee foraging phenotype .
-A full understanding of the 24 - hour pattern of locomotor behavior in the honey bee will require an understanding of the genes that act in the endogenous clock , genes that translate the endogenous clock information to locomotor activity , and genes that translate environmental and social cues to locomotor activity ( both via clock entrainment and clock - independent pathways ) .
-Although the current study focuses on daily locomotor activity , the general approach could be used to study other behaviors associated with the transition from hive bee to forager , for example in foraging strategy , phototaxis and aggression .
-Such studies could identify pleiotropic effects of genes implicated in the present study ( in locomotor activity ) and lead to a deeper understanding of both the mechanism of social behavior and the hierarchy of complex behaviors .
-Supporting Information

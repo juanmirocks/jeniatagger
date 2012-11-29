@@ -30,12 +30,11 @@ public class MainTest {
   }
 
   /**
-   * TODO known to fail for named-entity recognition in some instances
-   *
    * The test file is very big (the output is 8.8MB)
    *
-   * It should throughly test whether jenia's output is the same as genia's. The Bc2Gm training data
-   * contained various entities for all named-classes recognized by the genia tagger.
+   * It should throughly test whether jenia's output is the same as genia's. The
+   * Bc2Gm training data contained various entities for all named-classes
+   * recognized by the genia tagger.
    *
    * @throws IOException
    */

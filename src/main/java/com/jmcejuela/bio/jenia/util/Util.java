@@ -13,7 +13,6 @@ public class Util {
         (resource.startsWith("/") ? resource : "/" + resource));
   }
 
-
   public static <T> ArrayList<T> newArrayList(int size) {
     return new ArrayList<T>(size);
   }
@@ -47,8 +46,6 @@ public class Util {
   }
 
   public static double max(double[] array) {
-    if (array.length == 0)
-      throw new NoSuchElementException("max of nothing");
     double ret = array[0];
     for (int i = 1; i < array.length; i++) {
       if (array[i] > ret)
@@ -130,10 +127,11 @@ public class Util {
    * From tokenize.cpp
    *
    * Original c++ signature:
-   * 
+   *
    * replace(String & s, const String & s1, const String & s2, const char skip)
    *
-   * Replaced by {@link String#replace(char, char)} I believe the skip flag is not necessary
+   * Replaced by {@link String#replace(char, char)} I believe the skip flag is
+   * not necessary
    *
    * @param s
    * @param s1

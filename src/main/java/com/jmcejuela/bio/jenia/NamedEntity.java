@@ -233,11 +233,6 @@ public class NamedEntity {
       }
     }
 
-    // if (contain_comma)
-    // mes.features.add("CONTAIN_COMMA");
-
-    // cout << fb.Id(buf) << " " << buf << endl;
-
     // POS feature
     String p_2 = "BOS", p_1 = "BOS";
     String pb, pe;
@@ -364,15 +359,11 @@ public class NamedEntity {
 
     List<Annotation> annotations = newArrayList();
     for (int j = 0; j < s.size(); j++) {
-      // for (int k = s.length(); k > j; k--) {
       for (int k = j + 1; k <= s.size(); k++) {
         if (!is_candidate(s, j, k)) {
-          // if (isterm(s_org, j, k)) num_candidate_false_negatives++;
           continue;
         }
         ME_Sample nbs = mesample("?", s, j, k);
-        // int label = nb.classify(nbs, NULL, &membp);
-        // me.classify(nbs, &membp);
         ArrayList<Double> membp = me.classify(nbs);
         int label = 0;
         minusEq(membp, other_class, BIAS_FOR_RECALL);
@@ -380,23 +371,13 @@ public class NamedEntity {
           if (membp.get(l) > membp.get(label)) label = l;
         }
         double prob = membp.get(label);
-
-        // print_features(fb, nbs);
-        // cout << endl << "------- ";
-        // for (int l = 0; l < me.num_classes(); l++) cout << membp[l] << " ";
-        // cout << endl;
-
         if (label != other_class) {
           annotations.add(new Annotation(label, j, k, prob));
         }
       }
     }
     Collections.sort(annotations, Annotation.Order);
-    // for (int j = 0; j < s.length(); j++) cout << j << ":" << s.get(j).str << " ";
-    // cout << endl;
     for (Annotation annotation : annotations) {
-      // cout << j.label << " begin = " << j.begin << " end = " << j.end << " prob = " << j.prob <<
-      // endl;
       boolean override = true;
       for (int l = annotation.begin; l < annotation.end; l++) {
         if (label_p.get(l) >= annotation.prob) {

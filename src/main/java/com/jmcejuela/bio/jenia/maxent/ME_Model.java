@@ -260,7 +260,7 @@ public class ME_Model {
       return j;
     }
 
-    final int Id(final String i) {
+    final Integer Id(final String i) {
       Integer j = str2id.get(i);
       if (j == null) return -1;
       else
@@ -895,12 +895,12 @@ public class ME_Model {
   public final ArrayList<Double> classify(ME_Sample mes) {
     Sample s = new Sample();
     for (String j : mes.features) {
-      int id = _featurename_bag.Id(j);
+      Integer id = _featurename_bag.Id(j);
       if (id >= 0)
         s.positive_features.add(id);
     }
     for (Tuple2<String, Double> j : mes.rvfeatures) {
-      int id = _featurename_bag.Id(j._1);
+      Integer id = _featurename_bag.Id(j._1);
       if (id >= 0) {
         s.rvfeatures.add(Tuple2.$(id, j._2));
       }

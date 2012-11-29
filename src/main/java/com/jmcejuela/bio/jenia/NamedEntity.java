@@ -216,9 +216,11 @@ public class NamedEntity {
     }
 
     // POS feature
-    String p_2 = "BOS", p_1 = "BOS";
+    String p_1 = "BOS";
+    String p_2 = "BOS";
     String pb, pe;
-    String p1 = "EOS", p2 = "EOS";
+    String p1 = "EOS";
+    String p2 = "EOS";
     if (begin >= 2) p_2 = sentence.get(begin - 2).pos;
     if (begin >= 1) p_1 = sentence.get(begin - 1).pos;
     pb = sentence.get(begin).pos;

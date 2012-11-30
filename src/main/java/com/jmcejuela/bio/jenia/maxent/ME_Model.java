@@ -38,12 +38,11 @@ public class ME_Model {
   private final MiniStringBag _featurename_bag = new MiniStringBag();
   private double _sigma; // Gaussian prior
   private double _inequality_width;
-  double[] _vl = newArrayList(); // vector of lambda
+  ArrayList<Double> _vl = newArrayList(); // vector of lambda
   private ArrayList<Double> _va; // vector of alpha (for inequality ME)
   private ArrayList<Double> _vb; // vector of beta (for inequality ME)
   final ME_FeatureBag _fb = new ME_FeatureBag();
-  //private final ArrayList<ArrayList<Integer>> _feature2mef = newArrayList();
-  private final int[] _feature2mef = newArrayList();
+  private final ArrayList<ArrayList<Integer>> _feature2mef = newArrayList();
   private int _num_classes;
   private ArrayList<Double> _vee; // empirical expectation
   private ArrayList<Double> _vme; // empirical expectation
@@ -301,7 +300,7 @@ public class ME_Model {
     // cerr << "C = " << C << endl;
     C = 1;
     // cerr << "performing AGIS" << endl;
-    double[] pre_v = new double[_vl.length]; // jenia: same size as _vl's because later it can set _vl
+    ArrayList<Double> pre_v = newArrayList(_vl.size(), 0.0); // jenia: same size as _vl's because later it can set _vl
     double pre_logl = -999999;
     for (int iter = 0; iter < 200; iter++) {
       double logl = update_model_expectation();
@@ -323,10 +322,10 @@ public class ME_Model {
 
       pre_logl = logl;
       pre_v = _vl; // TODO jenia this doesn't have any effect
-      assert (_vl.length >= _fb.Size());
+      assert (_vl.size() >= _fb.Size());
       for (int i = 0; i < _fb.Size(); i++) {
         double coef = _vee.get(i) / _vme.get(i);
-        _vl[i] = log(coef) / C;
+        plusEq(_vl, i, log(coef) / C);
       }
     }
     // cerr << endl;
@@ -350,7 +349,7 @@ public class ME_Model {
       for (int i = 0; i < nvars / 2; i++) {
         _va.set(i, x[i]);
         _vb.set(i, x[i + _fb.Size()]);
-        _vl[i] = _va.get(i) - _vb.get(i);
+        _vl.set(i, _va.get(i) - _vb.get(i));
       }
 
       return 0;
@@ -361,13 +360,13 @@ public class ME_Model {
 
       // INITIAL POINT
       for (int i = 0; i < nvars; i++) {
-        x[i] = _vl[i];
+        x[i] = _vl.get(i);
       }
 
       // int info = BLMVMSolve(x, nvars);
 
       for (int i = 0; i < nvars; i++) {
-        _vl[i] = x[i];
+        _vl.set(i, x[i]);
       }
 
       return 0;

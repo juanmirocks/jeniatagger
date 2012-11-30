@@ -42,10 +42,10 @@ public class ME_Model {
   private ArrayList<Double> _va; // vector of alpha (for inequality ME)
   private ArrayList<Double> _vb; // vector of beta (for inequality ME)
   final ME_FeatureBag _fb = new ME_FeatureBag();
+  private final ArrayList<ArrayList<Integer>> _feature2mef = newArrayList();
   private int _num_classes;
   private ArrayList<Double> _vee; // empirical expectation
   private ArrayList<Double> _vme; // empirical expectation
-  private final ArrayList<ArrayList<Integer>> _feature2mef = newArrayList();
   private ArrayList<Sample> _heldout;
   private double _train_error; // current error rate on the training data
   private double _heldout_error; // current error rate on the heldout data

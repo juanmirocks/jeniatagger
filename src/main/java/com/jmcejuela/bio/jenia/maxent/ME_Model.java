@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -28,17 +29,19 @@ import java.util.Map.Entry;
 
 import com.jmcejuela.bio.jenia.util.Constructor;
 import com.jmcejuela.bio.jenia.util.Tuple2;
+import com.jmcejuela.bio.jenia.util.Util;
 
 /**
  * From maxent.h
  */
 public class ME_Model {
+  //TODO ideally all fields are final
   private ArrayList<Sample> _vs; // vector of training_samples
   final StringBag _label_bag = new StringBag();
   private final MiniStringBag _featurename_bag = new MiniStringBag();
   private double _sigma; // Gaussian prior
   private double _inequality_width;
-  ArrayList<Double> _vl = newArrayList(); // vector of lambda
+  double[] _vl; // vector of lambda
   private ArrayList<Double> _va; // vector of alpha (for inequality ME)
   private ArrayList<Double> _vb; // vector of beta (for inequality ME)
   final ME_FeatureBag _fb = new ME_FeatureBag();
@@ -300,7 +303,7 @@ public class ME_Model {
     // cerr << "C = " << C << endl;
     C = 1;
     // cerr << "performing AGIS" << endl;
-    ArrayList<Double> pre_v = newArrayList(_vl.size(), 0.0); // jenia: same size as _vl's because later it can set _vl
+    double[] pre_v = new double[_vl.length]; // jenia: same size as _vl's because later it can set _vl
     double pre_logl = -999999;
     for (int iter = 0; iter < 200; iter++) {
       double logl = update_model_expectation();
@@ -322,10 +325,10 @@ public class ME_Model {
 
       pre_logl = logl;
       pre_v = _vl; // TODO jenia this doesn't have any effect
-      assert (_vl.size() >= _fb.Size());
+      assert (_vl.length >= _fb.Size());
       for (int i = 0; i < _fb.Size(); i++) {
         double coef = _vee.get(i) / _vme.get(i);
-        plusEq(_vl, i, log(coef) / C);
+        _vl[i] = log(coef) / C;
       }
     }
     // cerr << endl;
@@ -349,7 +352,7 @@ public class ME_Model {
       for (int i = 0; i < nvars / 2; i++) {
         _va.set(i, x[i]);
         _vb.set(i, x[i + _fb.Size()]);
-        _vl.set(i, _va.get(i) - _vb.get(i));
+        _vl[i] = _va.get(i) - _vb.get(i);
       }
 
       return 0;
@@ -360,13 +363,13 @@ public class ME_Model {
 
       // INITIAL POINT
       for (int i = 0; i < nvars; i++) {
-        x[i] = _vl.get(i);
+        x[i] = _vl[i];
       }
 
       // int info = BLMVMSolve(x, nvars);
 
       for (int i = 0; i < nvars; i++) {
-        _vl.set(i, x[i]);
+        _vl[i] = x[i];
       }
 
       return 0;
@@ -381,7 +384,7 @@ public class ME_Model {
 
     for (Integer j : s.positive_features) {
       for (Integer k : _feature2mef.get(j)) {
-        powv[_fb.Feature(k).label] += _vl.get(k);
+        powv[_fb.Feature(k).label] += _vl[k];
       }
     }
 
@@ -494,7 +497,7 @@ public class ME_Model {
       if (_sigma > 0) {
         final double c = 1 / (2 * _sigma * _sigma);
         for (int i = 0; i < _fb.Size(); i++) {
-          logl -= _vl.get(i) * _vl.get(i) * c;
+          logl -= _vl[i] * _vl[i] * c;
         }
       }
     }
@@ -628,7 +631,7 @@ public class ME_Model {
 
     // resizes
 
-    _vl = newArrayList(_fb.Size(), 0.0);
+    _vl = new double[_fb.Size()];
 
     if (_inequality_width > 0) {
       _va = newArrayList(_fb.Size(), 0.0);
@@ -641,7 +644,7 @@ public class ME_Model {
     if (_inequality_width > 0) {
       int sum = 0;
       for (int i = 0; i < _fb.Size(); i++) {
-        if (_vl.get(i) != 0) sum++;
+        if (_vl[i] != 0) sum++;
       }
       // cerr << "number of active features = " << sum << endl;
     }
@@ -663,14 +666,15 @@ public class ME_Model {
         String history = i.getKey();
         int id = _fb.Id(new ME_Feature(j, i.getValue()));
         if (id < 0) continue;
-        fl.add(Tuple2.$(Tuple2.$(label, history), _vl.get(id)));
+        fl.add(Tuple2.$(Tuple2.$(label, history), _vl[id]));
       }
     }
   }
 
   public boolean load_from_file(final String filename) {
     try {
-      _vl.clear();
+      //_vl.clear();
+      ArrayList<Double> _auxvl = newArrayList();
       _label_bag.Clear();
       _featurename_bag.Clear();
       _fb.Clear();
@@ -708,9 +712,10 @@ public class ME_Model {
         int label = _label_bag.Put(classname);
         int feature = _featurename_bag.Put(featurename);
         _fb.Put(new ME_Feature(label, feature));
-        _vl.add(lambda);
+        _auxvl.add(lambda);
       }
 
+      _vl = Util.listDouble2arraydouble(_auxvl);
       _num_classes = _label_bag.Size();
 
       init_feature2mef();
@@ -736,14 +741,16 @@ public class ME_Model {
   }
 
   boolean load_from_array(final ME_Model_Data[] data) {
-    _vl.clear();
+    //_vl.clear();
+    ArrayList<Double> _auxvl = newArrayList();
     for (int i = 0;; i++) {
       if (data[i].label.equals("///")) break;
       int label = _label_bag.Put(data[i].label);
       int feature = _featurename_bag.Put(data[i].feature);
       _fb.Put(new ME_Feature(label, feature));
-      _vl.add(data[i].weight);
+      _auxvl.add(data[i].weight);
     }
+    _vl = Util.listDouble2arraydouble(_auxvl);
     _num_classes = _label_bag.Size();
 
     init_feature2mef();
@@ -773,8 +780,8 @@ public class ME_Model {
           String history = i.getKey();
           int id = _fb.Id(new ME_Feature(j, i.getValue()));
           if (id < 0) continue;
-          if (_vl.get(id) == 0) continue; // ignore zero-weight features
-          out.format("%s\t%s\t%f\n", label, history, _vl.get(id));
+          if (_vl[id] == 0) continue; // ignore zero-weight features
+          out.format("%s\t%s\t%f\n", label, history, _vl[id]);
         }
       }
 

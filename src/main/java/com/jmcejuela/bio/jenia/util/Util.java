@@ -45,6 +45,15 @@ public class Util {
     return ret;
   }
 
+  public static double[] listDouble2arraydouble(List<Double> in) {
+    double[] out = new double[in.size()];
+    int i = 0;
+    for (Double d : in) {
+      out[i++] = d;
+    }
+    return out;
+  }
+
   public static double max(double[] array) {
     double ret = array[0];
     for (int i = 1; i < array.length; i++) {

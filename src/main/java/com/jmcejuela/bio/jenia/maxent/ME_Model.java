@@ -228,10 +228,7 @@ public class ME_Model {
 
     final Integer Id(final String i) {
       Integer j = str2id.get(i);
-      if (j == null)
-        return MINUS_ONE;
-      else
-        return j;
+      return (j == null) ? MINUS_ONE : j;
     }
 
     // final

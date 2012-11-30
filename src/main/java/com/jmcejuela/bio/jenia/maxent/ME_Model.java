@@ -33,19 +33,19 @@ import com.jmcejuela.bio.jenia.util.Tuple2;
  * From maxent.h
  */
 public class ME_Model {
-  ArrayList<Sample> _vs; // vector of training_samples
-  StringBag _label_bag = new StringBag();
-  MiniStringBag _featurename_bag = new MiniStringBag();
-  double _sigma; // Gaussian prior
-  double _inequality_width;
+  private ArrayList<Sample> _vs; // vector of training_samples
+  final StringBag _label_bag = new StringBag();
+  private final MiniStringBag _featurename_bag = new MiniStringBag();
+  private double _sigma; // Gaussian prior
+  private double _inequality_width;
   ArrayList<Double> _vl = newArrayList(); // vector of lambda
-  ArrayList<Double> _va; // vector of alpha (for inequality ME)
-  ArrayList<Double> _vb; // vector of beta (for inequality ME)
-  ME_FeatureBag _fb = new ME_FeatureBag();
-  int _num_classes;
-  ArrayList<Double> _vee; // empirical expectation
-  ArrayList<Double> _vme; // empirical expectation
-  ArrayList<ArrayList<Integer>> _feature2mef = newArrayList();
+  private ArrayList<Double> _va; // vector of alpha (for inequality ME)
+  private ArrayList<Double> _vb; // vector of beta (for inequality ME)
+  final ME_FeatureBag _fb = new ME_FeatureBag();
+  private int _num_classes;
+  private ArrayList<Double> _vee; // empirical expectation
+  private ArrayList<Double> _vme; // empirical expectation
+  private final ArrayList<ArrayList<Integer>> _feature2mef = newArrayList();
   private ArrayList<Sample> _heldout;
   private double _train_error; // current error rate on the training data
   private double _heldout_error; // current error rate on the heldout data

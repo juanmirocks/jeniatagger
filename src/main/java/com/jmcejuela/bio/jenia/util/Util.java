@@ -47,8 +47,17 @@ public class Util {
   public static double[] listDouble2arraydouble(List<Double> in) {
     double[] out = new double[in.size()];
     int i = 0;
-    for (Double d : in) {
-      out[i++] = d;
+    for (Double n : in) {
+      out[i++] = n;
+    }
+    return out;
+  }
+
+  public static int[] listInteger2arrayint(List<Integer> in) {
+    int[] out = new int[in.size()];
+    int i = 0;
+    for (Integer n : in) {
+      out[i++] = n;
     }
     return out;
   }

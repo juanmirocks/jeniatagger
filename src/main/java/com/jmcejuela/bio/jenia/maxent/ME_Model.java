@@ -376,9 +376,6 @@ public class ME_Model {
   }
 
   public final int conditional_probability(final Sample s, double[] membp) {
-    double sum = 0;
-    int max_label = 0;
-
     double[] powv = new double[_num_classes];
 
     for (Integer j : s.positive_features) {
@@ -389,6 +386,9 @@ public class ME_Model {
 
     double pmax = max(powv);
     double offset = max(0.0, pmax - 700); // to avoid overflow
+
+    double sum = 0;
+    int max_label = 0;
 
     for (int label = 0; label < _num_classes; label++) {
       double pow = powv[label] - offset;

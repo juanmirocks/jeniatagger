@@ -108,7 +108,7 @@ public class ME_Model {
     }
 
     public Sample(int[] positive_features) {
-      this(0, positive_features); //TODO watch out here
+      this(0, positive_features);
     }
 
     // jenia, converted to Comparator

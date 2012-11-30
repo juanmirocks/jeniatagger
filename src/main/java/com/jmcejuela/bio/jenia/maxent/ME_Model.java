@@ -96,16 +96,27 @@ public class ME_Model {
   };
 
   private static class Sample {
-    int label;
-    ArrayList<Integer> positive_features = newArrayList();
-    ArrayList<Double> ref_pd = newArrayList(); // reference probability distribution
+    final int label;
+    final int[] positive_features;
+
+    //jenia, never used
+    //final ArrayList<Double> ref_pd = newArrayList(); // reference probability distribution,
+
+    public Sample(int label, int[] positive_features) {
+      this.label = label;
+      this.positive_features = positive_features;
+    }
+
+    public Sample(int[] positive_features) {
+      this(0, positive_features); //TODO watch out here
+    }
 
     // jenia, converted to Comparator
     private final boolean operator_less(final Sample x) {
-      for (int i = 0; i < positive_features.size(); i++) {
-        if (i >= x.positive_features.size()) return false;
-        int v0 = positive_features.get(i);
-        int v1 = x.positive_features.get(i);
+      for (int i = 0; i < positive_features.length; i++) {
+        if (i >= x.positive_features.length) return false;
+        int v0 = positive_features[i];
+        int v1 = x.positive_features[i];
         if (v0 < v1) return true;
         if (v0 > v1) return false;
       }
@@ -120,14 +131,14 @@ public class ME_Model {
       @Override
       public int compare(Sample s1, Sample s2) {
         //this clause doesn't appear in the original operator_less
-        if (s1.positive_features.size() < s2.positive_features.size())
+        if (s1.positive_features.length < s2.positive_features.length)
           return -1;
-        else if (s1.positive_features.size() > s2.positive_features.size())
+        else if (s1.positive_features.length > s2.positive_features.length)
           return +1;
         else {
-          for (int i = 0; i < s1.positive_features.size(); i++) {
-            int v1 = s1.positive_features.get(i);
-            int v2 = s2.positive_features.get(i);
+          for (int i = 0; i < s1.positive_features.length; i++) {
+            int v1 = s1.positive_features[i];
+            int v2 = s2.positive_features[i];
             if (v1 < v2) return -1;
             if (v1 > v2) return +1;
           }
@@ -377,7 +388,7 @@ public class ME_Model {
   public final int conditional_probability(final Sample s, double[] membp) {
     double[] powv = new double[_num_classes];
 
-    for (Integer j : s.positive_features) {
+    for (int j : s.positive_features) {
       for (Integer k : _feature2mef.get(j)) {
         powv[_fb.Feature(k).label] += _vl[k];
       }
@@ -420,7 +431,7 @@ public class ME_Model {
     }
 
     for (Sample i : _vs) {
-      max_num_features = max(max_num_features, (i.positive_features.size()));
+      max_num_features = max(max_num_features, (i.positive_features.length));
       for (Integer j : i.positive_features) {
         final ME_Feature feature = new ME_Feature(i.label, j);
         // if (cutoff > 0 && count[feature.body()] < cutoff) continue;
@@ -521,20 +532,24 @@ public class ME_Model {
   }
 
   void add_training_sample(final ME_Sample mes) {
-    Sample s = new Sample();
-    s.label = _label_bag.Put(mes.label);
-    if (s.label > ME_Feature.MAX_LABEL_TYPES) {
-      // cerr << "error: too many types of labels." << endl;
-      System.exit(1);
+    ArrayList<Integer> aux_positive_features = newArrayList();
+    int label = _label_bag.Put(mes.label);
+    if (label > ME_Feature.MAX_LABEL_TYPES) {
+      throw new RuntimeException("error: too many types of labels.");
     }
     for (String j : mes.features) {
-      s.positive_features.add(_featurename_bag.Put(j));
+      aux_positive_features.add(_featurename_bag.Put(j));
     }
 
-    if (_ref_modelp != null) {
-      ME_Sample tmp = mes;
-      s.ref_pd = _ref_modelp.classify(tmp);
-    }
+    //jenia, never true
+    //    if (_ref_modelp != null) {
+    //      ME_Sample tmp = mes;
+    //      s.ref_pd = _ref_modelp.classify(tmp);
+    //    }
+
+    Sample s = new Sample(
+        label,
+        Util.listInteger2arrayint(aux_positive_features));
 
     _vs.add(s);
   }
@@ -569,9 +584,10 @@ public class ME_Model {
         _label_bag.Put(_ref_modelp.get_class_label(i));
       }
       _num_classes = _label_bag.Size();
-      for (Sample i : _vs) {
-        set_ref_dist(i);
-      }
+      //jenia, ignore ref
+      //      for (Sample i : _vs) {
+      //        set_ref_dist(i);
+      //      }
       // cerr << "done" << endl;
     }
 
@@ -778,20 +794,21 @@ public class ME_Model {
     }
   }
 
-  final void set_ref_dist(Sample s) {
-    ArrayList<Double> v0 = s.ref_pd;
-    ArrayList<Double> v = newArrayList(_num_classes);
-    for (int i = 0; i < _num_classes; i++) {
-      v.add(0.0);
-      String label = get_class_label(i);
-      int id_ref = _ref_modelp.get_class_id(label);
-      if (id_ref != -1) {
-        v.set(i, v0.get(id_ref));
-      }
-      if (v.get(i) == 0) v.set(i, 0.001); // to avoid -inf logl
-    }
-    s.ref_pd = v;
-  }
+  //jenia: not useful anymore, ref is always null
+  //  final void set_ref_dist(Sample s) {
+  //    ArrayList<Double> v0 = s.ref_pd;
+  //    ArrayList<Double> v = newArrayList(_num_classes);
+  //    for (int i = 0; i < _num_classes; i++) {
+  //      v.add(0.0);
+  //      String label = get_class_label(i);
+  //      int id_ref = _ref_modelp.get_class_id(label);
+  //      if (id_ref != -1) {
+  //        v.set(i, v0.get(id_ref));
+  //      }
+  //      if (v.get(i) == 0) v.set(i, 0.001); // to avoid -inf logl
+  //    }
+  //    s.ref_pd = v;
+  //  }
 
   final int classify(final Sample nbs, double[] membp) {
     // ArrayList<Double> membp(_num_classes);
@@ -809,16 +826,18 @@ public class ME_Model {
   }
 
   public final ArrayList<Double> classify(ME_Sample mes) {
-    Sample s = new Sample();
+    ArrayList<Integer> aux_positive_features = newArrayList();
     for (String j : mes.features) {
       Integer id = _featurename_bag.Id(j);
       if (id >= 0)
-        s.positive_features.add(id);
+        aux_positive_features.add(id);
     }
-    if (_ref_modelp != null) {
-      s.ref_pd = _ref_modelp.classify(mes);
-      set_ref_dist(s);
-    }
+    Sample s = new Sample(Util.listInteger2arrayint(aux_positive_features));
+
+    //    if (_ref_modelp != null) {
+    //      s.ref_pd = _ref_modelp.classify(mes);
+    //      set_ref_dist(s);
+    //    }
 
     double[] vp = new double[_num_classes];
     int label = classify(s, vp);

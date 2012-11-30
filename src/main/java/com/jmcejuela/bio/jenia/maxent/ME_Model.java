@@ -840,13 +840,4 @@ public class ME_Model {
     }
     return ret;
   }
-
-  // BLMVM
-  /*
-   * int BLMVMComputeFunctionGradient(BLMVM blmvm, BLMVMVec X,double *f,BLMVMVec
-   * G); int BLMVMComputeBounds(BLMVM blmvm, BLMVMVec XL, BLMVMVec XU); int
-   * BLMVMSolve(double *x, int n); int BLMVMFunctionGradient(double *x, double
-   * *f, double *g, int n); int BLMVMLowerAndUpperBounds(double *xl,double
-   * *xu,int n); int Solve_BLMVM(BLMVM blmvm, BLMVMVec X);
-   */
 }

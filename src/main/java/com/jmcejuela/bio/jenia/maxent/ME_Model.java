@@ -801,13 +801,11 @@ public class ME_Model {
     int max_label = 0;
     double max = 0.0;
     for (int i = 0; i < membp.length; i++) {
-      // cout << membp[i] << " ";
       if (membp[i] > max) {
         max_label = i;
         max = membp[i];
       }
     }
-    // cout << endl;
     return max_label;
   }
 

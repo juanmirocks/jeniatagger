@@ -2,8 +2,10 @@ package com.jmcejuela.bio.jenia.maxent;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class ME_ModelTest {
 
   @Test
@@ -40,7 +42,7 @@ public class ME_ModelTest {
 
   public static <T> void testModel(ME_Model me, int numLinesFile) {
     assertEquals(numLinesFile, me._fb.Size());
-    assertEquals(numLinesFile, me._vl.size());
+    assertEquals(numLinesFile, me._vl.length);
 
     System.out.println("  # classes: " + me.num_classes());
     System.out.println("    classes: " + me._label_bag.id2str);

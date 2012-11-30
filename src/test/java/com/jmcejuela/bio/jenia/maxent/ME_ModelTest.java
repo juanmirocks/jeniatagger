@@ -2,8 +2,10 @@ package com.jmcejuela.bio.jenia.maxent;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class ME_ModelTest {
 
   @Test

@@ -1,13 +1,15 @@
 package com.jmcejuela.bio.jenia;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class NamedEntityTest {
 
   @Test

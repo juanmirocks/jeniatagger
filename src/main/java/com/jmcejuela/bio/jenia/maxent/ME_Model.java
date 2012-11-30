@@ -757,20 +757,9 @@ public class ME_Model {
     return true;
   }
 
-  public final boolean save_to_file(final String filename) {
+  public final void save_to_file(final String filename) {
     try {
       File fp = new File(filename);
-      if (!fp.canWrite()) {
-        // cerr << "error: cannot open " << filename << "!" << endl;
-        return false;
-      }
-
-      // for (int i = 0; i < _fb.Size(); i++) {
-      // if (_vl[i] == 0) continue; // ignore zero-weight features
-      // ME_Feature f = _fb.Feature(i);
-      // fprintf(fp, "%s\t%s\t%f\n", _label_bag.Str(f.label()).c_str(), _featurename_bag.Str(f.feature()).c_str(),
-      // _vl[i]);
-      // }
 
       PrintWriter out = new PrintWriter(fp);
       for (Entry<String, Integer> i : _featurename_bag) {
@@ -785,8 +774,6 @@ public class ME_Model {
       }
 
       out.close();
-
-      return true;
     } catch (IOException e) {
       throw new IOError(e);
     }

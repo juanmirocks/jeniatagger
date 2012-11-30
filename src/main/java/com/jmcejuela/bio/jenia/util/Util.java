@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 public class Util {
 
@@ -43,6 +42,24 @@ public class Util {
       ret.add(initValue);
     }
     return ret;
+  }
+
+  public static double[] listDouble2arraydouble(List<Double> in) {
+    double[] out = new double[in.size()];
+    int i = 0;
+    for (Double n : in) {
+      out[i++] = n;
+    }
+    return out;
+  }
+
+  public static int[] listInteger2arrayint(List<Integer> in) {
+    int[] out = new int[in.size()];
+    int i = 0;
+    for (Integer n : in) {
+      out[i++] = n;
+    }
+    return out;
   }
 
   public static double max(double[] array) {

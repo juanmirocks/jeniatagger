@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.jmcejuela.bio.jenia.util.Util;
@@ -38,7 +39,8 @@ public class MainTest {
    *
    * @throws IOException
    */
-  //@Test
+  @Ignore
+  @Test
   public void testOutputNTBc2GmTrainingData() throws IOException {
     testSameAsOriginalOutput("genia-nt.bc2gm-training.in", "genia-nt.bc2gm-training.out", "-nt");
   }

@@ -35,7 +35,7 @@ import com.jmcejuela.bio.jenia.util.Util;
  */
 public class ME_Model {
   //TODO ideally all fields are final
-  private ArrayList<Sample> _vs; // vector of training_samples
+  private ArrayList<Sample> samples; // vector of training_samples
   final StringBag _label_bag = new StringBag();
   private final MiniStringBag _featurename_bag = new MiniStringBag();
   private double _sigma; // Gaussian prior
@@ -423,14 +423,14 @@ public class ME_Model {
     // jenia: unsigned int, int
     Map<Integer, Integer> count = new HashMap<Integer, Integer>();
     if (cutoff > 0) {
-      for (Sample i : _vs) {
+      for (Sample i : samples) {
         for (Integer j : i.positive_features) {
           increase(count, ME_Feature.body(i.label, j));
         }
       }
     }
 
-    for (Sample i : _vs) {
+    for (Sample i : samples) {
       max_num_features = max(max_num_features, (i.positive_features.length));
       for (Integer j : i.positive_features) {
         final ME_Feature feature = new ME_Feature(i.label, j);
@@ -474,7 +474,7 @@ public class ME_Model {
 
     _vme = newArrayList(_fb.Size(), 0.0);
 
-    for (Sample i : _vs) {
+    for (Sample i : samples) {
       double[] membp = new double[_num_classes];
       int max_label = conditional_probability(i, membp);
 
@@ -491,12 +491,12 @@ public class ME_Model {
     }
 
     for (int i = 0; i < _fb.Size(); i++) {
-      divEq(_vme, i, _vs.size());
+      divEq(_vme, i, samples.size());
     }
 
-    _train_error = 1 - (double) ncorrect / _vs.size();
+    _train_error = 1 - (double) ncorrect / samples.size();
 
-    logl /= _vs.size();
+    logl /= samples.size();
 
     if (_inequality_width > 0) {
       for (int i = 0; i < _fb.Size(); i++) {
@@ -523,7 +523,7 @@ public class ME_Model {
   public int train(final ArrayList<ME_Sample> vms, final int cutoff, final double sigma, final double widthfactor) {
     // convert ME_Sample to Sample
     // ArrayList<Sample> vs;
-    _vs.clear();
+    samples.clear();
     for (ME_Sample i : vms) {
       add_training_sample(i);
     }
@@ -551,7 +551,7 @@ public class ME_Model {
         label,
         Util.listInteger2arrayint(aux_positive_features));
 
-    _vs.add(s);
+    samples.add(s);
   }
 
   int train(final int cutoff, final double sigma, final double widthfactor) {
@@ -559,18 +559,18 @@ public class ME_Model {
       // cerr << "error: Gausian prior and inequality modeling cannot be used together." << endl;
       return 0;
     }
-    if (_vs.size() == 0) {
+    if (samples.size() == 0) {
       // cerr << "error: no training data." << endl;
       return 0;
     }
-    if (_nheldout >= _vs.size()) {
+    if (_nheldout >= samples.size()) {
       // cerr << "error: too much heldout data. no training data is available." << endl;
       return 0;
     }
     // if (_nheldout > 0) random_shuffle(_vs.begin(), _vs.end());
 
     int max_label = 0;
-    for (Sample i : _vs) {
+    for (Sample i : samples) {
       max_label = max(max_label, i.label);
     }
     _num_classes = max_label + 1;
@@ -592,13 +592,13 @@ public class ME_Model {
     }
 
     for (int i = 0; i < _nheldout; i++) {
-      _heldout.add(pop(_vs));
+      _heldout.add(pop(samples));
     }
 
     // for (std::ArrayList<Sample>::iterator i = _vs.begin(); i != _vs.end(); i++) {
     // sort(i->positive_features.begin(), i->positive_features.end());
     // }
-    Collections.sort(_vs, Sample.Order);
+    Collections.sort(samples, Sample.Order);
     // for (std::ArrayList<Sample>::final_iterator i = _vs.begin(); i != _vs.end(); i++) {
     // for (ArrayList<Integer>::final_iterator j = i->positive_features.begin(); j != i->positive_features.end(); j++){
     // cout << *j << " ";
@@ -608,7 +608,7 @@ public class ME_Model {
 
     // _sigma = sqrt(Nsigma2 / (double)_train.size());
     _sigma = sigma;
-    _inequality_width = widthfactor / _vs.size();
+    _inequality_width = widthfactor / samples.size();
 
     if (cutoff > 0)
       // cerr << "cutoff threshold = " << cutoff << endl;
@@ -630,7 +630,7 @@ public class ME_Model {
     // resize and set to 0
     _vee = newArrayList(_fb.Size(), 0.0);
 
-    for (Sample i : _vs) {
+    for (Sample i : samples) {
       for (Integer j : i.positive_features) {
         for (Integer k : _feature2mef.get(j)) {
           if (_fb.Feature(k).label == i.label) plusEq(_vee, k, 1.0);
@@ -639,7 +639,7 @@ public class ME_Model {
     }
 
     for (int i = 0; i < _fb.Size(); i++) {
-      divEq(_vee, i, _vs.size());
+      divEq(_vee, i, samples.size());
     }
     // cerr << "done" << endl;
 

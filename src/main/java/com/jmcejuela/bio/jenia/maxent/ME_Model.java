@@ -190,7 +190,7 @@ public class ME_Model {
       return j;
     }
 
-    final ME_Feature Feature(int id) {
+    final ME_Feature Feature(Integer id) {
       return id2mef.get(id);
     }
 

@@ -134,8 +134,6 @@ public class NamedEntity {
 
     final int BUFLEN = 1000;
 
-    String s = "";
-
     // contextual feature
     String s_1, s_2, s1, s2;
     // if (begin >= 1) s_1 = vt.get(begin-1).str;
@@ -173,7 +171,7 @@ public class NamedEntity {
 
     for (int i = begin + 1; i < end - 1; i++) {
       // for (int i = begin; i < end; i++) {
-      s = normalize(sentence.get(i).text);
+      String s = normalize(sentence.get(i).text);
       mes.features.add("TM_" + s);
     }
 
@@ -190,14 +188,16 @@ public class NamedEntity {
     // mes.features.add("C-2-1_TE_" + s_2 + "_" + s_1 + "_" + te);
     // mes.features.add("TE_C+1+2_" + te + "_" + s1 + "_" + s2);
 
-    s = "";
-    String whole = "";
+    StringBuilder sb = new StringBuilder();
+    StringBuilder wholeb = new StringBuilder();
     // boolean contain_comma = false;
     for (int i = begin; i < end; i++) {
-      if (s.length() + sentence.get(i).text.length() > BUFLEN - 100) break;
-      s += normalize(sentence.get(i).text);
-      whole += sentence.get(i).text;
+      if (sb.length() + sentence.get(i).text.length() > BUFLEN - 100) break;
+      sb.append(normalize(sentence.get(i).text));
+      wholeb.append(sentence.get(i).text);
     }
+    String s = sb.toString();
+    String whole = wholeb.toString();
 
     // if (label > 0) mes.features.add(buf);
     mes.features.add("WHOLE_" + s);

@@ -202,25 +202,6 @@ public class ME_Model {
     }
   }
 
-  /* jenia: never used and otherwise String's hash could be used */
-  // private static class hashfun_str {
-  // final int operator_parentheses(final String s) {
-  // //assert(sizeof(int) == 4 && sizeof(char) == 1);
-  // final int p = reinterpret_cast<final int*>(s.c_str());
-  // size_t v = 0;
-  // int n = s.size() / 4;
-  // for (int i = 0; i < n; i++, p++) {
-  // // v ^= *p;
-  // v ^= p << (4 * (i % 2)); // note) 0 <= char < 128
-  // }
-  // int m = s.size() % 4;
-  // for (int i = 0; i < m; i++) {
-  // v ^= s[4 * n + i] << (i * 8);
-  // }
-  // return v;
-  // }
-  // };
-
   static class MiniStringBag implements Iterable<Entry<String, Integer>> {
     int _size;
     Map<String, Integer> str2id;

@@ -224,10 +224,12 @@ public class ME_Model {
       return j;
     }
 
+    private static final int MINUS_ONE = new Integer(-1);
+
     final Integer Id(final String i) {
       Integer j = str2id.get(i);
       if (j == null)
-        return -1;
+        return MINUS_ONE;
       else
         return j;
     }

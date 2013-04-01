@@ -14,6 +14,8 @@ import com.jmcejuela.bio.jenia.common.Sentence;
  */
 public class Main {
 
+  public static final String version = "0.4.0";
+
   public static final String ENDL = System.getProperty("line.separator");
 
   public static void line(StringBuilder s, String msg) {
@@ -47,14 +49,12 @@ public class Main {
     int exitStatus = 0;
     if (e != null) {
       out = System.err;
-      out.println("ERROR  "+e.getLocalizedMessage() + ENDL);
+      out.println("ERROR  " + e.getLocalizedMessage() + ENDL);
       exitStatus = -1;
     }
     out.println(help());
     System.exit(exitStatus);
   }
-
-  public static final String version = "0.3.3";
 
   /**
    * @param args

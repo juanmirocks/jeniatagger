@@ -33,7 +33,7 @@ public class Main {
     line(s, "Print the base forms, part-of-speech tags, chunk tags, and named entity tags.");
     line(s, "");
     line(s, "Options:");
-    line(s, "  --models     local path where to find the jeniatagger models (see TODO)");
+    line(s, "  --models     local path where to find the jeniatagger models");
     line(s, "  --nt         don't tokenize (the input is assumed to be already tokenized, space-separated)");
     line(s, "  --help       display this help and exit");
     line(s, "");

@@ -34,7 +34,8 @@ public class JeniaTagger {
   /**
    * Set the local path where the model files needed by jeniatagger can be found.
    * 
-   * This method must be called before using any analyze method. TODO
+   * This method must be called before using any analyze method. @see
+   * https://github.com/jmcejuela/jeniatagger
    * 
    * @param path
    */

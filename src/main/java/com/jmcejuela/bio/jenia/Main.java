@@ -25,7 +25,7 @@ public class Main {
     StringBuilder s = new StringBuilder();
     line(s, "jeniatagger " + version + " -- https://github.com/jmcejuela/geniatagger");
     line(s, "");
-    line(s, "Usage: jeniatagger --dics path [option] [file]");
+    line(s, "Usage: jeniatagger --models path [option] [file]");
     line(s, "");
     line(s, "Analyze sentences assumed to be in English and come from the biomedicine domain.");
     line(s, "Print the base forms, part-of-speech tags, chunk tags, and named entity tags.");

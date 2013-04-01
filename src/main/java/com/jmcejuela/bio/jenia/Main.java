@@ -47,7 +47,7 @@ public class Main {
     int exitStatus = 0;
     if (e != null) {
       out = System.err;
-      out.println(e.getLocalizedMessage() + ENDL);
+      out.println("ERROR  "+e.getLocalizedMessage() + ENDL);
       exitStatus = -1;
     }
     out.println(help());

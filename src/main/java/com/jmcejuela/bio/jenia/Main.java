@@ -77,10 +77,11 @@ public class Main {
         else
           ifilename = arg;
       }
+      JeniaTagger.getModelsPath(); //prove it is set
     } catch (Exception e) {
       printHelpAndExit(e);
-    }    
-    
+    }
+
     // default, standard input
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     if (ifilename != null && !ifilename.isEmpty() && !ifilename.equals("-")) {

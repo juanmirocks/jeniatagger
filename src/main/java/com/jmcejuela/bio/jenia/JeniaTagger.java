@@ -25,7 +25,7 @@ public class JeniaTagger {
 
   private static File MODELS_PATH = null;
 
-  private static File getModelsPath() {
+  static File getModelsPath() {
     if (MODELS_PATH == null)
       throw new RuntimeException("The models path was not set. You must call JeniaTagger.setModelsPath");
     return MODELS_PATH;

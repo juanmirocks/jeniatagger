@@ -5,7 +5,7 @@ Java port of the [GENIA Tagger (C++)](http://www.nactem.ac.uk/tsujii/GENIA/tagge
 
 ## Why?
 
-The original C++ program contains [several issues](https://github.com/jmcejuela/geniatagger#known-issues). The most important problem is that the tagger uses big dictionaries that have to be reloaded each time the program is called (taking on a modern machine ~15 seconds). With this port if you run on the JVM, the dictionaries are loaded only once and kept in memory until the JVM finishes. Therefore, subsequent calls do not have any loading overhead and so run much faster. With this port it is also possible to specify exactly which analyses you want, namely, from the original, `base form`, `pos tag`, `shallow parsing`, and `named-entity recognition`. Thus you can make the program run more efficiently both in time and memory.
+The original C++ program contains [several issues](https://github.com/jmcejuela/geniatagger#known-issues). The most important problem is that the tagger uses big dictionaries that have to be reloaded each time the program is called (taking on a modern machine ~15 seconds). With this port if you run on the JVM, the dictionaries are loaded only once and kept in memory until the JVM finishes. Therefore, subsequent calls do not have any loading overhead and so run much faster. With this port it is also possible to specify exactly which analyses you want, namely, to choose from the original, `base form`, `pos tag`, `shallow parsing`, and `named-entity recognition`. Thus you can make the program run more efficiently both in time and memory.
 
 
 ## State of the port
@@ -42,7 +42,7 @@ Having followed the installation instructions:
 (without a given file the program will analyze sentences directly from the command line input)
 
 Each sentence is written in a new line. Empty lines are ignored. The words in the sentence must be already tokenized so that the sentence is a list of space-seprated tokens. For instance:
-   
+
     Degenerin / Epithelial Sodium Channel ( DEG / ENaC )
     Drosophila TRPA channel Pyrexia : Pyx - A and Pyx - B
     ...

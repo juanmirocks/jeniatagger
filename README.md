@@ -52,6 +52,8 @@ Each sentence is written in a new line. Empty lines are ignored. The words in th
 The API hasn't been formally defined yet. For now see [JeniaTagger](https://github.com/jmcejuela/jeniatagger/blob/develop/src/main/java/com/jmcejuela/bio/jenia/JeniaTagger.java)
 
 
-## The original code
+## The original Genia Tagger
 
-See [my fork](https://github.com/jmcejuela/geniatagger) of the C++ code.
+* [Webpage](http://www.nactem.ac.uk/tsujii/GENIA/tagger/)
+* [README](https://github.com/jmcejuela/jeniatagger/blob/develop/ORIGINAL_GENIATAGGER_README)
+* [Code](https://github.com/jmcejuela/geniatagger) (my fork on github)

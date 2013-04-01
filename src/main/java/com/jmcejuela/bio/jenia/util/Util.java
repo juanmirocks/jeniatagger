@@ -1,16 +1,10 @@
 package com.jmcejuela.bio.jenia.util;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Util {
-
-  public static InputStream resourceStream(String resource) {
-    return Util.class.getResourceAsStream(
-        (resource.startsWith("/") ? resource : "/" + resource));
-  }
 
   public static <T> ArrayList<T> newArrayList(int size) {
     return new ArrayList<T>(size);
@@ -137,7 +131,7 @@ public class Util {
    */
   public static final List<String> tokenize(final String s1) {
     throw new UnsupportedOperationException(
-        "genia's internal tokenizer not implemented yet. Use your own tokenizer and add the -nt option to the caller");
+        "Genia's internal tokenizer not implemented yet. Use your own");
   }
 
   /**

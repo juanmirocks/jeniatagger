@@ -3,7 +3,7 @@
 
   <groupId>com.jmcejuela.bio</groupId>
   <artifactId>jeniatagger</artifactId>
-  <version>0.3.2</version>
+  <version>0.4.0</version> <!-- remember: change version for cli help -->
 
   <description>GENIA Tagger port to Java</description>
 
@@ -26,6 +26,34 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.0.4</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.12.4</version>
         <configuration>
@@ -39,9 +67,8 @@
 
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
-          <appendAssemblyId>false</appendAssemblyId>
-
           <archive>
             <manifest>
               <mainClass>com.jmcejuela.bio.jenia.Main</mainClass>

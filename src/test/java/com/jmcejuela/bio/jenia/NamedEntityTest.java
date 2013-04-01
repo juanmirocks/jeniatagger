@@ -14,12 +14,13 @@ public class NamedEntityTest {
 
   @Test
   public void testLoadNeModelsNothingCrashes() {
+    JeniaTagger.setModelsPath("src/test/resources/models");
     NamedEntity.init();
   }
 
   @Test
   public void testLoadWordInfo() {
-    testMap(NamedEntity.load_word_info("/models_named_entity/word_info"), 22056);
+    testMap(NamedEntity.load_word_info("models_named_entity/word_info"), 22056);
   }
 
   public static <T> void testSet(Set<T> set, int numLinesFile) {

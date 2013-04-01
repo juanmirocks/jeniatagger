@@ -14,14 +14,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
 public class MorphDicTest {
 
   @BeforeClass
   public static void setUpClass() {
+    JeniaTagger.setModelsPath("src/test/resources/models");
     MorphDic.init();
   }
 

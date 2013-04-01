@@ -6,7 +6,6 @@ import static com.jmcejuela.bio.jenia.util.Util.max;
 import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
 import static com.jmcejuela.bio.jenia.util.Util.plusEq;
 import static com.jmcejuela.bio.jenia.util.Util.pop;
-import static com.jmcejuela.bio.jenia.util.Util.resourceStream;
 import static java.lang.Math.exp;
 import static java.lang.Math.log;
 import static java.lang.Math.max;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.jmcejuela.bio.jenia.JeniaTagger;
 import com.jmcejuela.bio.jenia.util.Constructor;
 import com.jmcejuela.bio.jenia.util.Tuple2;
 import com.jmcejuela.bio.jenia.util.Util;
@@ -700,7 +700,7 @@ public class ME_Model {
        * original algorithm was equivalent to read the file line by line.
        */
 
-      BufferedReader br = new BufferedReader(new InputStreamReader(resourceStream(filename)));
+      BufferedReader br = new BufferedReader(new InputStreamReader(JeniaTagger.modelsResource(filename)));
       String line;
       while ((line = br.readLine()) != null) {
         String[] tokens = line.trim().split("\t");

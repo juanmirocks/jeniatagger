@@ -2,7 +2,6 @@ package com.jmcejuela.bio.jenia;
 
 import static com.jmcejuela.bio.jenia.util.Util.minusEq;
 import static com.jmcejuela.bio.jenia.util.Util.newArrayList;
-import static com.jmcejuela.bio.jenia.util.Util.resourceStream;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
@@ -41,9 +40,9 @@ public class NamedEntity {
 
   static void init() {
     ne_model = new ME_Model();
-    ne_model.load_from_file("/models_named_entity/model001");
+    ne_model.load_from_file("models_named_entity/model001");
 
-    word_info = load_word_info("/models_named_entity/word_info");
+    word_info = load_word_info("models_named_entity/word_info");
   }
 
   static class WordInfo {
@@ -279,7 +278,7 @@ public class NamedEntity {
 
   static Map<String, WordInfo> load_word_info(final String filename) {
     Map<String, WordInfo> ret = new CppMap<String, WordInfo>(WordInfo.CONSTRUCTOR);
-    Scanner sc = new Scanner(resourceStream(filename));
+    Scanner sc = new Scanner(JeniaTagger.modelsResource(filename));
     while (sc.hasNextLine()) {
       String s = sc.next();
       int i = sc.nextInt(), e = sc.nextInt(), t = sc.nextInt();

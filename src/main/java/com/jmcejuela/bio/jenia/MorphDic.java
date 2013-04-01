@@ -1,6 +1,5 @@
 package com.jmcejuela.bio.jenia;
 
-import static com.jmcejuela.bio.jenia.util.Util.resourceStream;
 import static java.lang.Character.toUpperCase;
 
 import java.io.BufferedReader;
@@ -32,19 +31,19 @@ public class MorphDic {
   }
 
   static void init() {
-    nounex = LoadEx("/morphdic/noun.exc");
-    verbex = LoadEx("/morphdic/verb.exc");
-    adjex = LoadEx("/morphdic/adj.exc");
-    advex = LoadEx("/morphdic/adv.exc");
-    noundic = LoadIdx("/morphdic/noun.dic");
-    verbdic = LoadIdx("/morphdic/verb.dic");
-    adjdic = LoadIdx("/morphdic/adj.dic");
+    nounex = LoadEx("morphdic/noun.exc");
+    verbex = LoadEx("morphdic/verb.exc");
+    adjex = LoadEx("morphdic/adj.exc");
+    advex = LoadEx("morphdic/adv.exc");
+    noundic = LoadIdx("morphdic/noun.dic");
+    verbdic = LoadIdx("morphdic/verb.dic");
+    adjdic = LoadIdx("morphdic/adj.dic");
   }
 
   static Map<String, String> LoadEx(final String filename) {
     try {
       Map<String, String> ret = new HashMap<String, String>();
-      Scanner sc = new Scanner(resourceStream(filename));
+      Scanner sc = new Scanner(JeniaTagger.modelsResource(filename));
       while (sc.hasNextLine()) {
         String org = sc.next();
         String base = sc.next();
@@ -66,7 +65,7 @@ public class MorphDic {
   static Set<String> LoadIdx(final String filename) {
     try {
       Set<String> ret = new HashSet<String>();
-      BufferedReader br = new BufferedReader(new InputStreamReader(resourceStream(filename)));
+      BufferedReader br = new BufferedReader(new InputStreamReader(JeniaTagger.modelsResource(filename)));
       String line;
       while ((line = br.readLine()) != null) {
         if (line.charAt(0) == ' ')

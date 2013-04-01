@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 import com.jmcejuela.bio.jenia.common.Sentence;
 
@@ -22,21 +23,38 @@ public class Main {
 
   public static String help() {
     StringBuilder s = new StringBuilder();
-    line(s, "Usage: jeniatagger [OPTION]... [FILE]...");
-    line(s, "Analyze English sentences from the biomedicine domain and print ");
-    line(s, "the base forms, part-of-speech tags, chunk tags, and named entity tags.");
+    line(s, "jeniatagger " + version + " -- https://github.com/jmcejuela/geniatagger");
+    line(s, "");
+    line(s, "Usage: jeniatagger --dics path [option] [file]");
+    line(s, "");
+    line(s, "Analyze sentences assumed to be in English and come from the biomedicine domain.");
+    line(s, "Print the base forms, part-of-speech tags, chunk tags, and named entity tags.");
     line(s, "");
     line(s, "Options:");
-    line(s, "  -nt          don't perform tokenization.");
-    line(s, "  --help       display this help and exit.");
+    line(s, "  --models     local path where to find the jeniatagger models (see TODO)");
+    line(s, "  --nt         don't tokenize (the input is assumed to be already tokenized, space-separated)");
+    line(s, "  --help       display this help and exit");
     line(s, "");
-    line(s, "Report bugs to: github.com/jmcejuela/jeniatagger/issues");
     return s.toString();
   }
 
-  public static String version() {
-    return "jeniatagger 0.2";
+  public static void printHelpAndExit() {
+    printHelpAndExit(null);
   }
+
+  public static void printHelpAndExit(Exception e) {
+    PrintStream out = System.out;
+    int exitStatus = 0;
+    if (e != null) {
+      out = System.err;
+      out.println(e.getLocalizedMessage() + ENDL);
+      exitStatus = -1;
+    }
+    out.println(help());
+    System.exit(exitStatus);
+  }
+
+  public static final String version = "0.3.3";
 
   /**
    * @param args
@@ -46,18 +64,23 @@ public class Main {
     boolean dont_tokenize = false;
     String ifilename = null;
     // String ofilename;
-    for (String arg : args) {
-      if (arg.equals("-nt")) {
-        dont_tokenize = true;
-      } else if (arg.equals("--help")) {
-        System.out.println(help());
-        return;
-      }
-      else {
-        ifilename = arg;
-      }
-    }
 
+    try {
+      for (int i = 0; i < args.length; i++) {
+        String arg = args[i];
+        if (arg.equals("--models"))
+          JeniaTagger.setModelsPath(args[++i]);
+        else if (arg.equals("--nt"))
+          dont_tokenize = true;
+        else if (arg.equals("--help"))
+          printHelpAndExit();
+        else
+          ifilename = arg;
+      }
+    } catch (Exception e) {
+      printHelpAndExit(e);
+    }    
+    
     // default, standard input
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     if (ifilename != null && !ifilename.isEmpty() && !ifilename.equals("-")) {

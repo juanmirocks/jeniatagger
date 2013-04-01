@@ -26,10 +26,10 @@ Download the [packaged jar](http://sourceforge.net/projects/jeniatagger/files/je
 
 ### From Java
 
-git clone https://github.com/jmcejuela/jeniatagger.git
-cd jeniatagger
-mvn install -DskipTests
-mvn assembly:single # to call it from the command line if you did some modificatiosn to the code
+    git clone https://github.com/jmcejuela/jeniatagger.git
+    cd jeniatagger
+    mvn install -DskipTests
+    mvn assembly:single # create a runnable jar if you wanna use your source modifications from the command line
 
 ## Use
 

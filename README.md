@@ -18,16 +18,20 @@ The original C++ program contains [several issues](https://github.com/jmcejuela/
 
 ## Installation
 
-For now,
+First of all you need to download the [jeniatagger models](http://sourceforge.net/projects/jeniatagger/files/models.zip/download). Take note of the local path where you download it.
 
-    git clone https://github.com/jmcejuela/jeniatagger.git
-    cd jeniatagger
+### From the command line
 
-    mvn install -DskipTests #install locally in your m2 repository
-    mvn assembly:single #create a single executable jar and run the program from the command line [as the original](https://github.com/jmcejuela/jeniatagger/ORIGINAL_GENIATAGGER_README).
+Download the [packaged jar](http://sourceforge.net/projects/jeniatagger/files/jeniatagger-0.4.0-jar-with-dependencies.jar/download).
 
+### From Java
 
-## How-to use it
+git clone https://github.com/jmcejuela/jeniatagger.git
+cd jeniatagger
+mvn install -DskipTests
+mvn assembly:single # to call it from the command line if you did some modificatiosn to the code
+
+## Use
 
 TODO
 
